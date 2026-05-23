@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Jeanne Etoundi — Portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+:root{
+  --cream:#FAF8F4;--dark:#1A1A1A;--accent:#C4622D;--accent2:#4A7C6F;
+  --muted:#6B6560;--border:rgba(0,0,0,0.1);--purple:#6c4fff;--gold:#a07000;--teal:#0a7d8c;
+}
+html{scroll-behavior:smooth;}
+body{font-family:'DM Sans',sans-serif;background:var(--cream);color:var(--dark);line-height:1.5;}
+
+/* NAV */
+nav{position:sticky;top:0;z-index:100;background:var(--dark);display:flex;justify-content:space-between;align-items:center;padding:.75rem 2rem;border-bottom:1px solid rgba(255,255,255,.08);}
+.nav-name{font-family:'DM Serif Display',serif;font-size:16px;color:#FAF8F4;text-decoration:none;}
+.nav-links{display:flex;gap:1.5rem;}
+.nav-links a{font-size:12px;color:rgba(250,248,244,.5);text-decoration:none;text-transform:uppercase;letter-spacing:.1em;transition:color .2s;}
+.nav-links a:hover{color:var(--accent);}
+
+.portfolio{max-width:900px;margin:0 auto;padding:0 0 5rem;}
+
+/* HERO */
+.hero{display:grid;grid-template-columns:1fr 1fr;min-height:380px;border-bottom:1px solid var(--border);margin-bottom:3rem;}
+.hero-left{background:#1A1A1A;padding:3.5rem;display:flex;flex-direction:column;justify-content:flex-end;}
+.hero-tag{font-size:11px;letter-spacing:.15em;text-transform:uppercase;color:var(--accent);margin-bottom:1rem;font-weight:500;}
+.hero-name{font-family:'DM Serif Display',serif;font-size:46px;color:#FAF8F4;line-height:1.1;}
+.hero-name em{font-style:italic;color:var(--accent);}
+.hero-subtitle{font-size:14px;color:rgba(250,248,244,.55);line-height:1.7;margin-top:1rem;max-width:280px;}
+.hero-right{background:var(--accent);padding:3.5rem;display:flex;flex-direction:column;justify-content:space-between;}
+.hero-stat{margin-bottom:1.5rem;}
+.hero-stat-num{font-family:'DM Serif Display',serif;font-size:40px;color:#FAF8F4;line-height:1;}
+.hero-stat-label{font-size:12px;color:rgba(250,248,244,.7);text-transform:uppercase;letter-spacing:.1em;margin-top:4px;}
+.hero-contact{font-size:12px;color:rgba(250,248,244,.85);line-height:2.2;}
+.hero-contact a{color:#FAF8F4;text-decoration:none;}
+
+/* SECTIONS */
+.section{padding:0 3rem;margin-bottom:3.5rem;}
+.section-header{display:flex;align-items:center;gap:12px;margin-bottom:1.75rem;}
+.section-num{font-size:11px;color:var(--accent);font-weight:500;letter-spacing:.1em;}
+.section-title{font-family:'DM Serif Display',serif;font-size:24px;}
+.section-line{flex:1;height:1px;background:var(--border);}
+.profile-text{font-size:16px;line-height:1.9;color:var(--muted);max-width:680px;border-left:3px solid var(--accent);padding-left:1.5rem;}
+
+/* SKILLS */
+.skills-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:1px;background:var(--border);border:1px solid var(--border);}
+.skill-block{background:var(--cream);padding:1.5rem;}
+.skill-block-title{font-size:11px;text-transform:uppercase;letter-spacing:.12em;color:var(--accent);font-weight:500;margin-bottom:.9rem;}
+.skill-tags{display:flex;flex-wrap:wrap;gap:6px;}
+.skill-tag{font-size:12px;background:rgba(196,98,45,.08);color:var(--dark);padding:4px 10px;border-radius:2px;border:1px solid rgba(196,98,45,.2);}
+
+/* EXP */
+.exp-item{display:grid;grid-template-columns:150px 1fr;gap:2rem;padding:1.75rem 0;border-bottom:1px solid var(--border);}
+.exp-item:last-child{border-bottom:none;}
+.exp-date{font-size:12px;color:var(--muted);line-height:1.6;}
+.exp-date strong{display:block;color:var(--dark);font-size:11px;text-transform:uppercase;letter-spacing:.08em;margin-bottom:4px;}
+.exp-role{font-family:'DM Serif Display',serif;font-size:19px;margin-bottom:3px;}
+.exp-org{font-size:13px;color:var(--accent2);font-weight:500;margin-bottom:.6rem;}
+.exp-desc{font-size:14px;color:var(--muted);line-height:1.8;}
+.exp-tag{display:inline-block;font-size:11px;background:rgba(74,124,111,.1);color:var(--accent2);padding:2px 8px;border-radius:2px;margin-top:8px;margin-right:4px;border:1px solid rgba(74,124,111,.2);}
+
+/* PROJECT CARDS */
+.projects-list{display:flex;flex-direction:column;border:1px solid var(--border);}
+.project-card{background:var(--cream);border-bottom:1px solid var(--border);transition:background .2s;}
+.project-card:last-child{border-bottom:none;}
+.project-card:hover{background:#F5F2EE;}
+
+/* PROJECT TOGGLE */
+.project-header{display:grid;grid-template-columns:1fr auto;align-items:start;gap:1rem;padding:1.75rem;cursor:pointer;user-select:none;}
+.project-header-left{display:flex;gap:1.25rem;align-items:flex-start;}
+.pnum{font-size:11px;color:var(--accent);font-weight:500;letter-spacing:.1em;text-transform:uppercase;margin-top:5px;white-space:nowrap;}
+.ptitle{font-family:'DM Serif Display',serif;font-size:22px;line-height:1.2;margin-bottom:4px;}
+.psub{font-size:13px;color:var(--muted);font-style:italic;}
+.project-header-right{display:flex;flex-direction:column;align-items:flex-end;gap:10px;}
+.badge{font-size:11px;padding:4px 12px;border-radius:2px;font-weight:500;white-space:nowrap;}
+.b-culture{background:rgba(196,98,45,.1);color:var(--accent);border:1px solid rgba(196,98,45,.25);}
+.b-data{background:rgba(74,124,111,.1);color:var(--accent2);border:1px solid rgba(74,124,111,.25);}
+.b-interactif{background:rgba(108,79,255,.1);color:var(--purple);border:1px solid rgba(108,79,255,.25);}
+.b-web{background:rgba(160,112,0,.12);color:var(--gold);border:1px solid rgba(160,112,0,.25);}
+.b-ia{background:rgba(10,125,140,.12);color:var(--teal);border:1px solid rgba(10,125,140,.3);}
+.toggle-icon{font-size:18px;color:var(--muted);transition:transform .3s;}
+.project-card.open .toggle-icon{transform:rotate(45deg);}
+
+/* PROJECT BODY (collapsible) */
+.project-body{max-height:0;overflow:hidden;transition:max-height .5s ease;}
+.project-card.open .project-body{max-height:2000px;}
+.pb-inner{padding:0 1.75rem 1.75rem;border-top:1px solid var(--border);}
+
+.pdesc{font-size:14px;color:var(--muted);line-height:1.9;margin:1.25rem 0 1rem;border-left:3px solid rgba(196,98,45,.3);padding-left:1rem;}
+.d-green{border-left-color:rgba(74,124,111,.4);}
+.d-purple{border-left-color:rgba(108,79,255,.4);}
+.d-gold{border-left-color:rgba(160,112,0,.4);}
+.d-teal{border-left-color:rgba(10,125,140,.4);}
+
+.quote-block{background:#1A1A1A;padding:1.25rem 1.5rem;margin:1rem 0;}
+.qt{font-family:'DM Serif Display',serif;font-size:15px;color:rgba(250,248,244,.8);font-style:italic;line-height:1.7;}
+
+/* GRIDS */
+.grid-4{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--border);border:1px solid var(--border);margin:1rem 0;}
+.grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border);border:1px solid var(--border);margin:1rem 0;}
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--border);border:1px solid var(--border);margin:1rem 0;}
+.grid-5{display:grid;grid-template-columns:repeat(5,1fr);gap:1px;background:var(--border);border:1px solid var(--border);margin:1rem 0;}
+.cell{background:var(--cream);padding:1rem;text-align:center;}
+.cell-left{background:var(--cream);padding:1rem 1.25rem;}
+.cell-num{font-family:'DM Serif Display',serif;font-size:24px;line-height:1;}
+.cell-label{font-size:10px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin-top:4px;line-height:1.3;}
+.cell-title{font-size:12px;font-weight:500;margin-bottom:4px;}
+.cell-sub{font-size:11px;color:var(--muted);line-height:1.5;}
+
+/* META */
+.pm{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin:1rem 0;}
+.ml{font-size:11px;text-transform:uppercase;letter-spacing:.1em;font-weight:500;margin-bottom:5px;}
+.ml-o{color:var(--accent);}
+.ml-g{color:var(--accent2);}
+.ml-p{color:var(--purple);}
+.ml-gold{color:var(--gold);}
+.ml-t{color:var(--teal);}
+.mv{font-size:13px;color:var(--dark);line-height:1.6;}
+
+/* TAGS */
+.ptags{display:flex;flex-wrap:wrap;gap:6px;margin-top:1rem;}
+.tg{font-size:11px;padding:3px 10px;border-radius:2px;}
+.tg-g{background:rgba(74,124,111,.1);color:var(--accent2);border:1px solid rgba(74,124,111,.2);}
+.tg-p{background:rgba(108,79,255,.08);color:var(--purple);border:1px solid rgba(108,79,255,.2);}
+.tg-o{background:rgba(196,98,45,.08);color:var(--accent);border:1px solid rgba(196,98,45,.2);}
+.tg-gold{background:rgba(160,112,0,.08);color:var(--gold);border:1px solid rgba(160,112,0,.2);}
+.tg-t{background:rgba(10,125,140,.08);color:var(--teal);border:1px solid rgba(10,125,140,.2);}
+
+/* BAR CHART */
+.bar-title{font-size:11px;text-transform:uppercase;letter-spacing:.1em;color:var(--accent2);font-weight:500;margin:1rem 0 .75rem;}
+.bar-row{display:flex;align-items:center;gap:8px;margin-bottom:7px;}
+.bl{font-size:12px;color:var(--muted);width:90px;text-align:right;flex-shrink:0;}
+.bt{flex:1;height:14px;background:rgba(74,124,111,.08);border-radius:2px;overflow:hidden;}
+.bf{height:100%;background:var(--accent2);border-radius:2px;}
+.bv{font-size:11px;color:var(--muted);width:40px;flex-shrink:0;}
+
+/* FLUX */
+.flux-row{display:flex;align-items:stretch;margin:1rem 0;background:var(--border);border:1px solid var(--border);}
+.flux-step{flex:1;background:var(--cream);padding:.9rem .5rem;text-align:center;position:relative;}
+.flux-step:not(:last-child){border-right:1px solid var(--border);}
+.flux-num{font-family:'DM Serif Display',serif;font-size:18px;color:var(--teal);line-height:1;margin-bottom:4px;}
+.flux-name{font-size:10px;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);line-height:1.3;}
+
+/* LINK BOX */
+.link-box{display:flex;align-items:center;gap:12px;background:#F0EDE7;border:1px solid var(--border);padding:1rem 1.25rem;margin:1rem 0;}
+.link-box a{font-size:12px;color:var(--accent);font-family:'Courier New',monospace;text-decoration:none;}
+.link-box a:hover{text-decoration:underline;}
+
+/* EDU */
+.edu-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:1px;background:var(--border);border:1px solid var(--border);}
+.eb{background:var(--cream);padding:1.5rem;}
+.ey{font-size:11px;color:var(--accent);font-weight:500;letter-spacing:.1em;text-transform:uppercase;margin-bottom:8px;}
+.ed{font-family:'DM Serif Display',serif;font-size:16px;margin-bottom:6px;line-height:1.3;}
+.es{font-size:13px;color:var(--muted);line-height:1.5;}
+
+/* CERTIFS */
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:2rem;}
+.ci,.lgi{display:flex;align-items:flex-start;gap:10px;padding:.75rem 0;border-bottom:1px solid var(--border);font-size:14px;color:var(--muted);}
+.ci:last-child,.lgi:last-child{border-bottom:none;}
+.dot{width:6px;height:6px;border-radius:50%;background:var(--accent);margin-top:7px;flex-shrink:0;}
+.lang-lvl{font-size:12px;color:var(--accent2);font-weight:500;}
+
+/* FOOTER */
+.footer{background:var(--dark);padding:2rem 3rem;display:flex;justify-content:space-between;align-items:center;}
+.fn{font-family:'DM Serif Display',serif;font-size:20px;color:#FAF8F4;}
+.fc{font-size:12px;color:rgba(250,248,244,.5);text-align:right;line-height:2;}
+
+.divider{height:1px;background:var(--border);}
+.sub-label{font-size:11px;text-transform:uppercase;letter-spacing:.1em;font-weight:500;margin:.75rem 0 .5rem;display:block;}
+
+@media(max-width:680px){
+  .hero{grid-template-columns:1fr;}
+  .section{padding:0 1.5rem;}
+  .skills-grid,.edu-grid{grid-template-columns:1fr;}
+  .two-col{grid-template-columns:1fr;}
+  .grid-4,.grid-5{grid-template-columns:repeat(2,1fr);}
+  .pm{grid-template-columns:1fr;}
+  .exp-item{grid-template-columns:1fr;}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a class="nav-name" href="#">Jeanne Etoundi</a>
+  <div class="nav-links">
+    <a href="#profil">Profil</a>
+    <a href="#competences">Compétences</a>
+    <a href="#experiences">Expériences</a>
+    <a href="#projets">Projets</a>
+    <a href="#formation">Formation</a>
+  </div>
+</nav>
+
+<div class="portfolio">
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-left">
+    <div class="hero-tag">Portfolio — 2025</div>
+    <div class="hero-name">Jeanne<br><em>Etoundi</em></div>
+    <div class="hero-subtitle">Étudiante en Humanités Numériques · Gestion de projet digital & Analyse de données</div>
+  </div>
+  <div class="hero-right">
+    <div>
+      <div class="hero-stat"><div class="hero-stat-num">3</div><div class="hero-stat-label">Expériences professionnelles</div></div>
+      <div class="hero-stat"><div class="hero-stat-num">3</div><div class="hero-stat-label">Diplômes & Masters</div></div>
+      <div class="hero-stat"><div class="hero-stat-num">5</div><div class="hero-stat-label">Projets intégrés</div></div>
+    </div>
+    <div class="hero-contact">
+      <div>📍 Aulnoy-Lez-Valenciennes</div>
+      <a href="mailto:jeanne.etoundi0@gmail.com">jeanne.etoundi0@gmail.com</a>
+      <div>07 83 85 92 71</div>
+    </div>
+  </div>
+</div>
+
+<!-- PROFIL -->
+<div class="section" id="profil">
+  <div class="section-header"><span class="section-num">01</span><h2 class="section-title">Profil</h2><div class="section-line"></div></div>
+  <p class="profile-text">Étudiante passionnée par les projets numériques et collaboratifs, je souhaite intégrer une structure pour y développer mes compétences en gestion de projet et analyse de données. Mon profil allie une formation académique solide et une envie sincère d'apprendre sur le terrain.</p>
+</div>
+
+<!-- COMPÉTENCES -->
+<div class="section" id="competences">
+  <div class="section-header"><span class="section-num">02</span><h2 class="section-title">Compétences</h2><div class="section-line"></div></div>
+  <div class="skills-grid">
+    <div class="skill-block"><div class="skill-block-title">Gestion de projet</div><div class="skill-tags"><span class="skill-tag">SCRUM</span><span class="skill-tag">BPMN</span><span class="skill-tag">UML</span><span class="skill-tag">WBS</span><span class="skill-tag">SWOT</span><span class="skill-tag">Gantt</span><span class="skill-tag">PERT</span></div></div>
+    <div class="skill-block"><div class="skill-block-title">Programmation & Web</div><div class="skill-tags"><span class="skill-tag">Python</span><span class="skill-tag">JavaScript</span><span class="skill-tag">HTML5</span><span class="skill-tag">CSS</span><span class="skill-tag">SQL</span><span class="skill-tag">PHP</span><span class="skill-tag">WordPress</span></div></div>
+    <div class="skill-block"><div class="skill-block-title">BI, Data & IA</div><div class="skill-tags"><span class="skill-tag">Power BI</span><span class="skill-tag">Tableau</span><span class="skill-tag">Google Data Studio</span><span class="skill-tag">Orange Data Mining</span><span class="skill-tag">Web Audio API</span><span class="skill-tag">IA Générative</span></div></div>
+  </div>
+</div>
+
+<!-- EXPÉRIENCES -->
+<div class="section" id="experiences">
+  <div class="section-header"><span class="section-num">03</span><h2 class="section-title">Expériences</h2><div class="section-line"></div></div>
+  <div class="exp-item"><div class="exp-date"><strong>Oct 2023 – Sep 2025</strong>Bruxelles</div><div><div class="exp-role">Prof. bénévole Programmation & Robotique</div><div class="exp-org">ILPlatform · Chef de Projet Pédagogique Digital</div><div class="exp-desc">Conception et pilotage de projets pédagogiques intégrant Python et Scratch pour initier les élèves à la logique algorithmique.</div><span class="exp-tag">Python</span><span class="exp-tag">Scratch</span><span class="exp-tag">Gestion de projet</span></div></div>
+  <div class="exp-item"><div class="exp-date"><strong>Juil – Août 2023</strong>Bruxelles</div><div><div class="exp-role">Collaborateur Administratif</div><div class="exp-org">Musées Royaux des Beaux-Arts de Belgique</div><div class="exp-desc">Inventaire, archivage et classement de centaines de documents historiques selon les normes de préservation.</div><span class="exp-tag">Archivage</span><span class="exp-tag">Gestion documentaire</span></div></div>
+  <div class="exp-item"><div class="exp-date"><strong>Sep 2022 – Juil 2023</strong>Belgique</div><div><div class="exp-role">Data Analyst Bénévole</div><div class="exp-org">Les Petits Riens</div><div class="exp-desc">Analyses de ventes sur plus de 1 000 produits et création de tableaux de bord interactifs avec Power BI. Insights orientés solutions pour améliorer la stratégie commerciale.</div><span class="exp-tag">Power BI</span><span class="exp-tag">Analyse de ventes</span><span class="exp-tag">Dashboards</span></div></div>
+</div>
+
+<!-- PROJETS -->
+<div class="section" id="projets">
+  <div class="section-header"><span class="section-num">04</span><h2 class="section-title">Projets</h2><div class="section-line"></div></div>
+  <div class="projects-list">
+
+    <!-- P01 -->
+    <div class="project-card" onclick="toggle(this)">
+      <div class="project-header">
+        <div class="project-header-left">
+          <span class="pnum">01</span>
+          <div><div class="ptitle">Architectures du Non-Dit</div><div class="psub">Comment l'intime devient partageable ?</div></div>
+        </div>
+        <div class="project-header-right"><span class="badge b-culture">Humanités Numériques</span><span class="toggle-icon">+</span></div>
+      </div>
+      <div class="project-body"><div class="pb-inner">
+        <div class="pdesc">Conception et coordination d'une exposition immersive en 4 strates de mémoire, présentée à la Bibliothèque Universitaire Mont Houy de l'UPHF (Valenciennes), en partenariat avec Le Fresnoy – Studio National des Arts Contemporains. Un projet international porté par trois regards croisés : Cameroun, Sénégal, Chine.</div>
+        <div class="quote-block"><div class="qt">« Écrivez votre mémoire, soignez le silence, existez par le partage. »</div></div>
+        <span class="sub-label" style="color:var(--accent);">4 strates de mémoire</span>
+        <div class="grid-4">
+          <div class="cell"><div class="cell-num" style="color:var(--accent)">S1</div><div class="cell-label">Mémoire Collective</div></div>
+          <div class="cell"><div class="cell-num" style="color:var(--accent)">S2</div><div class="cell-label">Mémoire Intime</div></div>
+          <div class="cell"><div class="cell-num" style="color:var(--accent)">S3</div><div class="cell-label">Mémoire Traumatique</div></div>
+          <div class="cell"><div class="cell-num" style="color:var(--accent)">S4</div><div class="cell-label">Mémoire Mentale</div></div>
+        </div>
+        <div class="pm">
+          <div><div class="ml ml-o">Période</div><div class="mv">27 avril – 2 mai 2026</div></div>
+          <div><div class="ml ml-o">Lieu</div><div class="mv">BU Mont Houy — UPHF, Valenciennes</div></div>
+          <div><div class="ml ml-o">Équipe</div><div class="mv">Marie Boye, Jeanne Etoundi, Xiaoyang Han</div></div>
+          <div><div class="ml ml-o">Partenaire</div><div class="mv">Le Fresnoy – Studio National des Arts Contemporains</div></div>
+        </div>
+        <div class="ptags"><span class="tg tg-g">Gestion de projet</span><span class="tg tg-g">Scénographie</span><span class="tg tg-g">Médiation culturelle</span><span class="tg tg-g">Coordination d'équipe</span><span class="tg tg-g">Réalité virtuelle</span><span class="tg tg-g">Art contemporain</span></div>
+      </div></div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- P02 -->
+    <div class="project-card" onclick="toggle(this)">
+      <div class="project-header">
+        <div class="project-header-left">
+          <span class="pnum">02</span>
+          <div><div class="ptitle">Analyse de données cinématographiques</div><div class="psub">9 739 films · Orange Data Mining · 1902–2018</div></div>
+        </div>
+        <div class="project-header-right"><span class="badge b-data">Data Analysis</span><span class="toggle-icon">+</span></div>
+      </div>
+      <div class="project-body"><div class="pb-inner">
+        <div class="pdesc d-green">Exploration, nettoyage et visualisation d'un dataset cinématographique couvrant plus d'un siècle de production (1902–2018). Analyse des distributions par genre et par décennie à l'aide d'Orange Data Mining : bar plots, box plots, distributions et tables de données interactives.</div>
+        <div class="grid-4">
+          <div class="cell"><div class="cell-num" style="color:var(--accent2)">9 739</div><div class="cell-label">Films analysés</div></div>
+          <div class="cell"><div class="cell-num" style="color:var(--accent2)">19</div><div class="cell-label">Genres distincts</div></div>
+          <div class="cell"><div class="cell-num" style="color:var(--accent2)">116</div><div class="cell-label">Années couvertes</div></div>
+          <div class="cell"><div class="cell-num" style="color:var(--accent2)">4</div><div class="cell-label">Visualisations</div></div>
+        </div>
+        <div class="bar-title">Répartition par genre (top 6)</div>
+        <div class="bar-row"><span class="bl">Comédie</span><div class="bt"><div class="bf" style="width:100%"></div></div><span class="bv">2 779</span></div>
+        <div class="bar-row"><span class="bl">Drame</span><div class="bt"><div class="bf" style="width:80%"></div></div><span class="bv">2 226</span></div>
+        <div class="bar-row"><span class="bl">Action</span><div class="bt"><div class="bf" style="width:65%"></div></div><span class="bv">1 820</span></div>
+        <div class="bar-row"><span class="bl">Aventure</span><div class="bt"><div class="bf" style="width:23%"></div></div><span class="bv">648</span></div>
+        <div class="bar-row"><span class="bl">Crime</span><div class="bt"><div class="bf" style="width:19%"></div></div><span class="bv">537</span></div>
+        <div class="bar-row"><span class="bl">Horreur</span><div class="bt"><div class="bf" style="width:17%"></div></div><span class="bv">468</span></div>
+        <div class="pm" style="margin-top:1rem;">
+          <div><div class="ml ml-g">Outil principal</div><div class="mv">Orange Data Mining</div></div>
+          <div><div class="ml ml-g">Type</div><div class="mv">Analyse exploratoire & visuelle</div></div>
+        </div>
+        <div class="ptags"><span class="tg tg-g">Orange Data Mining</span><span class="tg tg-g">Analyse exploratoire</span><span class="tg tg-g">Data Visualisation</span><span class="tg tg-g">Bar Plot</span><span class="tg tg-g">Box Plot</span><span class="tg tg-g">Python</span></div>
+      </div></div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- P03 -->
+    <div class="project-card" onclick="toggle(this)">
+      <div class="project-header">
+        <div class="project-header-left">
+          <span class="pnum">03</span>
+          <div><div class="ptitle">L'Antre des Sens</div><div class="psub">Labyrinthe sensoriel immersif · synesthésie numérique</div></div>
+        </div>
+        <div class="project-header-right"><span class="badge b-interactif">Dispositif Interactif</span><span class="toggle-icon">+</span></div>
+      </div>
+      <div class="project-body"><div class="pb-inner">
+        <div class="pdesc d-purple">Expérience interactive immersive en HTML5 : un labyrinthe sensoriel à 5 niveaux où l'utilisateur "consomme" la matière par la synesthésie numérique. Chaque sens possède une signature visuelle, sonore et chromatique propre. Le concept central est celui de la <em>Manducation</em> — l'acte d'absorber l'environnement.</div>
+        <div class="quote-block"><div class="qt">« Tu ne vas pas jouer à un jeu, tu vas t'incorporer dans une matière. »</div></div>
+        <span class="sub-label" style="color:var(--purple)">Codage chromatique des 4 sens</span>
+        <div class="grid-4">
+          <div class="cell"><span style="font-size:22px">👃</span><div class="cell-title" style="color:#ffa030;margin-top:6px">Odorat</div><div class="cell-sub" style="color:#ffa030">#ff8c1e — Or</div></div>
+          <div class="cell"><span style="font-size:22px">🔊</span><div class="cell-title" style="color:#1ec8ff;margin-top:6px">Son</div><div class="cell-sub" style="color:#1ec8ff">#1ec8ff — Cyan</div></div>
+          <div class="cell"><span style="font-size:22px">✋</span><div class="cell-title" style="color:#ff3278;margin-top:6px">Toucher</div><div class="cell-sub" style="color:#ff3278">#ff3278 — Rose</div></div>
+          <div class="cell"><span style="font-size:22px">👁</span><div class="cell-title" style="color:#9c3cff;margin-top:6px">Vue</div><div class="cell-sub" style="color:#9c3cff">#9c3cff — Violet</div></div>
+        </div>
+        <span class="sub-label" style="color:var(--purple)">5 niveaux d'ingestion</span>
+        <div class="flux-row">
+          <div class="flux-step"><div class="flux-num" style="color:#ffa030">N1</div><div class="flux-name">Sensation</div></div>
+          <div class="flux-step"><div class="flux-num" style="color:#1ec8ff">N2</div><div class="flux-name">Perception</div></div>
+          <div class="flux-step"><div class="flux-num" style="color:#ff3278">N3</div><div class="flux-name">Confusion</div></div>
+          <div class="flux-step"><div class="flux-num" style="color:#9c3cff">N4</div><div class="flux-name">Illusion</div></div>
+          <div class="flux-step"><div class="flux-num" style="color:#3cff78">N5</div><div class="flux-name">Manducation</div></div>
+        </div>
+        <span class="sub-label" style="color:var(--purple)">Technologies</span>
+        <div class="grid-2">
+          <div class="cell-left"><div class="cell-title">HTML5 / SVG / CSS Grid</div><div class="cell-sub">Architecture légère, responsive</div></div>
+          <div class="cell-left"><div class="cell-title">Web Audio API</div><div class="cell-sub">Immersion sonore générative</div></div>
+          <div class="cell-left"><div class="cell-title">Filtres SVG / GPU</div><div class="cell-sub">Effets "Acide" et "Grain" tactiles</div></div>
+          <div class="cell-left"><div class="cell-title">JavaScript ES6+</div><div class="cell-sub">Gestion temps réel des sens</div></div>
+        </div>
+        <div class="pm">
+          <div><div class="ml ml-p">Contexte</div><div class="mv">TD Architecture & Technologies des Dispositifs Interactifs — Master HN, UPHF 2026</div></div>
+          <div><div class="ml ml-p">Équipe</div><div class="mv">Marie Boye, Jeanne Etoundi, Xiaoyang Han, Alex, Kellia</div></div>
+        </div>
+        <div class="ptags"><span class="tg tg-p">HTML5 / CSS</span><span class="tg tg-p">JavaScript ES6+</span><span class="tg tg-p">Web Audio API</span><span class="tg tg-p">SVG Filters</span><span class="tg tg-p">Synesthésie</span><span class="tg tg-p">UX/UI Design</span><span class="tg tg-p">Narration interactive</span></div>
+      </div></div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- P04 -->
+    <div class="project-card" onclick="toggle(this)">
+      <div class="project-header">
+        <div class="project-header-left">
+          <span class="pnum">04</span>
+          <div><div class="ptitle">Ma Bibliothèque — Littérature Africaine</div><div class="psub">Catalogue en ligne de 10 œuvres · WordPress · AlwaysData</div></div>
+        </div>
+        <div class="project-header-right"><span class="badge b-web">Site Web</span><span class="toggle-icon">+</span></div>
+      </div>
+      <div class="project-body"><div class="pb-inner">
+        <div class="pdesc d-gold">Site WordPress complet valorisant le patrimoine littéraire africain. 10 œuvres sélectionnées avec fiches détaillées (auteur, pays, résumé), système de filtrage par genre, hébergé sur serveur AlwaysData. Un projet de numérisation culturelle destiné aux archivistes et passionnés de littérature.</div>
+        <div class="link-box">
+          <span style="font-size:20px">🔗</span>
+          <div>
+            <div style="font-size:13px;font-weight:500;margin-bottom:3px">Accéder au site en ligne</div>
+            <a href="https://jetoundi.alwaysdata.net/tp/" target="_blank">jetoundi.alwaysdata.net/tp/</a>
+          </div>
+        </div>
+        <div class="grid-4">
+          <div class="cell"><div class="cell-num" style="color:var(--gold)">10</div><div class="cell-label">Œuvres cataloguées</div></div>
+          <div class="cell"><div class="cell-num" style="color:var(--gold)">5</div><div class="cell-label">Genres littéraires</div></div>
+          <div class="cell"><div class="cell-num" style="color:var(--gold)">6+</div><div class="cell-label">Pays représentés</div></div>
+          <div class="cell"><div class="cell-num" style="color:var(--gold)">1</div><div class="cell-label">Site hébergé</div></div>
+        </div>
+        <span class="sub-label" style="color:var(--gold)">Les 10 œuvres du catalogue</span>
+        <div class="grid-5">
+          <div class="cell"><div class="cell-title" style="font-size:11px">Allah n'est pas obligé</div><div class="cell-sub">Roman · Côte d'Ivoire</div></div>
+          <div class="cell"><div class="cell-title" style="font-size:11px">Americanah</div><div class="cell-sub">Roman · Nigeria</div></div>
+          <div class="cell"><div class="cell-title" style="font-size:11px">Le pauvre Christ de Bomba</div><div class="cell-sub">Roman · Cameroun</div></div>
+          <div class="cell"><div class="cell-title" style="font-size:11px">Les Bimanes</div><div class="cell-sub">Nouvelles · Afrique</div></div>
+          <div class="cell"><div class="cell-title" style="font-size:11px">Père inconnu</div><div class="cell-sub">Jeunesse · Afrique</div></div>
+          <div class="cell"><div class="cell-title" style="font-size:11px">Temps de chien</div><div class="cell-sub">Roman · Cameroun</div></div>
+          <div class="cell"><div class="cell-title" style="font-size:11px">Trois prétendants un mari</div><div class="cell-sub">Théâtre · Cameroun</div></div>
+          <div class="cell"><div class="cell-title" style="font-size:11px">Une si longue lettre</div><div class="cell-sub">Roman · Sénégal</div></div>
+          <div class="cell"><div class="cell-title" style="font-size:11px">Une vie de boy</div><div class="cell-sub">Roman · Cameroun</div></div>
+          <div class="cell"><div class="cell-title" style="font-size:11px">Ville Cruelle</div><div class="cell-sub">Roman · Cameroun</div></div>
+        </div>
+        <div class="pm">
+          <div><div class="ml ml-gold">Contexte</div><div class="mv">TP Web — Master Humanités Numériques, UPHF 2025–2026</div></div>
+          <div><div class="ml ml-gold">Hébergement</div><div class="mv">AlwaysData · WordPress · PHP / MySQL</div></div>
+        </div>
+        <div class="ptags"><span class="tg tg-gold">WordPress</span><span class="tg tg-gold">PHP / MySQL</span><span class="tg tg-gold">HTML / CSS</span><span class="tg tg-gold">Hébergement web</span><span class="tg tg-gold">Valorisation culturelle</span><span class="tg tg-gold">Littérature africaine</span></div>
+      </div></div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- P05 : PYTHIE -->
+    <div class="project-card" onclick="toggle(this)">
+      <div class="project-header">
+        <div class="project-header-left">
+          <span class="pnum">05</span>
+          <div><div class="ptitle">PYTHIE</div><div class="psub">Dispositif de pré-archivage narratif et de médiation mémorielle assisté par IA</div></div>
+        </div>
+        <div class="project-header-right"><span class="badge b-ia">IA & Archives</span><span class="toggle-icon">+</span></div>
+      </div>
+      <div class="project-body"><div class="pb-inner">
+        <div class="pdesc d-teal">Plateforme numérique qui transforme des archives fragmentaires (orales, écrites, visuelles) en archives interprétées et contextualisées grâce à l'intelligence artificielle. PYTHIE accompagne le grand public dans la mise en récit de ses mémoires avant leur disparition, en valorisant particulièrement les formes de transmission propres aux cultures africaines.</div>
+        <div class="quote-block"><div class="qt">« Comment un dispositif numérique peut-il accompagner la mise en récit de mémoires orales, écrites et visuelles, afin de faciliter leur transmission future ? »</div></div>
+        <div class="link-box">
+          <span style="font-size:20px">🔗</span>
+          <div>
+            <div style="font-size:13px;font-weight:500;margin-bottom:3px">Accéder à la démo PYTHIE</div>
+            <a href="https://spec-builder-29.preview.emergentagent.com/" target="_blank">spec-builder-29.preview.emergentagent.com</a>
+          </div>
+        </div>
+        <span class="sub-label" style="color:var(--teal)">3 formes de mémoire articulées</span>
+        <div class="grid-3">
+          <div class="cell"><span style="font-size:24px;display:block;margin-bottom:8px">🎙️</span><div class="cell-title" style="color:var(--teal)">Mémoire orale</div><div class="cell-sub">Récits, témoignages, souvenirs racontés</div></div>
+          <div class="cell"><span style="font-size:24px;display:block;margin-bottom:8px">✍️</span><div class="cell-title" style="color:var(--teal)">Mémoire écrite</div><div class="cell-sub">Lettres, carnets, documents à contextualiser</div></div>
+          <div class="cell"><span style="font-size:24px;display:block;margin-bottom:8px">🖼️</span><div class="cell-title" style="color:var(--teal)">Mémoire visuelle</div><div class="cell-sub">Photos, images, objets numérisés</div></div>
+        </div>
+        <span class="sub-label" style="color:var(--teal)">Parcours utilisateur en 5 étapes</span>
+        <div class="flux-row">
+          <div class="flux-step"><div class="flux-num">1</div><div class="flux-name">Import document / récit</div></div>
+          <div class="flux-step"><div class="flux-num">2</div><div class="flux-name">Dialogue guidé IA</div></div>
+          <div class="flux-step"><div class="flux-num">3</div><div class="flux-name">Texte de contexte</div></div>
+          <div class="flux-step"><div class="flux-num">4</div><div class="flux-name">Mise en réseau</div></div>
+          <div class="flux-step"><div class="flux-num">5</div><div class="flux-name">Transmission</div></div>
+        </div>
+        <span class="sub-label" style="color:var(--teal)">3 publics cibles</span>
+        <div class="grid-3">
+          <div class="cell-left"><span style="font-size:18px">🏛️</span><div class="cell-title" style="margin-top:6px">Institutions patrimoniales</div><div class="cell-sub">Musées, bibliothèques, services d'archives</div></div>
+          <div class="cell-left"><span style="font-size:18px">🏢</span><div class="cell-title" style="margin-top:6px">Entreprises & ONG</div><div class="cell-sub">Préservation de la mémoire institutionnelle</div></div>
+          <div class="cell-left"><span style="font-size:18px">👨‍👩‍👧</span><div class="cell-title" style="margin-top:6px">Grand public</div><div class="cell-sub">Familles souhaitant transmettre leurs archives</div></div>
+        </div>
+        <div class="pm" style="margin-top:1rem;">
+          <div><div class="ml ml-t">Contexte</div><div class="mv">Projet de recherche M1 — Master Humanités Numériques, UPHF 2025–2026</div></div>
+          <div><div class="ml ml-t">Porteuse</div><div class="mv">Jeanne Etoundi NTSAMA</div></div>
+        </div>
+        <div class="ptags"><span class="tg tg-t">Intelligence Artificielle</span><span class="tg tg-t">Pré-archivage</span><span class="tg tg-t">Médiation mémorielle</span><span class="tg tg-t">NLP</span><span class="tg tg-t">Humanités Numériques</span><span class="tg tg-t">Patrimoine culturel</span><span class="tg tg-t">UX Design</span><span class="tg tg-t">Mémoires africaines</span></div>
+      </div></div>
+    </div>
+
+  </div>
+</div>
+
+<!-- FORMATION -->
+<div class="section" id="formation">
+  <div class="section-header"><span class="section-num">05</span><h2 class="section-title">Formation</h2><div class="section-line"></div></div>
+  <div class="edu-grid">
+    <div class="eb"><div class="ey">2025 — Aujourd'hui</div><div class="ed">Master en Humanités Numériques</div><div class="es">Université Polytechnique Hauts-de-France · Valenciennes</div></div>
+    <div class="eb"><div class="ey">2022 — 2024</div><div class="ed">Master Sciences & Technologies de l'Information</div><div class="es">Université Libre de Bruxelles · Belgique</div></div>
+    <div class="eb"><div class="ey">2018 — 2021</div><div class="ed">Licence en Informatique</div><div class="es">Université de Yaoundé 1 · Cameroun</div></div>
+  </div>
+</div>
+
+<!-- CERTIFICATIONS & LANGUES -->
+<div class="section">
+  <div class="section-header"><span class="section-num">06</span><h2 class="section-title">Certifications & Langues</h2><div class="section-line"></div></div>
+  <div class="two-col">
+    <div>
+      <div class="ci"><span class="dot"></span>Analyse d'entreprise et gestion des processus</div>
+      <div class="ci"><span class="dot"></span>Google Data Studio — Tableaux de bord interactifs</div>
+    </div>
+    <div>
+      <div class="lgi"><span class="dot"></span><div><div>Français</div><div class="lang-lvl">Langue maternelle</div></div></div>
+      <div class="lgi"><span class="dot"></span><div><div>Anglais</div><div class="lang-lvl">Niveau intermédiaire</div></div></div>
+    </div>
+  </div>
+</div>
+
+</div><!-- end portfolio -->
+
+<div class="footer">
+  <div class="fn">Jeanne Etoundi</div>
+  <div class="fc">
+    <div>jeanne.etoundi0@gmail.com</div>
+    <div>07 83 85 92 71 · Aulnoy-Lez-Valenciennes</div>
+  </div>
+</div>
+
+<script>
+function toggle(card) {
+  // Don't toggle if clicking a link inside
+  if (event.target.tagName === 'A') return;
+  card.classList.toggle('open');
+}
+// Open first project by default
+document.querySelector('.project-card').classList.add('open');
+</script>
+</body>
+</html>
