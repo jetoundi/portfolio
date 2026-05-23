@@ -1,0 +1,1269 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>L'Antre des Sens — Matièrialité</title>
+
+<!-- ══ SVG FILTERS ════════════════════════════════════════════ -->
+<svg width="0" height="0" style="position:absolute;pointer-events:none">
+  <defs>
+    <!-- ACID / FONDANT distortion -->
+    <filter id="f-acid" x="-15%" y="-15%" width="130%" height="130%">
+      <feTurbulence id="ft-acid" type="fractalNoise" baseFrequency="0.05 0.05"
+        numOctaves="3" seed="4" result="noise"/>
+      <feDisplacementMap id="fd-acid" in="SourceGraphic" in2="noise"
+        scale="0" xChannelSelector="R" yChannelSelector="G" result="displaced"/>
+      <feColorMatrix in="displaced" type="saturate" values="1.3"/>
+    </filter>
+    <!-- GRANULEUX / RUGUEUX distortion -->
+    <filter id="f-grain-card" x="-5%" y="-5%" width="110%" height="110%">
+      <feTurbulence id="ft-grain" type="turbulence" baseFrequency="0.65 0.65"
+        numOctaves="4" seed="7" stitchTiles="stitch" result="g"/>
+      <feColorMatrix type="saturate" values="0" in="g" result="gg"/>
+      <feBlend in="SourceGraphic" in2="gg" mode="soft-light"/>
+    </filter>
+    <!-- RADIAL ZOOM WARP for absorption -->
+    <filter id="f-absorb" x="-50%" y="-50%" width="200%" height="200%">
+      <feTurbulence id="ft-absorb" type="turbulence" baseFrequency="0.02"
+        numOctaves="2" seed="1" result="warp"/>
+      <feDisplacementMap id="fd-absorb" in="SourceGraphic" in2="warp"
+        scale="0" xChannelSelector="R" yChannelSelector="G"/>
+    </filter>
+  </defs>
+</svg>
+
+<style>
+/* ── RESET & ROOT ──────────────────────────────────────────── */
+*{margin:0;padding:0;box-sizing:border-box;}
+:root{
+  --bg:#080612;--bg2:#100d22;--bg3:#18152e;
+  --border:#22204a;--border-sel:#6c4fff;
+  --txt:#e8e4ff;--txt2:#9a95c0;--txt3:#6a6590;
+  --accent:#6c4fff;--accent2:#ff8c1e;
+}
+html,body{width:100%;height:100%;overflow:hidden;}
+#root{
+  width:100%;height:100%;min-height:620px;
+  background:var(--bg);font-family:'Georgia',serif;
+  color:var(--txt);position:relative;overflow:hidden;
+}
+
+/* ── PERMANENT GRAIN BACKGROUND ───────────────────────────── */
+#root::before{
+  content:'';position:absolute;inset:0;z-index:1;pointer-events:none;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+  background-size:200px 200px;mix-blend-mode:screen;opacity:.6;
+  animation:grain-drift 8s steps(2) infinite;
+}
+@keyframes grain-drift{
+  0%{background-position:0 0;}25%{background-position:10px 5px;}
+  50%{background-position:-5px 10px;}75%{background-position:5px -5px;}100%{background-position:0 0;}
+}
+
+/* ── THREE.JS CANVAS ──────────────────────────────────────── */
+canvas#gc{position:absolute;inset:0;width:100%;height:100%;display:block;}
+
+/* ── VIGNETTE ──────────────────────────────────────────────── */
+#vignette{
+  position:absolute;inset:0;z-index:3;pointer-events:none;
+  background:radial-gradient(ellipse at center,transparent 40%,rgba(0,0,0,.85) 100%);
+}
+/* ── ABSORPTION OVERLAY ──────────────────────────────────── */
+#absorb-overlay{
+  position:absolute;inset:0;z-index:99;pointer-events:none;
+  background:radial-gradient(ellipse at center,rgba(108,79,255,0) 0%,rgba(108,79,255,0) 100%);
+  opacity:0;
+}
+
+/* ── SCREENS ──────────────────────────────────────────────── */
+.scr{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;z-index:10;overflow-y:auto;}
+.scr.off{display:none!important;}
+
+/* ══ ACCUEIL ════════════════════════════════════════════════ */
+#scr-home{background:var(--bg);flex-direction:column;text-align:center;padding:32px 20px;}
+.home-eyebrow{
+  font-family:'Courier New',monospace;font-size:9px;letter-spacing:5px;
+  color:var(--txt3);text-transform:uppercase;margin-bottom:28px;font-style:italic;
+}
+.home-title{
+  font-size:clamp(2.8rem,9vw,5rem);font-weight:400;
+  line-height:0.95;letter-spacing:-2px;color:#f0ebe0;margin-bottom:4px;
+}
+/* BLUR/FOCUS on "des Sens" */
+.home-title-accent{
+  color:var(--accent2);font-style:italic;display:inline-block;
+  filter:blur(2.8px);
+  transition:filter .55s ease,color .4s ease,text-shadow .4s ease;
+  cursor:default;
+}
+.home-title-accent:hover,#scr-home:hover .home-title-accent{
+  filter:blur(0);color:#ffaa44;
+  text-shadow:0 0 32px rgba(255,140,30,.38);
+}
+/* SENSE ICONS — pulsing glow */
+.home-senses{display:flex;justify-content:center;gap:22px;margin:28px 0;flex-wrap:wrap;}
+.home-sense{display:flex;flex-direction:column;align-items:center;gap:5px;}
+.home-sense-icon{
+  font-size:18px;display:inline-block;
+  animation:sense-pulse 2.8s ease-in-out infinite;
+  filter:drop-shadow(0 0 4px currentColor);
+}
+.home-sense:nth-child(1) .home-sense-icon{animation-delay:0s;}
+.home-sense:nth-child(2) .home-sense-icon{animation-delay:.55s;}
+.home-sense:nth-child(3) .home-sense-icon{animation-delay:1.1s;}
+.home-sense:nth-child(4) .home-sense-icon{animation-delay:1.65s;}
+@keyframes sense-pulse{
+  0%,100%{filter:drop-shadow(0 0 3px currentColor);opacity:.7;}
+  50%{filter:drop-shadow(0 0 10px currentColor) drop-shadow(0 0 20px currentColor);opacity:1;}
+}
+/* SORTIE — isolated rupture point */
+.home-sense-exit{
+  display:flex;flex-direction:column;align-items:center;gap:5px;
+  margin-top:18px;padding-top:16px;
+  border-top:1px solid rgba(60,255,120,.1);width:100%;opacity:.55;
+  font-family:'Courier New',monospace;font-size:8px;letter-spacing:4px;
+  color:rgba(60,255,120,.35);text-transform:uppercase;
+}
+.home-sense-exit .home-sense-icon{
+  font-size:13px;color:#3cff78;
+  animation:exit-flicker 4.2s ease-in-out infinite;
+  filter:drop-shadow(0 0 4px #3cff78);
+}
+@keyframes exit-flicker{
+  0%,88%,100%{opacity:.35;filter:drop-shadow(0 0 2px #3cff78);}
+  90%{opacity:1;filter:drop-shadow(0 0 12px #3cff78) drop-shadow(0 0 22px #3cff78);}
+  93%{opacity:.25;}
+  96%{opacity:.85;filter:drop-shadow(0 0 8px #3cff78);}
+}
+.home-sense-lbl{font-family:'Courier New',monospace;font-size:8px;letter-spacing:2px;color:var(--txt3);text-transform:uppercase;}
+.home-desc{font-size:11px;color:var(--txt2);font-style:italic;line-height:1.9;max-width:360px;margin:0 auto 32px;}
+
+/* ── BUTTONS ──────────────────────────────────────────────── */
+.btn{
+  background:transparent;border:1px solid var(--border-sel);color:#c8b0ff;
+  padding:12px 40px;font-family:'Courier New',monospace;font-size:11px;
+  letter-spacing:2px;cursor:pointer;border-radius:3px;transition:all .25s;
+}
+.btn:hover{background:rgba(108,79,255,.15);border-color:#9c7fff;}
+.btn:disabled{opacity:.3;cursor:not-allowed;}
+.btn-green{border-color:rgba(60,255,120,.5);color:#3cff78;}
+.btn-green:hover{background:rgba(60,255,120,.1);}
+.btn-muted{border-color:#22204a;color:var(--txt3);}
+.btn-muted:hover{background:var(--bg2);}
+
+/* ABSORPTION TRANSITION */
+@keyframes absorb-out{
+  0%{opacity:1;transform:scale(1);filter:blur(0) brightness(1);}
+  30%{opacity:1;transform:scale(1.06);filter:blur(0) brightness(1.2);}
+  60%{opacity:.7;transform:scale(1.18);filter:blur(3px) brightness(1.5);}
+  85%{opacity:.3;transform:scale(1.5);filter:blur(10px) brightness(2);}
+  100%{opacity:0;transform:scale(2.2);filter:blur(22px) brightness(3);}
+}
+.absorbing{animation:absorb-out 1.1s cubic-bezier(.4,0,.2,1) forwards;}
+
+/* ══ QUÊTE ══════════════════════════════════════════════════ */
+#scr-quete{background:var(--bg);flex-direction:column;padding:28px 20px;}
+.quete-inner{width:100%;max-width:560px;margin:0 auto;}
+.quete-title{font-size:1.9rem;font-weight:400;text-align:center;margin-bottom:6px;letter-spacing:-.5px;}
+.quete-sub{font-size:11px;color:var(--txt2);text-align:center;font-style:italic;margin-bottom:28px;line-height:1.7;}
+.q-label{font-family:'Courier New',monospace;font-size:10px;letter-spacing:2px;color:var(--txt3);text-align:center;margin-bottom:12px;}
+.card-grid{display:grid;gap:10px;margin-bottom:22px;}
+.card-grid.g3{grid-template-columns:repeat(3,1fr);}
+.card-grid.g2c{grid-template-columns:repeat(2,1fr);max-width:380px;margin-left:auto;margin-right:auto;}
+.card{
+  background:var(--bg2);border:1.5px solid var(--border);
+  border-radius:10px;padding:18px 10px 14px;text-align:center;
+  cursor:pointer;transition:border-color .22s,background .22s,box-shadow .22s;
+  position:relative;overflow:hidden;
+}
+.card::after{
+  content:'';position:absolute;inset:0;border-radius:10px;
+  background:radial-gradient(ellipse at 50% 0%,rgba(108,79,255,.07),transparent 70%);
+  opacity:0;transition:opacity .3s;pointer-events:none;
+}
+.card:hover{border-color:#3a3060;background:var(--bg3);box-shadow:0 0 18px rgba(108,79,255,.06);}
+.card:hover::after{opacity:1;}
+.card.sel{border-color:var(--border-sel);background:rgba(108,79,255,.1);}
+.card.sel::after{opacity:1;}
+/* FOOD hover — audio preview glow */
+.card[data-food]:hover{filter:url(#f-grain-card);}
+/* MAT selected — acid turbulence */
+.card.mat.sel{filter:url(#f-acid);}
+@keyframes mat-acid{
+  0%,100%{filter:url(#f-acid) saturate(1.1);}
+  50%{filter:url(#f-acid) saturate(1.6) hue-rotate(6deg);}
+}
+.card-icon{font-size:24px;margin-bottom:8px;display:block;}
+.card-name{font-size:.88rem;font-weight:600;color:var(--txt);margin-bottom:3px;}
+.card.sel .card-name{color:#c8b0ff;}
+.card.mat.sel .card-name{color:var(--border-sel);}
+.card-desc{font-size:.68rem;color:var(--txt3);line-height:1.5;font-style:italic;}
+.card.mat .card-desc{color:var(--txt2);}
+.quete-footer{display:flex;gap:10px;justify-content:center;margin-top:4px;}
+.obj-strip{display:flex;gap:8px;align-items:center;background:rgba(108,79,255,.08);border:1px solid rgba(108,79,255,.18);border-radius:6px;padding:8px 14px;margin-bottom:18px;flex-wrap:wrap;}
+.obj-item{display:flex;align-items:center;gap:6px;font-family:'Courier New',monospace;font-size:9px;}
+.obj-dot{width:8px;height:8px;border-radius:2px;flex-shrink:0;}
+.obj-bar{flex:1;height:3px;background:#111;border-radius:2px;overflow:hidden;margin-top:6px;}
+.obj-fill{height:100%;border-radius:2px;transition:width .6s;}
+
+/* ══ LEVEL INTRO ════════════════════════════════════════════ */
+#scr-lvl{background:var(--bg);flex-direction:column;padding:24px 20px;text-align:center;}
+.lvl-inner{max-width:440px;width:100%;margin:0 auto;}
+.prog-row{display:flex;gap:6px;margin-bottom:20px;}
+.prog-step{flex:1;height:4px;border-radius:2px;transition:background .4s;}
+.lvl-badge{display:inline-block;padding:4px 14px;border-radius:20px;font-family:'Courier New',monospace;font-size:9px;letter-spacing:2px;margin-bottom:14px;}
+.lvl-sense-row{display:flex;flex-direction:column;gap:8px;margin:14px 0;text-align:left;}
+.lvl-sense-item{display:flex;align-items:center;gap:8px;padding:8px 12px;background:var(--bg2);border-radius:6px;border:1px solid var(--border);transition:border-color .3s;}
+.lvl-sense-item:hover{border-color:rgba(108,79,255,.3);}
+.lvl-sense-ic{font-size:14px;width:22px;text-align:center;}
+.lvl-sense-lbl{font-size:10px;font-weight:600;}
+.lvl-sense-desc{font-size:9px;color:var(--txt2);font-style:italic;}
+
+/* ══ HUD ════════════════════════════════════════════════════ */
+#hud{position:absolute;inset:0;pointer-events:none;z-index:5;}
+#hud.off{display:none!important;}
+#topbar{height:36px;background:rgba(3,1,10,.92);border-bottom:1px solid rgba(108,79,255,.18);display:flex;align-items:center;font-family:'Courier New',monospace;font-size:9px;color:#555;}
+.tc{padding:0 10px;border-right:1px solid #0d0820;height:100%;display:flex;align-items:center;gap:5px;white-space:nowrap;}
+#minimap{position:absolute;top:44px;left:8px;border:1px solid rgba(108,79,255,.25);border-radius:4px;background:rgba(0,0,0,.85);}
+#objhud{position:absolute;top:44px;right:8px;background:rgba(3,1,10,.9);border:1px solid rgba(108,79,255,.18);border-radius:6px;padding:8px 10px;font-family:'Courier New',monospace;font-size:9px;min-width:150px;}
+#sensehud{position:absolute;bottom:50px;left:50%;transform:translateX(-50%);background:rgba(0,0,0,.9);border:1px solid rgba(255,255,255,.1);border-radius:8px;padding:8px 18px;text-align:center;min-width:200px;opacity:0;transition:opacity .35s;pointer-events:none;}
+#xhair{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);pointer-events:none;}
+#xhair::before,#xhair::after{content:'';position:absolute;background:rgba(255,255,255,.45);}
+#xhair::before{width:14px;height:1px;top:0;left:-7px;}
+#xhair::after{width:1px;height:14px;top:-7px;left:0;}
+#tip{position:absolute;bottom:8px;left:50%;transform:translateX(-50%);font-family:'Courier New',monospace;font-size:8px;color:#2a2030;letter-spacing:1px;pointer-events:none;}
+#obj-complete{position:absolute;inset:0;background:rgba(0,10,3,.75);display:flex;align-items:center;justify-content:center;z-index:20;opacity:0;pointer-events:none;transition:opacity .5s;}
+#obj-complete.show{opacity:1;}
+.obj-banner{text-align:center;font-family:'Courier New',monospace;}
+
+/* ══ WIN / BILAN ════════════════════════════════════════════ */
+#scr-win,#scr-bilan{background:rgba(5,2,18,.97);flex-direction:column;padding:24px 20px;}
+.panel{max-width:500px;width:100%;margin:0 auto;}
+.recap-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin:14px 0;}
+.stat-card{background:var(--bg2);border:1px solid var(--border);border-radius:6px;padding:10px 8px;text-align:center;}
+.stat-val{font-size:1.15rem;font-weight:bold;}
+.stat-lbl{font-family:'Courier New',monospace;font-size:8px;color:var(--txt3);letter-spacing:1px;margin-bottom:3px;}
+.profile-bar{margin:6px 0;}
+.pb-head{display:flex;justify-content:space-between;margin-bottom:3px;font-family:'Courier New',monospace;font-size:9px;}
+.pb-track{height:5px;background:#0a0816;border-radius:3px;overflow:hidden;}
+.pb-fill{height:100%;border-radius:3px;transition:width 1s;}
+.arch-card{background:var(--bg2);border:1px solid rgba(108,79,255,.25);border-radius:8px;padding:14px;margin-top:12px;}
+.arch-name{font-size:1.05rem;margin:4px 0 6px;}
+.arch-quote{font-size:10px;color:var(--txt2);font-style:italic;line-height:1.7;}
+</style>
+</head>
+<body>
+<div id="root">
+<canvas id="gc"></canvas>
+<div id="vignette"></div>
+<div id="absorb-overlay"></div>
+
+<!-- ══ HUD ═══════════════════════════════════════════════════ -->
+<div id="hud" class="off">
+  <div id="topbar">
+    <div class="tc"><span style="color:#9c7fff;font-weight:bold;letter-spacing:2px">ANTRE</span></div>
+    <div class="tc" id="tb-lvl"><span style="color:#ff8c1e">NIV 1</span></div>
+    <div class="tc" id="tb-quest" style="min-width:140px;gap:4px"></div>
+    <div class="tc" id="tb-sense" style="min-width:70px">—</div>
+    <div class="tc" style="flex:1;justify-content:center;color:#888"><span id="timer">00:00</span></div>
+    <div class="tc"><span style="color:#444">SENS</span><span id="sc" style="color:#9c7fff">0</span></div>
+    <div class="tc" style="pointer-events:all;cursor:pointer;border-right:none" id="qbtn"><span style="color:#c04040">✕</span></div>
+  </div>
+  <canvas id="minimap" width="110" height="110"></canvas>
+  <div id="objhud">
+    <div style="color:var(--txt3);letter-spacing:2px;font-size:8px;margin-bottom:7px">MANDUCATION</div>
+    <div id="objlist"></div>
+    <div class="obj-bar" style="margin-top:8px"><div id="obj-prog-fill" class="obj-fill" style="background:#6c4fff;width:0%"></div></div>
+  </div>
+  <div id="sensehud">
+    <div id="shi" style="font-size:18px;margin-bottom:3px">~</div>
+    <div id="shl" style="font-family:'Courier New',monospace;font-size:11px;font-weight:bold;margin-bottom:2px;letter-spacing:1px">ODORAT</div>
+    <div id="shd" style="font-size:9px;color:#aaa;font-style:italic;font-family:Georgia,serif"></div>
+  </div>
+  <div id="xhair"></div>
+  <div id="tip">ZQSD · FLÈCHES · CLIC POUR CAPTURER LA SOURIS</div>
+  <div id="obj-complete">
+    <div class="obj-banner">
+      <div style="font-size:28px;color:#3cff78;margin-bottom:6px">✓</div>
+      <div id="obj-complete-msg" style="font-size:10px;letter-spacing:3px;color:#3cff78"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ ACCUEIL ════════════════════════════════════════════════ -->
+<div class="scr" id="scr-home">
+  <div id="home-inner" style="text-align:center;max-width:500px;padding:0 20px;">
+    <div class="home-eyebrow">Où s'arrête l'esprit,<br>où commence la matière ?</div>
+    <div class="home-title">L'Antre<br><span class="home-title-accent">des Sens</span></div>
+    <div class="home-senses" style="margin-top:28px">
+      <div class="home-sense"><span class="home-sense-icon" style="color:#ff8c1e">~</span><span class="home-sense-lbl">Odorat</span></div>
+      <div class="home-sense"><span class="home-sense-icon" style="color:#9c3cff">*</span><span class="home-sense-lbl">Vue</span></div>
+      <div class="home-sense"><span class="home-sense-icon" style="color:#ff3278">+</span><span class="home-sense-lbl">Toucher</span></div>
+      <div class="home-sense"><span class="home-sense-icon" style="color:#1ec8ff">)</span><span class="home-sense-lbl">Son</span></div>
+    </div>
+    <div class="home-sense-exit">
+      <span class="home-sense-icon">S</span>
+      <span>— rupture de matière —</span>
+    </div>
+    <p class="home-desc" style="margin-top:22px">Dévore les textures. Absorbe la saveur du labyrinthe.<br>Ton corps est le seul vecteur de navigation.</p>
+    <!-- RENAMED: S'incorporer -->
+    <button class="btn" id="btn-home-start">S'incorporer dans l'Antre</button>
+  </div>
+</div>
+
+<!-- ══ QUÊTE ══════════════════════════════════════════════════ -->
+<div class="scr off" id="scr-quete">
+  <div class="quete-inner">
+    <h2 class="quete-title">Choisis ta quête</h2>
+    <p class="quete-sub">La saveur du labyrinthe s'adaptera à ce que tu crois chercher.<br>Chaque choix est une ingestion.</p>
+    <div id="obj-strip" style="display:none" class="obj-strip">
+      <div class="obj-item"><div class="obj-dot" id="obj-food-dot" style="background:#222"></div><span id="obj-food-lbl" style="color:var(--txt3)">Texture non choisie</span></div>
+      <div style="color:var(--txt3);font-size:9px">·</div>
+      <div class="obj-item"><div class="obj-dot" id="obj-mat-dot" style="background:#222"></div><span id="obj-mat-lbl" style="color:var(--txt3)">Matière non choisie</span></div>
+      <div style="margin-left:auto;font-size:9px;color:var(--txt3)" id="obj-hint"></div>
+    </div>
+    <p class="q-label">1. Quelle texture veux-tu dévorer ?</p>
+    <div class="card-grid g3" id="food-grid"></div>
+    <p class="q-label">2. Quelle matière veux-tu absorber ?</p>
+    <div class="card-grid g2c" id="mat-grid-top"></div>
+    <div class="card-grid g2c" id="mat-grid-bot"></div>
+    <div class="quete-footer">
+      <button class="btn btn-muted" id="btn-quete-back">Recracher</button>
+      <button class="btn btn-green" id="btn-quete-launch" disabled>Ingérer le labyrinthe</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══ LEVEL INTRO ════════════════════════════════════════════ -->
+<div class="scr off" id="scr-lvl">
+  <div class="lvl-inner">
+    <div class="prog-row" id="prog-row"></div>
+    <div class="lvl-badge" id="li-badge">NIVEAU 1</div>
+    <h2 style="font-size:1.7rem;font-weight:400;margin-bottom:6px" id="li-title">Éveil</h2>
+    <p style="font-size:11px;color:var(--txt2);font-style:italic;margin-bottom:14px;line-height:1.7" id="li-desc"></p>
+    <div class="lvl-sense-row" id="li-senses"></div>
+    <div style="margin-top:16px;text-align:center">
+      <button class="btn btn-green" id="btn-lvl-play">Dévorer ce niveau</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══ LEVEL WIN ══════════════════════════════════════════════ -->
+<div class="scr off" id="scr-win">
+  <div class="panel" style="text-align:center">
+    <div style="font-size:30px;color:#3cff78;margin-bottom:8px">✓</div>
+    <div style="font-family:'Courier New',monospace;font-size:10px;letter-spacing:3px;color:#3cff78;margin-bottom:8px">TEXTURE ABSORBÉE</div>
+    <h2 style="font-size:1.5rem;font-weight:400;margin-bottom:4px" id="win-title"></h2>
+    <div id="win-obj-status" style="margin:10px 0;padding:10px 14px;border-radius:6px;font-family:'Courier New',monospace;font-size:9px;letter-spacing:1px"></div>
+    <p id="win-msg" style="font-size:10px;color:var(--txt2);font-style:italic;line-height:1.7;margin-bottom:12px"></p>
+    <div class="recap-grid" id="win-stats"></div>
+    <div id="win-obj-detail" style="background:var(--bg2);border:1px solid var(--border);border-radius:6px;padding:10px 14px;margin:8px 0;text-align:left;font-family:'Courier New',monospace;font-size:9px"></div>
+    <button class="btn btn-green" id="btn-next" style="margin-top:10px">Niveau suivant →</button>
+  </div>
+</div>
+
+<!-- ══ BILAN FINAL ════════════════════════════════════════════ -->
+<div class="scr off" id="scr-bilan">
+  <div class="panel">
+    <div style="font-family:'Courier New',monospace;font-size:9px;letter-spacing:3px;color:var(--txt3);margin-bottom:10px">FIN DE L'INGESTION</div>
+    <h2 style="font-size:1.5rem;font-weight:400;margin-bottom:4px">Bilan sensoriel</h2>
+    <p id="bilan-intro" style="font-size:10px;color:var(--txt2);font-style:italic;margin-bottom:14px;line-height:1.7"></p>
+    <div id="bilan-obj-global" style="padding:10px 14px;border-radius:6px;margin-bottom:14px;font-family:'Courier New',monospace;font-size:9px;letter-spacing:1px"></div>
+    <div class="recap-grid" id="bilan-stats"></div>
+    <div style="margin-top:14px">
+      <div style="font-family:'Courier New',monospace;font-size:8px;color:var(--txt3);letter-spacing:2px;margin-bottom:10px">PROFIL SENSORIEL</div>
+      <div id="bilan-bars"></div>
+    </div>
+    <div class="arch-card" id="bilan-arch"></div>
+    <div style="margin-top:14px">
+      <div style="font-family:'Courier New',monospace;font-size:8px;color:var(--txt3);letter-spacing:2px;margin-bottom:10px">OBJECTIFS PAR NIVEAU</div>
+      <div id="bilan-lvl-obj"></div>
+    </div>
+    <div style="display:flex;gap:10px;justify-content:center;margin-top:18px;flex-wrap:wrap">
+      <button class="btn btn-green" id="btn-replay">Ré-ingérer</button>
+      <button class="btn" id="btn-share">Copier mon profil</button>
+    </div>
+  </div>
+</div>
+</div><!-- #root -->
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>
+// ════════════════════════════════════════════════════════════
+// DATA
+// ════════════════════════════════════════════════════════════
+const FOODS=[
+  {id:"frite",label:"Frite",icon:"🍟",desc:"chaud, gras, sec — une brûlure dorée",color:"#E07820",targetSense:"odorat"},
+  {id:"pizza",label:"Pizza",icon:"🍕",desc:"fondu, chaud, fumé — la matière qui cède",color:"#D04040",targetSense:"odorat"},
+  {id:"pomme",label:"Pomme",icon:"🍏",desc:"frais, croquant, minéral — l'acidité nette",color:"#60C060",targetSense:"toucher"},
+  {id:"bonbon",label:"Bonbon fumé",icon:"🍬",desc:"sucré, trompeur — le goût qui ment",color:"#C060C0",targetSense:"vue"},
+];
+const MATIERES=[
+  {id:"croustillant",label:"Croustillant",icon:"✦",desc:"sec, cassant, nerveux — la rupture sonore",color:"#E09030",targetSense:"toucher"},
+  {id:"fondant",label:"Fondant",icon:"◈",desc:"lent, enveloppant, moelleux — la dissolution",color:"#8060D0",targetSense:"vue"},
+  {id:"gras",label:"Gras",icon:"●",desc:"chaleur, densité, halo orange — la saturation",color:"#D06020",targetSense:"odorat"},
+  {id:"froid",label:"Froid",icon:"❄",desc:"clair, humide, minéral — le signal glacé",color:"#40A0E0",targetSense:"son"},
+];
+const SENSES={
+  odorat:{id:"odorat",label:"Odorat",icon:"~",
+    desc:"La fumée dense sature l'air. La friture t'entre dans le corps.",
+    hex:"#ff8c1e",color:0xff8c1e,lc:0xff5500},
+  son:{id:"son",label:"Son",icon:")",
+    desc:"Le bourdonnement grave te traverse. Tu deviens membrane.",
+    hex:"#1ec8ff",color:0x1ec8ff,lc:0x0088cc},
+  toucher:{id:"toucher",label:"Toucher",icon:"+",
+    desc:"Les murs vibrent sous ta peau. La texture froide t'irrigue.",
+    hex:"#ff3278",color:0xff3278,lc:0xcc1155},
+  vue:{id:"vue",label:"Vue",icon:"*",
+    desc:"La lumière violette pulse. Les éclairs de matière t'aveuglent.",
+    hex:"#9c3cff",color:0x9c3cff,lc:0x6611ee},
+  sortie:{id:"sortie",label:"Sortie",icon:"S",
+    desc:"La matière est absorbée. L'illusion se dissout.",
+    hex:"#3cff78",color:0x3cff78,lc:0x00cc44},
+};
+const LEVELS=[
+  {n:1,title:"Éveil",cols:5,rows:5,activeSenses:["odorat"],fog:0.18,color:"#ff8c1e",
+    desc:"Une saveur, un couloir. La matière commence à t'ingérer."},
+  {n:2,title:"Perception",cols:7,rows:7,activeSenses:["odorat","son"],fog:0.14,color:"#1ec8ff",
+    desc:"Deux textures se superposent. Les vibrations deviennent nutriment."},
+  {n:3,title:"Confusion",cols:9,rows:9,activeSenses:["odorat","son","toucher"],fog:0.11,color:"#ff3278",
+    desc:"Trois sens s'entremêlent. La matière devient labyrinthe."},
+  {n:4,title:"Illusion",cols:11,rows:11,activeSenses:["odorat","son","toucher","vue"],fog:0.09,color:"#9c3cff",
+    desc:"Quatre corps de matière. Le visuel t'empoisonne."},
+  {n:5,title:"Manducation",cols:13,rows:13,activeSenses:["odorat","son","toucher","vue"],fog:0.07,color:"#3cff78",
+    desc:"Le festin total. Dévore ou sois dévoré."},
+];
+
+// ════════════════════════════════════════════════════════════
+// AUDIO ENGINE — PROCÉDURAL PAR SENS (Directive 3)
+// Terre/Odorat  : drone grave sinusoïdal (20–80 Hz) + crépitement
+// Lumière/Vue   : signal cristallin dent de scie (haute fréquence)
+// Matière/Touch : bruit blanc filtré granuleux
+// Aliment/Goût  : LFO sur fréquence (son acide modulé)
+// Son/Espace    : battement sinusoïdal profond (binaural)
+// ════════════════════════════════════════════════════════════
+class AudioEngine{
+  constructor(){this.ctx=null;this.nodes={};this.active=null;this.uiNodes={};}
+
+  init(){
+    if(this.ctx)return;
+    try{this.ctx=new(window.AudioContext||window.webkitAudioContext)();}catch(e){}
+  }
+
+  stop(){
+    Object.values(this.nodes).forEach(n=>{try{n.stop&&n.stop();}catch(e){}});
+    this.nodes={};this.active=null;
+  }
+
+  // ── UI preview sounds (on card hover) ─────────────────────
+  previewStart(type){
+    this.init();if(!this.ctx)return;
+    this._stopPreview();
+    const c=this.ctx;if(c.state==="suspended")c.resume();
+    const M=c.createGain();M.gain.setValueAtTime(0,c.currentTime);
+    M.gain.linearRampToValueAtTime(0.08,c.currentTime+0.3);
+    M.connect(c.destination);this.uiNodes.M=M;
+
+    if(type==="food-frite"||type==="food-pizza"||type==="food-odorat"){
+      // Acide modulé — LFO sur fréquence (aliment/goût)
+      const osc=c.createOscillator();osc.type="sawtooth";osc.frequency.value=180;
+      const lfo=c.createOscillator();lfo.type="sine";lfo.frequency.value=6;
+      const lg=c.createGain();lg.gain.value=40;
+      lfo.connect(lg);lg.connect(osc.frequency);
+      const g=c.createGain();g.gain.value=0.6;
+      osc.connect(g);g.connect(M);osc.start();lfo.start();
+      this.uiNodes.osc=osc;this.uiNodes.lfo=lfo;
+    } else if(type==="food-pomme"||type==="food-toucher"){
+      // Croquant — impulsion haute fréquence
+      const buf=c.createBuffer(1,c.sampleRate*.5,c.sampleRate);
+      const d=buf.getChannelData(0);
+      for(let i=0;i<d.length;i++)d[i]=(Math.random()*2-1)*(Math.random()<0.008?1:0);
+      const src=c.createBufferSource();src.buffer=buf;src.loop=true;
+      const hpf=c.createBiquadFilter();hpf.type="highpass";hpf.frequency.value=4000;
+      src.connect(hpf);hpf.connect(M);src.start();this.uiNodes.src=src;
+    } else if(type==="food-bonbon"||type==="food-vue"){
+      // Scintillement cristallin dent de scie (vue/lumière)
+      [880,1320,1760].forEach((fr,i)=>{
+        const osc=c.createOscillator();osc.type="sawtooth";osc.frequency.value=fr;
+        const g=c.createGain();g.gain.value=0.07/(i+1);osc.connect(g);g.connect(M);osc.start();
+        this.uiNodes["o"+i]=osc;
+      });
+    } else if(type==="mat-croustillant"){
+      // Bruit blanc granuleux rugueux
+      const buf=c.createBuffer(1,c.sampleRate,c.sampleRate);
+      const d=buf.getChannelData(0);for(let i=0;i<d.length;i++)d[i]=Math.random()*2-1;
+      const src=c.createBufferSource();src.buffer=buf;src.loop=true;
+      const bpf=c.createBiquadFilter();bpf.type="bandpass";bpf.frequency.value=3000;bpf.Q.value=0.4;
+      src.connect(bpf);bpf.connect(M);src.start();this.uiNodes.src=src;
+    } else if(type==="mat-fondant"){
+      // Sine grave + LFO lent (fusion)
+      const osc=c.createOscillator();osc.type="sine";osc.frequency.value=55;
+      const lfo=c.createOscillator();lfo.type="sine";lfo.frequency.value=0.4;
+      const lg=c.createGain();lg.gain.value=0.4;lfo.connect(lg);lg.connect(M.gain);
+      osc.connect(M);osc.start();lfo.start();this.uiNodes.osc=osc;this.uiNodes.lfo=lfo;
+    } else if(type==="mat-gras"){
+      // Drone grave sourd sinusoïdal + sub (terre/odorat)
+      const osc=c.createOscillator();osc.type="sine";osc.frequency.value=42;
+      const g=c.createGain();g.gain.value=0.8;osc.connect(g);g.connect(M);osc.start();
+      this.uiNodes.osc=osc;
+    } else if(type==="mat-froid"){
+      // Battement sinusoïdal binaural léger
+      [200,203].forEach((fr,i)=>{
+        const osc=c.createOscillator();osc.type="sine";osc.frequency.value=fr;
+        const g=c.createGain();g.gain.value=0.35;osc.connect(g);g.connect(M);osc.start();
+        this.uiNodes["o"+i]=osc;
+      });
+    }
+  }
+
+  _stopPreview(){
+    Object.values(this.uiNodes).forEach(n=>{try{n.stop&&n.stop();}catch(e){}});
+    this.uiNodes={};
+  }
+  previewStop(){
+    if(!this.ctx)return;
+    const M=this.uiNodes.M;
+    if(M){try{M.gain.linearRampToValueAtTime(0,this.ctx.currentTime+0.25);}catch(e){}}
+    setTimeout(()=>this._stopPreview(),300);
+  }
+
+  // ── IN-GAME sense sounds ───────────────────────────────────
+  play(id){
+    this.init();if(!this.ctx)return;
+    if(this.active===id)return;
+    this.stop();this.active=id;
+    const c=this.ctx;if(c.state==="suspended")c.resume();
+    const M=c.createGain();
+    M.gain.setValueAtTime(0,c.currentTime);
+    M.gain.linearRampToValueAtTime(0.13,c.currentTime+0.7);
+    M.connect(c.destination);this.nodes.M=M;
+
+    if(id==="odorat"){
+      // Directive 3 — Terre/Odorat : drone grave sinusoïdal BF
+      const sub=c.createOscillator();sub.type="sine";sub.frequency.value=38;
+      const g1=c.createGain();g1.gain.value=0.5;sub.connect(g1);g1.connect(M);sub.start();this.nodes.sub=sub;
+      // crépitement friture
+      const buf=c.createBuffer(1,c.sampleRate*2,c.sampleRate),d=buf.getChannelData(0);
+      for(let i=0;i<d.length;i++)d[i]=(Math.random()*2-1)*(Math.random()<0.025?1:0.04);
+      const src=c.createBufferSource();src.buffer=buf;src.loop=true;
+      const bp=c.createBiquadFilter();bp.type="bandpass";bp.frequency.value=2400;bp.Q.value=0.5;
+      src.connect(bp);bp.connect(M);src.start();this.nodes.src=src;
+    }
+    else if(id==="son"){
+      // Directive 3 — Son/Espace : battements sinusoïdaux profonds
+      [58,61,55].forEach((fr,i)=>{
+        const o=c.createOscillator();o.type="sine";o.frequency.value=fr;
+        const g=c.createGain();g.gain.value=0.3/(i+1);o.connect(g);g.connect(M);o.start();this.nodes["o"+i]=o;
+      });
+      const lfo=c.createOscillator();lfo.type="sine";lfo.frequency.value=2.5;
+      const lg=c.createGain();lg.gain.value=0.28;lfo.connect(lg);lg.connect(M.gain);lfo.start();this.nodes.lfo=lfo;
+    }
+    else if(id==="toucher"){
+      // Directive 3 — Matière/Toucher : bruit blanc filtré granuleux
+      const buf=c.createBuffer(1,c.sampleRate,c.sampleRate),d=buf.getChannelData(0);
+      for(let i=0;i<d.length;i++)d[i]=Math.random()*2-1;
+      const src=c.createBufferSource();src.buffer=buf;src.loop=true;
+      const bpf=c.createBiquadFilter();bpf.type="bandpass";bpf.frequency.value=900;bpf.Q.value=0.3;
+      src.connect(bpf);bpf.connect(M);src.start();this.nodes.src=src;
+      // rugosité — impulsions
+      const buf2=c.createBuffer(1,c.sampleRate,c.sampleRate),d2=buf2.getChannelData(0);
+      for(let i=0;i<d2.length;i++)d2[i]=(Math.random()*2-1)*(Math.random()<0.006?1:0);
+      const src2=c.createBufferSource();src2.buffer=buf2;src2.loop=true;
+      const hpf=c.createBiquadFilter();hpf.type="highpass";hpf.frequency.value=3800;
+      src2.connect(hpf);hpf.connect(M);src2.start();this.nodes.src2=src2;
+    }
+    else if(id==="vue"){
+      // Directive 3 — Lumière/Vue : signal cristallin dent de scie haute fréquence
+      [550,825,1100,1375].forEach((fr,i)=>{
+        const o=c.createOscillator();o.type="sawtooth";
+        o.frequency.setValueAtTime(fr,c.currentTime);
+        o.frequency.linearRampToValueAtTime(fr*1.015,c.currentTime+4);
+        const g=c.createGain();g.gain.value=0.055/(i+1);o.connect(g);g.connect(M);o.start();
+        this.nodes["o"+i]=o;
+      });
+    }
+    else if(id==="sortie"){
+      // Accord de résolution organique
+      [261,329,392,523].forEach((fr,i)=>{
+        const o=c.createOscillator();o.type="sine";o.frequency.value=fr;
+        const g=c.createGain();
+        g.gain.setValueAtTime(0.1/(i+1),c.currentTime);
+        g.gain.linearRampToValueAtTime(0.19/(i+1),c.currentTime+1.5);
+        o.connect(g);g.connect(M);o.start();this.nodes["o"+i]=o;
+      });
+    }
+  }
+
+  silence(){
+    if(!this.ctx||!this.nodes.M)return;
+    try{this.nodes.M.gain.linearRampToValueAtTime(0,this.ctx.currentTime+0.5);}catch(e){}
+    setTimeout(()=>this.stop(),600);
+  }
+}
+const audio=new AudioEngine();
+
+// ════════════════════════════════════════════════════════════
+// SVG FILTER ANIMATION — feTurbulence animé en JS
+// ════════════════════════════════════════════════════════════
+(function animFilters(){
+  let t=0;
+  const feAcid=document.getElementById("fd-acid");
+  const ftAcid=document.getElementById("ft-acid");
+  const feAbsorb=document.getElementById("fd-absorb");
+  let absorbScale=0;
+  window._setAbsorbScale=v=>{absorbScale=v;};
+  function tick(){
+    t+=0.014;
+    // acid oscillation on selected mat cards
+    if(feAcid) feAcid.setAttribute("scale",String(Math.sin(t)*5+5));
+    if(ftAcid) ftAcid.setAttribute("seed",String(Math.floor(t*3)%20));
+    // absorb
+    if(feAbsorb) feAbsorb.setAttribute("scale",String(absorbScale));
+    requestAnimationFrame(tick);
+  }
+  tick();
+})();
+
+// ════════════════════════════════════════════════════════════
+// MAZE
+// ════════════════════════════════════════════════════════════
+function genMaze(cols,rows){
+  const g=Array.from({length:rows},(_,r)=>Array.from({length:cols},(_,c)=>({r,c,walls:{T:1,R:1,B:1,L:1},vis:0})));
+  const D=[{dr:-1,dc:0,w:"T",o:"B"},{dr:1,dc:0,w:"B",o:"T"},{dr:0,dc:-1,w:"L",o:"R"},{dr:0,dc:1,w:"R",o:"L"}];
+  const stk=[g[0][0]];g[0][0].vis=1;
+  while(stk.length){
+    const cur=stk[stk.length-1];
+    const nb=D.map(d=>{const nr=cur.r+d.dr,nc=cur.c+d.dc;return nr>=0&&nr<rows&&nc>=0&&nc<cols&&!g[nr][nc].vis?{cell:g[nr][nc],...d}:null;}).filter(Boolean);
+    if(!nb.length){stk.pop();continue;}
+    const{cell,w,o}=nb[Math.floor(Math.random()*nb.length)];
+    cur.walls[w]=0;cell.walls[o]=0;cell.vis=1;stk.push(cell);
+  }
+  return g;
+}
+function mazeToGrid(maze,cols,rows){
+  const W=cols*2+1,H=rows*2+1,grid=Array.from({length:H},()=>Array(W).fill(1));
+  for(let r=0;r<rows;r++)for(let c=0;c<cols;c++){
+    const gr=r*2+1,gc=c*2+1;grid[gr][gc]=0;
+    if(!maze[r][c].walls.T&&r>0)grid[gr-1][gc]=0;
+    if(!maze[r][c].walls.B&&r<rows-1)grid[gr+1][gc]=0;
+    if(!maze[r][c].walls.L&&c>0)grid[gr][gc-1]=0;
+    if(!maze[r][c].walls.R&&c<cols-1)grid[gr][gc+1]=0;
+  }
+  return{grid,W,H};
+}
+
+// ════════════════════════════════════════════════════════════
+// STATE
+// ════════════════════════════════════════════════════════════
+const G={
+  screen:"home",levelIdx:0,
+  food:null,matiere:null,
+  px:1.5,pz:1.5,yaw:0,pitch:0,
+  grid:null,GW:0,GH:0,senseMap:{},
+  curSense:null,lastSenseId:null,
+  visited:new Set(),
+  elapsed:0,timerInt:null,won:false,
+  mouseLocked:false,audioReady:false,
+  levelData:[],totalTime:0,totalTraps:0,
+  senseContacts:{odorat:0,son:0,toucher:0,vue:0,sortie:0},
+  levelTraps:0,levelSenseC:{},
+  particles:[],
+  objReachedFood:false,objReachedMat:false,objReachedExit:false,
+};
+
+// ════════════════════════════════════════════════════════════
+// THREE.JS — FPV STRICT (Directive 1)
+// FOV calibré serré (72°), camera.near=0.05 pour sensation tunnel
+// ════════════════════════════════════════════════════════════
+let scene,camera,renderer,clock,ambL,senseL,wallMeshes=[],rafId;
+
+function initThree(){
+  if(renderer)return;
+  const cv=document.getElementById("gc");
+  renderer=new THREE.WebGLRenderer({canvas:cv,antialias:true,powerPreference:"high-performance"});
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio,1.5));
+  scene=new THREE.Scene();
+  // FPV verrouillé — FOV 72° serré, near très proche → sensation de tunnel
+  camera=new THREE.PerspectiveCamera(72,cv.clientWidth/Math.max(cv.clientHeight,1),0.04,38);
+  camera.rotation.order="YXZ";
+  clock=new THREE.Clock();
+  ambL=new THREE.AmbientLight(0x110820,2.5);scene.add(ambL);
+  scene.add(new THREE.DirectionalLight(0x221133,0.15));
+  senseL=new THREE.PointLight(0xffffff,0,6);scene.add(senseL);
+  resizeTHREE();
+}
+
+function resizeTHREE(){
+  const el=document.getElementById("root"),w=el.clientWidth,h=el.clientHeight;
+  if(renderer)renderer.setSize(w,h,false);
+  if(camera){camera.aspect=w/Math.max(h,1);camera.updateProjectionMatrix();}
+}
+
+function buildLevel(lvl){
+  wallMeshes.forEach(m=>{scene.remove(m);m.geometry&&m.geometry.dispose();});
+  wallMeshes=[];
+  scene.children.filter(c=>c.userData.maze).forEach(c=>scene.remove(c));
+  G.particles.forEach(p=>scene.remove(p));G.particles=[];
+  scene.fog=new THREE.FogExp2(0x020208,lvl.fog);
+  const{cols,rows,activeSenses}=lvl;
+  const mz=genMaze(cols,rows),{grid,W,H}=mazeToGrid(mz,cols,rows);
+  G.grid=grid;G.GW=W;G.GH=H;
+  G.senseMap={};
+  const pool=activeSenses.slice();
+  const wcs=[];
+  for(let y=0;y<H;y++)for(let x=0;x<W;x++)if(grid[y][x]===1)wcs.push({x,y});
+  wcs.sort(()=>Math.random()-0.5).slice(0,Math.min(35+cols*2,wcs.length-1)).forEach((c,i)=>{
+    G.senseMap[`${c.x},${c.y}`]=SENSES[pool[i%pool.length]];
+  });
+  G.senseMap[`${W-2},${H-2}`]=SENSES.sortie;
+  const defM=new THREE.MeshLambertMaterial({color:0x120820});
+  const wg=new THREE.BoxGeometry(1,1.3,1);
+  for(let y=0;y<H;y++)for(let x=0;x<W;x++){
+    if(grid[y][x]===1){
+      const k=`${x},${y}`,s=G.senseMap[k];
+      const m=new THREE.Mesh(wg,s?
+        new THREE.MeshLambertMaterial({color:s.color,emissive:new THREE.Color(s.color),emissiveIntensity:0.07}):defM);
+      m.position.set(x+0.5,0.65,y+0.5);m.userData.maze=true;m.userData.key=k;
+      scene.add(m);wallMeshes.push(m);
+    }
+  }
+  const fl=new THREE.Mesh(new THREE.PlaneGeometry(W,H),new THREE.MeshLambertMaterial({color:0x060310}));
+  fl.rotation.x=-Math.PI/2;fl.position.set(W/2,0,H/2);fl.userData.maze=true;scene.add(fl);
+  const cl=new THREE.Mesh(new THREE.PlaneGeometry(W,H),new THREE.MeshLambertMaterial({color:0x03020a}));
+  cl.rotation.x=Math.PI/2;cl.position.set(W/2,1.3,H/2);cl.userData.maze=true;scene.add(cl);
+  G.px=1.5;G.pz=1.5;G.yaw=0;G.pitch=0;
+  G.visited=new Set();G.curSense=null;G.lastSenseId=null;
+  G.elapsed=0;G.won=false;G.levelTraps=0;G.levelSenseC={odorat:0,son:0,toucher:0,vue:0,sortie:0};
+  G.objReachedFood=false;G.objReachedMat=false;G.objReachedExit=false;
+  camera.position.set(1.5,0.5,1.5);
+  clearInterval(G.timerInt);
+  G.timerInt=setInterval(()=>{if(!G.won){G.elapsed++;updateTimer();}},1000);
+}
+
+// ════════════════════════════════════════════════════════════
+// OBJECTIVES
+// ════════════════════════════════════════════════════════════
+function checkObjectives(sid){
+  const food=FOODS.find(f=>f.id===G.food),mat=MATIERES.find(m=>m.id===G.matiere);
+  if(food&&sid===food.targetSense&&!G.objReachedFood){
+    G.objReachedFood=true;
+    flashObjComplete(`${food.label} dévoré — Objectif 1 ✓`,"#ff8c1e");
+  }
+  if(mat&&sid===mat.targetSense&&!G.objReachedMat){
+    G.objReachedMat=true;
+    flashObjComplete(`${mat.label} absorbé — Objectif 2 ✓`,"#8060d0");
+  }
+  if(sid==="sortie"&&!G.objReachedExit)G.objReachedExit=true;
+  updateObjHUD();
+}
+function flashObjComplete(msg,col){
+  const el=document.getElementById("obj-complete"),ml=document.getElementById("obj-complete-msg");
+  ml.textContent=msg;ml.style.color=col||"#3cff78";
+  el.classList.add("show");setTimeout(()=>el.classList.remove("show"),2400);
+}
+function updateObjHUD(){
+  const food=FOODS.find(f=>f.id===G.food),mat=MATIERES.find(m=>m.id===G.matiere);
+  const items=[
+    {label:food?.label||"?",done:G.objReachedFood,color:food?.color||"#888"},
+    {label:mat?.label||"?",done:G.objReachedMat,color:mat?.color||"#888"},
+    {label:"Sortie",done:G.objReachedExit,color:"#3cff78"},
+  ];
+  document.getElementById("objlist").innerHTML=items.map(it=>
+    `<div style="display:flex;align-items:center;gap:6px;margin-bottom:5px">
+      <div style="width:7px;height:7px;border-radius:2px;background:${it.done?it.color:"#1a1635"};flex-shrink:0"></div>
+      <span style="font-size:9px;color:${it.done?it.color:"#555"};${it.done?"text-decoration:line-through":""}">${it.label}</span>
+      ${it.done?`<span style="margin-left:auto;color:${it.color};font-size:8px">✓</span>`:""}
+    </div>`
+  ).join('');
+  const done=items.filter(i=>i.done).length;
+  document.getElementById("obj-prog-fill").style.width=`${Math.round(done/3*100)}%`;
+  document.getElementById("sc").textContent=G.visited.size;
+}
+
+// ════════════════════════════════════════════════════════════
+// PARTICLES
+// ════════════════════════════════════════════════════════════
+function spawnParticle(s){
+  if(!s||!scene)return;
+  const geo=new THREE.SphereGeometry(0.05,4,4);
+  const mat=new THREE.MeshBasicMaterial({color:s.color,transparent:true,opacity:0.7});
+  const mesh=new THREE.Mesh(geo,mat);
+  mesh.position.set(G.px+(Math.random()-.5)*1.4,0.2+Math.random()*.9,G.pz+(Math.random()-.5)*1.4);
+  mesh.userData.vel=new THREE.Vector3((Math.random()-.5)*.024,.013+Math.random()*.024,(Math.random()-.5)*.024);
+  mesh.userData.life=1;mesh.userData.decay=.018+Math.random()*.012;mesh.userData.mat=mat;
+  scene.add(mesh);G.particles.push(mesh);
+}
+function updateParticles(){
+  for(let i=G.particles.length-1;i>=0;i--){
+    const p=G.particles[i];p.position.add(p.userData.vel);
+    p.userData.life-=p.userData.decay;p.userData.mat.opacity=p.userData.life*.6;
+    if(p.userData.life<=0){scene.remove(p);p.geometry.dispose();p.userData.mat.dispose();G.particles.splice(i,1);}
+  }
+}
+
+// ════════════════════════════════════════════════════════════
+// MOVEMENT — FPV STRICT (Directive 1)
+// pitch limité à ±0.35 rad → vue quasi-horizontale, sensation tunnel
+// ════════════════════════════════════════════════════════════
+const keys={};
+function movePlayer(dt){
+  const sp=2.6*dt,rt=1.7*dt;
+  if(keys.ArrowLeft||keys.KeyA)G.yaw-=rt;
+  if(keys.ArrowRight||keys.KeyD)G.yaw+=rt;
+  let nx=G.px,nz=G.pz;
+  if(keys.ArrowUp||keys.KeyW){nx+=Math.cos(G.yaw)*sp;nz+=Math.sin(G.yaw)*sp;}
+  if(keys.ArrowDown||keys.KeyS){nx-=Math.cos(G.yaw)*sp;nz-=Math.sin(G.yaw)*sp;}
+  const{grid,GW,GH}=G,safe=0.38;
+  if(nx>safe&&nx<GW-safe&&grid[Math.floor(nz)][Math.floor(nx)]===0)G.px=nx;
+  if(nz>safe&&nz<GH-safe&&grid[Math.floor(nz)][Math.floor(G.px)]===0)G.pz=nz;
+  // head-bob léger
+  const bob=Math.sin(performance.now()/400)*.01;
+  camera.position.set(G.px,0.5+bob,G.pz);
+  camera.rotation.y=-G.yaw;
+  // FPV strict : pitch limité ±0.35 → pas de vue de dessus
+  camera.rotation.x=Math.max(-.35,Math.min(.35,G.pitch));
+  senseL.position.set(G.px,0.5,G.pz);
+}
+
+let lastZC=0;
+function checkZones(){
+  const now=performance.now();if(now-lastZC<220)return;lastZC=now;
+  const{grid,GW,GH,senseMap}=G;
+  let closest=null,cd=1.7;
+  for(let dy=-2;dy<=2;dy++)for(let dx=-2;dx<=2;dx++){
+    const wx=Math.floor(G.px)+dx,wy=Math.floor(G.pz)+dy;
+    if(wx<0||wx>=GW||wy<0||wy>=GH)continue;
+    const k=`${wx},${wy}`;
+    if(senseMap[k]){const d=Math.hypot(G.px-wx-.5,G.pz-wy-.5);if(d<cd){cd=d;closest=senseMap[k];}}
+  }
+  if(closest?.id!==G.lastSenseId){
+    G.lastSenseId=closest?.id||null;G.curSense=closest||null;
+    if(closest){
+      audio.play(closest.id);
+      G.visited.add(closest.id);
+      G.senseContacts[closest.id]=(G.senseContacts[closest.id]||0)+1;
+      G.levelSenseC[closest.id]=(G.levelSenseC[closest.id]||0)+1;
+      if(closest.id==="vue")G.levelTraps++;
+      updateSenseHUD(closest);checkObjectives(closest.id);
+      if(closest.id==="sortie"&&!G.won){
+        G.won=true;clearInterval(G.timerInt);audio.play("sortie");
+        G.levelData.push({level:LEVELS[G.levelIdx].n,title:LEVELS[G.levelIdx].title,
+          time:G.elapsed,visited:[...G.visited],contacts:{...G.levelSenseC},
+          traps:G.levelTraps,objFood:G.objReachedFood,objMat:G.objReachedMat});
+        G.totalTime+=G.elapsed;G.totalTraps+=G.levelTraps;
+        setTimeout(showLevelWin,1000);
+      }
+    }else{
+      audio.silence();
+      document.getElementById("sensehud").style.opacity="0";
+      document.getElementById("tb-sense").textContent="—";
+      document.getElementById("tb-sense").style.color="#666";
+      senseL.intensity=0;
+      if(scene){scene.fog.color.set(0x020208);}
+      ambL.color.set(0x110820);ambL.intensity=2.5;
+    }
+  }
+}
+
+// ════════════════════════════════════════════════════════════
+// MINIMAP
+// ════════════════════════════════════════════════════════════
+let mmF=0;
+function drawMinimap(){
+  mmF++;if(mmF%4!==0)return;
+  const cv=document.getElementById("minimap"),ctx=cv.getContext("2d");
+  const{grid,GW,GH,senseMap}=G,cw=cv.width,ch=cv.height,S=cw/GW;
+  ctx.clearRect(0,0,cw,ch);
+  ctx.fillStyle="rgba(0,0,0,.9)";ctx.fillRect(0,0,cw,ch);
+  for(let y=0;y<GH;y++)for(let x=0;x<GW;x++){
+    if(grid[y][x]===1){
+      const s=senseMap[`${x},${y}`];
+      ctx.fillStyle=s?s.hex+"77":"rgba(30,18,60,.8)";
+      ctx.fillRect(x*S,y*S,S-.3,S-.3);
+    }
+  }
+  ctx.fillStyle="#3cff7866";
+  ctx.fillRect((GW-2)*S-1,(GH-2)*S-1,S+2,S+2);
+  ctx.fillStyle="#fff";ctx.beginPath();ctx.arc(G.px*S,G.pz*S,2.5,0,Math.PI*2);ctx.fill();
+  ctx.strokeStyle="#ffffff99";ctx.lineWidth=1;ctx.beginPath();
+  ctx.moveTo(G.px*S,G.pz*S);ctx.lineTo(G.px*S+Math.cos(G.yaw)*9,G.pz*S+Math.sin(G.yaw)*9);ctx.stroke();
+}
+
+// ════════════════════════════════════════════════════════════
+// HUD
+// ════════════════════════════════════════════════════════════
+function updateTimer(){
+  const m=Math.floor(G.elapsed/60),s=G.elapsed%60;
+  document.getElementById("timer").textContent=String(m).padStart(2,"0")+":"+String(s).padStart(2,"0");
+}
+function updateSenseHUD(s){
+  document.getElementById("sensehud").style.opacity="1";
+  document.getElementById("sensehud").style.borderColor=s.hex+"55";
+  document.getElementById("shi").textContent=s.icon;
+  document.getElementById("shl").textContent=s.label.toUpperCase();
+  document.getElementById("shl").style.color=s.hex;
+  document.getElementById("shd").textContent=s.desc;
+  document.getElementById("tb-sense").textContent=s.label.toUpperCase();
+  document.getElementById("tb-sense").style.color=s.hex;
+  senseL.color.set(s.lc);senseL.intensity=2.8;
+  scene.fog.color.set(s.lc);ambL.color.set(s.lc);ambL.intensity=0.85;
+}
+let wF=0;
+function animWalls(t){
+  wF++;if(wF%8!==0)return;
+  wallMeshes.forEach(m=>{
+    const s=G.senseMap[m.userData.key];
+    if(s&&m.material.emissiveIntensity!==undefined)
+      m.material.emissiveIntensity=.045+Math.sin(t*1.7+m.position.x*.4+m.position.z*.6)*.05;
+  });
+}
+
+// ════════════════════════════════════════════════════════════
+// GAME LOOP
+// ════════════════════════════════════════════════════════════
+function gameLoop(){
+  rafId=requestAnimationFrame(gameLoop);
+  if(G.screen!=="game"||!renderer)return;
+  const dt=Math.min(clock.getDelta(),.05),t=clock.elapsedTime;
+  movePlayer(dt);checkZones();drawMinimap();
+  if(G.curSense&&Math.random()<.22)spawnParticle(G.curSense);
+  updateParticles();animWalls(t);
+  if(G.curSense?.id==="vue")scene.fog.density=.078+Math.sin(t*3)*.03;
+  renderer.render(scene,camera);
+}
+
+// ════════════════════════════════════════════════════════════
+// SCREENS
+// ════════════════════════════════════════════════════════════
+const SCRIDS=["scr-home","scr-quete","scr-lvl","scr-win","scr-bilan","hud"];
+function showScr(id){
+  SCRIDS.forEach(s=>{const el=document.getElementById(s);if(!el)return;el.classList[s===id?"remove":"add"]("off");});
+  G.screen=id==="hud"?"game":id;
+}
+
+// ════════════════════════════════════════════════════════════
+// QUÊTE SCREEN — avec audio procédural sur hover (Directive 3)
+// ════════════════════════════════════════════════════════════
+function buildQueteScreen(){
+  const fg=document.getElementById("food-grid");
+  fg.innerHTML=FOODS.map(f=>`
+    <div class="card" data-food="${f.id}"
+      onmouseenter="audio.previewStart('food-${f.id}')"
+      onmouseleave="audio.previewStop()"
+      onclick="selectFood('${f.id}')">
+      <span class="card-icon">${f.icon}</span>
+      <div class="card-name">${f.label}</div>
+      <div class="card-desc">${f.desc}</div>
+    </div>`).join('');
+  const mg1=document.getElementById("mat-grid-top"),mg2=document.getElementById("mat-grid-bot");
+  mg1.innerHTML=MATIERES.slice(0,2).map(m=>`
+    <div class="card mat" data-mat="${m.id}"
+      onmouseenter="audio.previewStart('mat-${m.id}')"
+      onmouseleave="audio.previewStop()"
+      onclick="selectMat('${m.id}')">
+      <span class="card-icon" style="color:${m.color};font-size:20px">${m.icon}</span>
+      <div class="card-name">${m.label}</div>
+      <div class="card-desc">${m.desc}</div>
+    </div>`).join('');
+  mg2.innerHTML=MATIERES.slice(2,4).map(m=>`
+    <div class="card mat" data-mat="${m.id}"
+      onmouseenter="audio.previewStart('mat-${m.id}')"
+      onmouseleave="audio.previewStop()"
+      onclick="selectMat('${m.id}')">
+      <span class="card-icon" style="color:${m.color};font-size:20px">${m.icon}</span>
+      <div class="card-name">${m.label}</div>
+      <div class="card-desc">${m.desc}</div>
+    </div>`).join('');
+}
+
+window.selectFood=function(id){
+  G.food=id;audio.previewStop();
+  document.querySelectorAll("[data-food]").forEach(el=>el.classList[el.dataset.food===id?"add":"remove"]("sel"));
+  const f=FOODS.find(x=>x.id===id);
+  document.querySelectorAll("[data-food].sel .card-name").forEach(el=>el.style.color=f.color);
+  refreshQueteStrip();updateLaunchBtn();
+};
+window.selectMat=function(id){
+  G.matiere=id;audio.previewStop();
+  document.querySelectorAll("[data-mat]").forEach(el=>el.classList[el.dataset.mat===id?"add":"remove"]("sel"));
+  const m=MATIERES.find(x=>x.id===id);
+  document.querySelectorAll("[data-mat].sel .card-name").forEach(el=>el.style.color=m.color);
+  refreshQueteStrip();updateLaunchBtn();
+};
+
+function refreshQueteStrip(){
+  const food=FOODS.find(f=>f.id===G.food),mat=MATIERES.find(m=>m.id===G.matiere);
+  const strip=document.getElementById("obj-strip");
+  if(food||mat)strip.style.display="flex";
+  if(food){
+    document.getElementById("obj-food-dot").style.background=food.color;
+    document.getElementById("obj-food-lbl").textContent=`Dévorer : ${food.label}`;
+    document.getElementById("obj-food-lbl").style.color=food.color;
+  }
+  if(mat){
+    document.getElementById("obj-mat-dot").style.background=mat.color;
+    document.getElementById("obj-mat-lbl").textContent=`Absorber : ${mat.label}`;
+    document.getElementById("obj-mat-lbl").style.color=mat.color;
+  }
+  if(food&&mat){
+    const fs=SENSES[food.targetSense],ms=SENSES[mat.targetSense];
+    document.getElementById("obj-hint").textContent=`→ ${fs.label} + ${ms.label} + Rupture`;
+    document.getElementById("obj-hint").style.color="#6c4fff";
+  }
+}
+function updateLaunchBtn(){document.getElementById("btn-quete-launch").disabled=!(G.food&&G.matiere);}
+
+// ════════════════════════════════════════════════════════════
+// LEVEL INTRO
+// ════════════════════════════════════════════════════════════
+function showLevelIntro(idx){
+  G.levelIdx=idx;const lvl=LEVELS[idx];
+  document.getElementById("prog-row").innerHTML=LEVELS.map((_,i)=>
+    `<div class="prog-step" style="background:${i<idx?lvl.color+"55":i===idx?LEVELS[i].color:"#18152e"}"></div>`
+  ).join('');
+  const badge=document.getElementById("li-badge");
+  badge.textContent=`NIVEAU ${lvl.n}/5 — ${lvl.title.toUpperCase()}`;
+  badge.style.background=lvl.color+"22";badge.style.color=lvl.color;badge.style.border=`1px solid ${lvl.color}44`;
+  document.getElementById("li-title").textContent=lvl.title;
+  document.getElementById("li-desc").textContent=lvl.desc;
+  document.getElementById("li-senses").innerHTML=lvl.activeSenses.map(sid=>{
+    const s=SENSES[sid];
+    return `<div class="lvl-sense-item"><span class="lvl-sense-ic" style="color:${s.hex}">${s.icon}</span><div><div class="lvl-sense-lbl" style="color:${s.hex}">${s.label}</div><div class="lvl-sense-desc">${s.desc}</div></div></div>`;
+  }).join('');
+  showScr("scr-lvl");
+}
+
+// ════════════════════════════════════════════════════════════
+// LEVEL WIN
+// ════════════════════════════════════════════════════════════
+function showLevelWin(){
+  const lvl=LEVELS[G.levelIdx],ld=G.levelData[G.levelData.length-1];
+  document.getElementById("win-title").textContent=`${lvl.title} — Niveau ${lvl.n}`;
+  document.getElementById("win-title").style.color=lvl.color;
+  const msgs=[
+    "L'odorat t'a aspiré. Tu portes son odeur.",
+    "Les sons t'ont traversé. Tu vibres encore.",
+    "La matière t'a ingéré. Tu y laisses ta peau.",
+    "L'illusion t'a possédé — mais tu l'as recrachée.",
+    "La manducation totale. Tu es devenu labyrinthe."
+  ];
+  document.getElementById("win-msg").textContent=msgs[lvl.n-1];
+  const food=FOODS.find(f=>f.id===G.food),mat=MATIERES.find(m=>m.id===G.matiere);
+  const allObj=ld.objFood&&ld.objMat&&ld.visited.includes("sortie");
+  const statusEl=document.getElementById("win-obj-status");
+  statusEl.style.background=allObj?"rgba(60,255,120,.08)":"rgba(255,140,30,.07)";
+  statusEl.style.border=`1px solid ${allObj?"rgba(60,255,120,.28)":"rgba(255,140,30,.22)"}`;
+  statusEl.style.color=allObj?"#3cff78":"#ff8c1e";
+  statusEl.textContent=allObj?"✓ Manducation accomplie !":"⚠ Ingestion incomplète ce niveau";
+  document.getElementById("win-obj-detail").innerHTML=
+    `<div style="margin-bottom:5px;color:${ld.objFood?food?.color||"#888":"#555"}">${ld.objFood?"✓":"◻"} ${food?.label||"?"} — ${SENSES[food?.targetSense||"odorat"].label}</div>
+     <div style="margin-bottom:5px;color:${ld.objMat?mat?.color||"#888":"#555"}">${ld.objMat?"✓":"◻"} ${mat?.label||"?"} — ${SENSES[mat?.targetSense||"toucher"].label}</div>
+     <div style="color:${ld.visited.includes("sortie")?"#3cff78":"#555"}">${ld.visited.includes("sortie")?"✓":"◻"} Rupture atteinte</div>`;
+  const fmt=s=>`${String(Math.floor(s/60)).padStart(2,"0")}:${String(s%60).padStart(2,"0")}`;
+  document.getElementById("win-stats").innerHTML=
+    `<div class="stat-card"><div class="stat-lbl">TEMPS</div><div class="stat-val" style="color:#ccc">${fmt(ld.time)}</div></div>`+
+    `<div class="stat-card"><div class="stat-lbl">SENS</div><div class="stat-val" style="color:#9c7fff">${ld.visited.length}</div></div>`+
+    `<div class="stat-card"><div class="stat-lbl">PIÈGES</div><div class="stat-val" style="color:${ld.traps>2?"#ff3278":"#ff8c1e"}">${ld.traps}</div></div>`;
+  const isLast=G.levelIdx===LEVELS.length-1;
+  const nb=document.getElementById("btn-next");
+  nb.textContent=isLast?"Voir le bilan de l'ingestion ✦":"Niveau suivant →";
+  nb.onclick=isLast?showBilan:()=>{audio.silence();showLevelIntro(G.levelIdx+1);};
+  showScr("scr-win");audio.silence();
+}
+
+// ════════════════════════════════════════════════════════════
+// ARCHETYPES
+// ════════════════════════════════════════════════════════════
+const ARCHETYPES={
+  odorat:{name:"Le Dévoreur d'Effluves",hex:"#ff8c1e",icon:"~",
+    desc:"Tu te laisses ingérer par les odeurs. Ton instinct olfactif est un organe de navigation. Les fumées te parlent quand les yeux échouent.",
+    tag:"MANDUCATION OLFACTIVE"},
+  son:{name:"L'Absorbeur de Vibrations",hex:"#1ec8ff",icon:")",
+    desc:"Les fréquences graves t'habitent. Tu lis la matière par ses résonances. Chaque onde est une bouchée.",
+    tag:"INGESTION ACOUSTIQUE"},
+  toucher:{name:"Le Textureur de Surfaces",hex:"#ff3278",icon:"+",
+    desc:"Ta peau est ton estomac. Chaque grain, chaque rugosité t'est nutriment. La matière ne résiste pas à ton épiderme.",
+    tag:"ABSORPTION TACTILE"},
+  vue:{name:"L'Intoxiqué des Illusions",hex:"#9c3cff",icon:"*",
+    desc:"Les pièges visuels te nourrissent autant qu'ils t'empoisonnent. Tu les avales et les recraches. L'illusion t'a façonné.",
+    tag:"MANDUCATION VISUELLE"},
+};
+
+function showBilan(){
+  audio.silence();cancelAnimationFrame(rafId);clearInterval(G.timerInt);
+  const fmt=s=>`${String(Math.floor(s/60)).padStart(2,"0")}:${String(s%60).padStart(2,"0")}`;
+  const food=FOODS.find(f=>f.id===G.food),mat=MATIERES.find(m=>m.id===G.matiere);
+  const total=Object.values(G.senseContacts).reduce((a,b)=>a+b,0);
+  const allLvlObj=G.levelData.every(ld=>ld.objFood&&ld.objMat);
+  const globalObj=document.getElementById("bilan-obj-global");
+  globalObj.style.background=allLvlObj?"rgba(60,255,120,.07)":"rgba(255,140,30,.05)";
+  globalObj.style.border=`1px solid ${allLvlObj?"rgba(60,255,120,.22)":"rgba(255,140,30,.18)"}`;
+  globalObj.style.color=allLvlObj?"#3cff78":"#ff8c1e";
+  globalObj.textContent=allLvlObj
+    ?`✓ Manducation totale — ${food?.label} absorbée par « ${mat?.label} » sur tous les niveaux`
+    :`⚠ Ingestion partielle — certains niveaux n'ont pas été complètement dévorés`;
+  document.getElementById("bilan-intro").textContent=
+    `Tu as traversé ${LEVELS.length} niveaux d'ingestion. ${total} contacts sensoriels enregistrés. La quête : absorber ${food?.label||"?"} par la matière « ${mat?.label||"?"} ».`;
+  document.getElementById("bilan-stats").innerHTML=
+    `<div class="stat-card"><div class="stat-lbl">TEMPS TOTAL</div><div class="stat-val" style="color:#ccc">${fmt(G.totalTime)}</div></div>`+
+    `<div class="stat-card"><div class="stat-lbl">CONTACTS</div><div class="stat-val" style="color:#9c7fff">${total}</div></div>`+
+    `<div class="stat-card"><div class="stat-lbl">PIÈGES</div><div class="stat-val" style="color:#ff3278">${G.totalTraps}</div></div>`;
+  const maxC=Math.max(...["odorat","son","toucher","vue"].map(s=>G.senseContacts[s]||0),1);
+  document.getElementById("bilan-bars").innerHTML=["odorat","son","toucher","vue"].map(sid=>{
+    const s=SENSES[sid],v=G.senseContacts[sid]||0;
+    return `<div class="profile-bar"><div class="pb-head"><span style="color:${s.hex}">${s.icon} ${s.label}</span><span style="color:var(--txt3)">${v} contacts</span></div><div class="pb-track"><div class="pb-fill" style="width:${Math.round(v/maxC*100)}%;background:${s.hex}88"></div></div></div>`;
+  }).join('');
+  const dom=["odorat","son","toucher","vue"].sort((a,b)=>(G.senseContacts[b]||0)-(G.senseContacts[a]||0))[0];
+  const arch=ARCHETYPES[dom];
+  document.getElementById("bilan-arch").innerHTML=
+    `<div style="font-family:'Courier New',monospace;font-size:8px;color:var(--txt3);letter-spacing:2px;margin-bottom:8px">TON ARCHÉTYPE DE MANDUCATION</div>`+
+    `<div style="font-size:20px;margin-bottom:4px">${arch.icon}</div>`+
+    `<div class="arch-name" style="color:${arch.hex}">${arch.name}</div>`+
+    `<div style="display:inline-block;padding:3px 10px;background:${arch.hex}22;color:${arch.hex};font-family:'Courier New',monospace;font-size:8px;letter-spacing:2px;border-radius:10px;margin-bottom:8px">${arch.tag}</div>`+
+    `<p class="arch-quote">${arch.desc}</p>`;
+  document.getElementById("bilan-lvl-obj").innerHTML=G.levelData.map(ld=>{
+    const ok=ld.objFood&&ld.objMat;
+    return `<div style="display:flex;align-items:center;gap:8px;margin-bottom:7px;padding:7px 10px;background:var(--bg2);border-radius:5px;border:1px solid ${ok?"rgba(60,255,120,.16)":"var(--border)"}">
+      <span style="font-size:9px;color:${ok?"#3cff78":"#666"}">${ok?"✓":"✗"}</span>
+      <span style="font-family:'Courier New',monospace;font-size:9px;color:${ok?"#ccc":"#555"}">Niveau ${ld.level} — ${ld.title}</span>
+      <span style="margin-left:auto;font-size:8px;color:${ok?"#3cff78":"#ff3278"}">${ok?"INGÉRÉ":"INCOMPLET"}</span>
+    </div>`;
+  }).join('');
+  document.getElementById("btn-share").onclick=()=>{
+    const sc=["odorat","son","toucher","vue"];
+    const txt=`L'Antre des Sens — Bilan de Manducation\n\nQuête : ${food?.label} × ${mat?.label}\nArchétype : ${arch.name}\nTemps total : ${fmt(G.totalTime)}\nContacts : ${total} | Pièges : ${G.totalTraps}\n\nContacts par sens :\n${sc.map(s=>`  ${SENSES[s].label} : ${G.senseContacts[s]||0}`).join('\n')}\n\nObjectifs :\n${G.levelData.map(ld=>`  Niveau ${ld.level} ${ld.title} : ${ld.objFood&&ld.objMat?"INGÉRÉ":"INCOMPLET"}`).join('\n')}`;
+    try{navigator.clipboard.writeText(txt);}catch(e){}
+    document.getElementById("btn-share").textContent="✓ Copié !";
+    setTimeout(()=>document.getElementById("btn-share").textContent="Copier mon profil",2200);
+  };
+  showScr("scr-bilan");
+}
+
+// ════════════════════════════════════════════════════════════
+// ABSORPTION TRANSITION — zoom radial violent (Directive 5)
+// Anime le canvas WebGL avec distorsion radiale CSS + SVG
+// puis scale explosif avant de passer à l'écran suivant
+// ════════════════════════════════════════════════════════════
+function triggerAbsorption(callback){
+  const inner=document.getElementById("home-inner");
+  const overlay=document.getElementById("absorb-overlay");
+  const gc=document.getElementById("gc");
+
+  // Phase 1 : zoom radial violent sur le contenu texte
+  inner.classList.add("absorbing");
+
+  // Phase 2 : distorsion SVG feTurbulence + flash blanc
+  let absorbT=0;
+  const absorbRaf=setInterval(()=>{
+    absorbT+=0.15;
+    const scale=absorbT*60;
+    window._setAbsorbScale(scale);
+    // vignette radiale qui se referme
+    overlay.style.opacity=String(Math.min(absorbT/6,0.92));
+    overlay.style.background=`radial-gradient(ellipse at center,rgba(108,79,255,${Math.min(absorbT*.12,.25)}) 0%,rgba(0,0,0,${Math.min(absorbT*.15,.9)}) 100%)`;
+    // zoom canvas
+    if(gc&&G.screen!=="game"){
+      const s=1+absorbT*.08;
+      gc.style.transform=`scale(${s})`;
+    }
+    if(absorbT>=7){
+      clearInterval(absorbRaf);
+      window._setAbsorbScale(0);
+      overlay.style.opacity="0";
+      gc.style.transform="scale(1)";
+      inner.classList.remove("absorbing");
+      callback();
+    }
+  },30);
+}
+
+// ════════════════════════════════════════════════════════════
+// INIT & EVENTS
+// ════════════════════════════════════════════════════════════
+buildQueteScreen();
+
+// S'INCORPORER — transition d'absorption (Directive 2 & 5)
+document.getElementById("btn-home-start").onclick=function(){
+  audio.init();G.audioReady=true;
+  // déclenche un son d'aspiration procédural
+  if(audio.ctx){
+    const c=audio.ctx;if(c.state==="suspended")c.resume();
+    const osc=c.createOscillator();osc.type="sawtooth";osc.frequency.setValueAtTime(80,c.currentTime);
+    osc.frequency.exponentialRampToValueAtTime(1200,c.currentTime+1);
+    const g=c.createGain();g.gain.setValueAtTime(0.12,c.currentTime);g.gain.linearRampToValueAtTime(0,c.currentTime+1.1);
+    osc.connect(g);g.connect(c.destination);osc.start();osc.stop(c.currentTime+1.1);
+  }
+  triggerAbsorption(()=>showScr("scr-quete"));
+};
+
+document.getElementById("btn-quete-back").onclick=()=>{audio._stopPreview();showScr("scr-home");};
+document.getElementById("btn-quete-launch").onclick=()=>{
+  audio.init();audio._stopPreview();G.audioReady=true;
+  G.levelData=[];G.totalTime=0;G.totalTraps=0;
+  G.senseContacts={odorat:0,son:0,toucher:0,vue:0,sortie:0};
+  showLevelIntro(0);
+};
+document.getElementById("btn-lvl-play").onclick=()=>{
+  audio.init();G.audioReady=true;
+  initThree();buildLevel(LEVELS[G.levelIdx]);
+  const food=FOODS.find(f=>f.id===G.food),mat=MATIERES.find(m=>m.id===G.matiere);
+  document.getElementById("tb-quest").innerHTML=
+    `<span style="color:${food?.color}">${food?.icon} ${food?.label}</span>`+
+    `<span style="color:#333">·</span>`+
+    `<span style="color:${mat?.color}">${mat?.label}</span>`;
+  document.getElementById("tb-lvl").innerHTML=`<span style="color:${LEVELS[G.levelIdx].color}">NIV ${LEVELS[G.levelIdx].n}/5</span>`;
+  updateObjHUD();showScr("hud");cancelAnimationFrame(rafId);gameLoop();
+};
+document.getElementById("btn-replay").onclick=()=>{
+  G.food=null;G.matiere=null;
+  document.querySelectorAll(".card.sel").forEach(c=>c.classList.remove("sel"));
+  document.getElementById("obj-strip").style.display="none";
+  updateLaunchBtn();showScr("scr-quete");
+};
+document.getElementById("qbtn").onclick=()=>{
+  audio.silence();clearInterval(G.timerInt);cancelAnimationFrame(rafId);
+  showScr("scr-home");
+};
+
+// KEYBOARD
+document.addEventListener("keydown",e=>{
+  keys[e.code]=true;
+  if(["ArrowUp","ArrowDown","ArrowLeft","ArrowRight"].includes(e.code))e.preventDefault();
+  if(!G.audioReady&&G.screen==="game"){audio.init();G.audioReady=true;}
+});
+document.addEventListener("keyup",e=>{keys[e.code]=false;});
+
+// POINTER LOCK
+document.addEventListener("pointerlockchange",()=>{
+  G.mouseLocked=document.pointerLockElement===document.getElementById("gc");
+  document.getElementById("tip").textContent=G.mouseLocked
+    ?"ZQSD · FLÈCHES · SOURIS — ESC pour libérer"
+    :"ZQSD · FLÈCHES · CLIC pour capturer la souris";
+});
+document.addEventListener("mousemove",e=>{
+  if(!G.mouseLocked)return;
+  G.yaw+=e.movementX*.0022;
+  // FPV strict : pitch limité ±0.35
+  G.pitch=Math.max(-.35,Math.min(.35,G.pitch+e.movementY*.0022));
+});
+document.getElementById("gc").addEventListener("click",()=>{
+  if(G.screen==="game"){document.getElementById("gc").requestPointerLock();audio.init();G.audioReady=true;}
+});
+
+// TOUCH
+const td={x:null,y:null};
+document.getElementById("gc").addEventListener("touchstart",e=>{td.x=e.touches[0].clientX;td.y=e.touches[0].clientY;},{passive:true});
+document.getElementById("gc").addEventListener("touchmove",e=>{
+  if(td.x===null)return;
+  const dx=e.touches[0].clientX-td.x,dy=e.touches[0].clientY-td.y;
+  td.x=e.touches[0].clientX;td.y=e.touches[0].clientY;
+  G.yaw+=dx*.004;
+  G.pitch=Math.max(-.35,Math.min(.35,G.pitch+dy*.004));
+},{passive:true});
+["touchend","touchcancel"].forEach(ev=>document.getElementById("gc").addEventListener(ev,()=>{td.x=null;},{passive:true}));
+
+window.addEventListener("resize",resizeTHREE);
+</script>
+</body>
+</html>
