@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ma Bibliothèque Africaine</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,400&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --terra:#C4501A;--terra-dark:#9E3D11;--ochre:#D4963A;
+  --bg:#FDFAF3;--bg2:#F5EDD9;--bg3:#EDE0C4;
+  --text:#1A1208;--text2:#5C4A2A;--muted:#8B7355;
+  --border:#EDE0C4;--card:#FFFFFF;
+  --nav:#1A1208;--nav-text:#F5EDD9;--sand:#F5EDD9;
+}
+[data-theme="dark"]{
+  --bg:#12100A;--bg2:#1E1A12;--bg3:#2A2418;
+  --text:#F0E6CC;--text2:#C8A96A;--muted:#8B7355;
+  --border:#2A2418;--card:#1E1A12;
+  --nav:#0A0906;--nav-text:#F0E6CC;--sand:#F0E6CC;
+}
+body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;min-height:100vh}
+.page{display:none}.page.active{display:block}
+
+/* NAV */
+nav{background:var(--nav);padding:0 2rem;display:flex;align-items:center;justify-content:space-between;height:60px;position:sticky;top:0;z-index:200;gap:1rem}
+.logo{font-family:'Playfair Display',serif;color:var(--nav-text);font-size:1rem;font-weight:700;cursor:pointer;flex-shrink:0;border:none;background:none}
+.logo span{color:var(--ochre)}
+.search-wrap{flex:1;max-width:340px;position:relative}
+.search-wrap input{width:100%;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.15);color:var(--nav-text);padding:.4rem 1rem .4rem 2.2rem;font-size:.8rem;font-family:'DM Sans',sans-serif;border-radius:20px;outline:none}
+.search-wrap input::placeholder{color:rgba(255,255,255,.4)}
+.s-icon{position:absolute;left:.7rem;top:50%;transform:translateY(-50%);color:rgba(255,255,255,.4);font-size:.8rem;pointer-events:none}
+.navlinks{display:flex;gap:1rem;align-items:center;flex-shrink:0}
+.nbtn{color:var(--nav-text);opacity:.6;font-size:.75rem;font-weight:500;letter-spacing:.08em;text-transform:uppercase;cursor:pointer;background:none;border:none;font-family:'DM Sans',sans-serif;padding:.3rem .5rem}
+.nbtn:hover,.nbtn.on{opacity:1;color:var(--ochre)}
+.dark-btn{background:none;border:1px solid rgba(255,255,255,.2);color:var(--nav-text);width:34px;height:34px;border-radius:50%;cursor:pointer;font-size:1rem;display:flex;align-items:center;justify-content:center}
+.dark-btn:hover{border-color:var(--ochre)}
+
+/* HERO */
+.hero{background:var(--nav);min-height:87vh;display:grid;grid-template-columns:1fr 1fr;overflow:hidden;position:relative}
+.hbg{position:absolute;inset:0;opacity:.04;background:repeating-linear-gradient(45deg,#D4963A 0,#D4963A 1px,transparent 0,transparent 50%);background-size:20px 20px;pointer-events:none}
+.hleft{padding:5rem 3rem 5rem 4rem;display:flex;flex-direction:column;justify-content:center;position:relative;z-index:1}
+.eyebrow{font-size:.68rem;letter-spacing:.2em;text-transform:uppercase;color:var(--ochre);margin-bottom:1.5rem;display:flex;align-items:center;gap:1rem}
+.eyebrow::before{content:'';width:28px;height:1px;background:var(--ochre)}
+.htitle{font-family:'Playfair Display',serif;font-size:clamp(2.2rem,3.5vw,3.6rem);font-weight:900;color:var(--sand);line-height:1.05;margin-bottom:1.2rem}
+.htitle em{font-style:italic;color:var(--ochre)}
+.hquote{font-family:'Cormorant Garamond',serif;font-size:1.05rem;font-style:italic;color:var(--sand);opacity:.7;line-height:1.75;max-width:400px;margin-bottom:2.5rem;border-left:2px solid var(--terra);padding-left:1.2rem}
+.hstats{display:flex;gap:2rem;margin-bottom:2.5rem}
+.snum{font-family:'Playfair Display',serif;font-size:1.8rem;font-weight:700;color:var(--terra)}
+.slbl{font-size:.65rem;color:var(--sand);opacity:.4;text-transform:uppercase;letter-spacing:.1em}
+.cta{display:inline-flex;align-items:center;gap:.7rem;background:var(--terra);color:#fff;padding:.85rem 2rem;font-size:.78rem;font-weight:500;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;border:none;font-family:'DM Sans',sans-serif}
+.cta:hover{background:var(--terra-dark)}
+.hright{position:relative;z-index:1;display:flex;align-items:flex-end;justify-content:center;padding:2rem;gap:1.5rem}
+.hbook{display:flex;flex-direction:column;align-items:center;gap:.5rem;cursor:pointer;flex-shrink:0}
+.hbook:hover .hcov{transform:translateY(-10px)}
+.hbook:nth-child(1){margin-bottom:50px}
+.hbook:nth-child(2){margin-bottom:20px}
+.hbook:nth-child(3){margin-bottom:65px}
+.hcov{width:110px;height:160px;overflow:hidden;box-shadow:0 8px 24px rgba(0,0,0,.6);background:#2A2418;transition:transform .3s}
+.hcov img{width:100%;height:100%;object-fit:cover;display:block}
+.hblbl{font-size:.57rem;color:var(--sand);opacity:.4;text-align:center;max-width:110px;line-height:1.3;font-style:italic}
+
+/* FEATURED */
+.featured{padding:4.5rem 4rem;background:var(--bg)}
+.sec-head{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:2.5rem;flex-wrap:wrap;gap:1rem}
+.sec-title{font-family:'Playfair Display',serif;font-size:1.8rem;font-weight:700;color:var(--text)}
+.sec-sub{font-family:'Cormorant Garamond',serif;font-style:italic;color:var(--muted);font-size:.95rem;margin-top:.2rem}
+.lnk{font-size:.72rem;text-transform:uppercase;letter-spacing:.1em;color:var(--terra);cursor:pointer;background:none;border:none;font-family:'DM Sans',sans-serif;font-weight:500;text-decoration:underline;text-underline-offset:3px}
+.fgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:1.25rem}
+.fcard{background:var(--card);border:1px solid var(--border);cursor:pointer;overflow:hidden}
+.fcard:hover{box-shadow:0 8px 24px rgba(0,0,0,.1);transform:translateY(-4px);transition:transform .2s,box-shadow .2s}
+.cbox{width:100%;height:200px;overflow:hidden;border-bottom:1px solid var(--border);background:var(--bg2);display:flex;align-items:center;justify-content:center;font-size:3rem}
+.cbox img{width:100%;height:100%;object-fit:cover;display:block}
+.fbody{padding:1rem}
+.ftag{display:inline-block;background:var(--terra);color:#fff;font-size:.57rem;letter-spacing:.15em;text-transform:uppercase;padding:3px 8px;margin-bottom:.5rem}
+.fttl{font-family:'Playfair Display',serif;font-size:.9rem;font-weight:700;color:var(--text);line-height:1.3;margin-bottom:.2rem}
+.faut{font-size:.72rem;color:var(--terra);font-weight:500;margin-bottom:.4rem}
+.fdesc{font-size:.72rem;color:var(--muted);line-height:1.5;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+
+/* MANIFESTO */
+.manifesto{background:var(--nav);padding:4rem;display:grid;grid-template-columns:1fr 2fr;gap:4rem;align-items:center}
+.mtag{font-size:.68rem;letter-spacing:.2em;text-transform:uppercase;color:var(--ochre);margin-bottom:.7rem}
+.mbig{font-family:'Playfair Display',serif;font-size:1.9rem;font-weight:900;font-style:italic;color:var(--sand);line-height:1.1}
+.mtext{font-family:'Cormorant Garamond',serif;font-size:1.1rem;color:var(--sand);opacity:.8;line-height:1.8}
+.mpills{display:flex;flex-wrap:wrap;gap:.6rem;margin-top:1.2rem}
+.pill{border:1px solid rgba(255,255,255,.3);color:var(--sand);font-size:.7rem;padding:.3rem .9rem;opacity:.5;border-radius:20px}
+
+/* CATALOGUE */
+.cat-hero{background:var(--nav);padding:3rem 4rem;position:relative;overflow:hidden}
+.cat-hero::before{content:'';position:absolute;inset:0;opacity:.04;background:repeating-linear-gradient(45deg,#D4963A 0,#D4963A 1px,transparent 0,transparent 50%);background-size:20px 20px}
+.ci{position:relative;z-index:1}
+.ce{font-size:.68rem;letter-spacing:.2em;text-transform:uppercase;color:var(--ochre);margin-bottom:.5rem}
+.ct{font-family:'Playfair Display',serif;font-size:2.3rem;font-weight:900;color:var(--sand);margin-bottom:.4rem}
+.cs{font-family:'Cormorant Garamond',serif;font-style:italic;color:var(--sand);opacity:.5;font-size:.95rem}
+
+.toolbar{background:var(--card);border-bottom:1px solid var(--border);padding:.8rem 2rem;display:flex;gap:.6rem;align-items:center;flex-wrap:wrap;position:sticky;top:60px;z-index:50}
+.flbl{font-size:.67rem;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);white-space:nowrap}
+.fbtn{padding:.28rem .8rem;border:1px solid var(--border);background:transparent;color:var(--text);font-size:.72rem;cursor:pointer;font-family:'DM Sans',sans-serif;border-radius:20px}
+.fbtn:hover{border-color:var(--terra);color:var(--terra)}
+.fbtn.on{background:var(--terra);border-color:var(--terra);color:#fff}
+.sort-sel{background:var(--card);border:1px solid var(--border);color:var(--text);padding:.28rem .7rem;font-size:.72rem;font-family:'DM Sans',sans-serif;cursor:pointer;border-radius:20px;outline:none;margin-left:.5rem}
+.vbtn{background:transparent;border:1px solid var(--border);color:var(--muted);width:30px;height:30px;border-radius:4px;cursor:pointer;font-size:.85rem;margin-left:.25rem}
+.vbtn.on,.vbtn:hover{border-color:var(--terra);color:var(--terra)}
+.rcount{font-size:.72rem;color:var(--muted);margin-left:auto}
+
+.bgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));border-top:1px solid var(--border)}
+.bgrid.lv{grid-template-columns:1fr}
+.bcell{border-right:1px solid var(--border);border-bottom:1px solid var(--border);background:var(--card);cursor:pointer}
+.bcell:hover{background:var(--bg2)}
+.bccover{width:100%;height:230px;overflow:hidden;border-bottom:1px solid var(--border);background:var(--bg2);display:flex;align-items:center;justify-content:center;font-size:3rem}
+.bccover img{width:100%;height:100%;object-fit:cover;display:block}
+.bcbody{padding:1rem}
+.bcgenre{font-size:.6rem;letter-spacing:.15em;text-transform:uppercase;color:var(--terra);font-weight:500;margin-bottom:.3rem}
+.bctitle{font-family:'Playfair Display',serif;font-size:.95rem;font-weight:700;color:var(--text);line-height:1.25;margin-bottom:.2rem}
+.bcaut{font-size:.73rem;color:var(--muted)}
+.bcyr{font-size:.68rem;color:var(--muted);margin-top:.15rem}
+.bcthemes{display:flex;flex-wrap:wrap;gap:.3rem;margin-top:.5rem}
+.bctag{font-size:.6rem;background:var(--bg3);color:var(--text2);padding:2px 7px;border-radius:10px}
+.bccta{margin-top:.7rem;font-size:.65rem;letter-spacing:.1em;text-transform:uppercase;color:var(--terra)}
+.bgrid.lv .bcell{display:grid;grid-template-columns:120px 1fr}
+.bgrid.lv .bccover{height:160px;border-bottom:none;border-right:1px solid var(--border)}
+.bgrid.lv .bcbody{padding:1.25rem 1.5rem}
+.fdesc-l{font-size:.78rem;color:var(--muted);line-height:1.6;margin-top:.5rem;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.norez{text-align:center;padding:4rem;color:var(--muted);font-family:'Cormorant Garamond',serif;font-style:italic}
+
+/* FICHE */
+.fback{background:var(--bg2);padding:.8rem 4rem;font-size:.75rem;cursor:pointer;display:flex;align-items:center;gap:.5rem;color:var(--muted);border-bottom:1px solid var(--border);border:none;width:100%;text-align:left;font-family:'DM Sans',sans-serif}
+.fback:hover{color:var(--terra)}
+.fmain{display:grid;grid-template-columns:300px 1fr;min-height:80vh}
+.fleft{background:var(--nav);padding:2.5rem;display:flex;flex-direction:column;align-items:center;gap:1.5rem;position:relative;overflow:hidden}
+.fleft::before{content:'';position:absolute;inset:0;opacity:.04;background:repeating-linear-gradient(45deg,#D4963A 0,#D4963A 1px,transparent 0,transparent 50%);background-size:20px 20px;pointer-events:none}
+.fcov{width:175px;height:255px;overflow:hidden;position:relative;z-index:1;box-shadow:0 8px 32px rgba(0,0,0,.55);background:#2A2418;display:flex;align-items:center;justify-content:center;font-size:5rem;flex-shrink:0}
+.fcov img{width:100%;height:100%;object-fit:cover;display:block}
+.fmeta{width:100%;position:relative;z-index:1}
+.frow{display:flex;justify-content:space-between;align-items:baseline;padding:.5rem 0;border-bottom:1px solid rgba(255,255,255,.07)}
+.fkey{font-size:.63rem;text-transform:uppercase;letter-spacing:.1em;color:var(--ochre);opacity:.8}
+.fval{font-family:'Cormorant Garamond',serif;font-size:.9rem;color:var(--sand);text-align:right;max-width:58%}
+.fact{display:flex;gap:.5rem;width:100%;position:relative;z-index:1}
+.factbtn{flex:1;padding:.5rem;border:1px solid rgba(255,255,255,.15);background:transparent;color:var(--sand);font-size:.63rem;cursor:pointer;font-family:'DM Sans',sans-serif;display:flex;align-items:center;justify-content:center;gap:.3rem}
+.factbtn:hover{background:rgba(255,255,255,.1)}
+.factbtn.fav{color:var(--ochre);border-color:var(--ochre)}
+.fright{padding:3rem 4rem;background:var(--bg);overflow-y:auto}
+.ftag2{display:inline-block;background:var(--terra);color:#fff;font-size:.63rem;letter-spacing:.15em;text-transform:uppercase;padding:4px 12px;margin-bottom:1rem}
+.ftitle{font-family:'Playfair Display',serif;font-size:2.4rem;font-weight:900;color:var(--text);line-height:1.05;margin-bottom:.3rem}
+.fauthor{font-family:'Cormorant Garamond',serif;font-size:1.2rem;font-style:italic;color:var(--terra);margin-bottom:2rem}
+.rlbl{font-size:.63rem;text-transform:uppercase;letter-spacing:.15em;color:var(--muted);margin-bottom:.8rem;display:flex;align-items:center;gap:.75rem}
+.rlbl::after{content:'';flex:1;height:1px;background:var(--border)}
+.fresume{font-family:'Cormorant Garamond',serif;font-size:1.08rem;line-height:1.85;color:var(--text2);max-width:560px;margin-bottom:1.5rem}
+.fextrait{background:var(--bg2);border-left:3px solid var(--terra);padding:1.2rem 1.5rem;margin-bottom:1.5rem;max-width:560px}
+.fextrait blockquote{font-family:'Cormorant Garamond',serif;font-size:1.05rem;font-style:italic;color:var(--text);line-height:1.75;margin-bottom:.4rem}
+.fextrait cite{font-size:.72rem;color:var(--muted)}
+.fthemes{display:flex;flex-wrap:wrap;gap:.5rem;margin-bottom:1.5rem}
+.fthtag{font-size:.68rem;background:var(--bg3);color:var(--text2);padding:.3rem .8rem;border-radius:20px}
+.biosec{background:var(--bg2);border:1px solid var(--border);padding:1.5rem;max-width:560px;margin-bottom:1.5rem}
+.biohead{display:flex;align-items:center;gap:1rem;margin-bottom:.75rem}
+.bioav{width:52px;height:52px;border-radius:50%;background:var(--terra);display:flex;align-items:center;justify-content:center;font-family:'Playfair Display',serif;font-size:1.1rem;font-weight:700;color:#fff;flex-shrink:0}
+.bioname{font-family:'Playfair Display',serif;font-size:.95rem;font-weight:700;color:var(--text)}
+.bioinfo{font-size:.7rem;color:var(--muted);margin-top:.15rem}
+.biotext{font-family:'Cormorant Garamond',serif;font-size:.98rem;line-height:1.7;color:var(--text2)}
+.recosec{margin-bottom:1.5rem}
+.recogrid{display:flex;gap:.75rem;flex-wrap:wrap;margin-top:.75rem}
+.recocard{display:flex;gap:.75rem;align-items:center;background:var(--card);border:1px solid var(--border);padding:.75rem;cursor:pointer;max-width:250px}
+.recocard:hover{border-color:var(--terra)}
+.reccov{width:42px;height:60px;overflow:hidden;background:var(--bg2);flex-shrink:0}
+.reccov img{width:100%;height:100%;object-fit:cover;display:block}
+.rectitle{font-family:'Playfair Display',serif;font-size:.78rem;font-weight:700;color:var(--text);line-height:1.3}
+.recaut{font-size:.66rem;color:var(--muted);margin-top:.1rem}
+.fnav{display:flex;gap:.75rem;margin-top:1rem;flex-wrap:wrap}
+.fnbtn{padding:.6rem 1.25rem;border:1px solid var(--border);background:var(--card);color:var(--text);font-size:.72rem;cursor:pointer;font-family:'DM Sans',sans-serif;display:flex;align-items:center;gap:.4rem}
+.fnbtn:hover{background:var(--terra);border-color:var(--terra);color:#fff}
+.kbhint{font-size:.62rem;color:var(--muted);margin-top:.5rem}
+.kbhint kbd{background:var(--bg2);border:1px solid var(--border);padding:1px 5px;border-radius:3px;font-family:monospace}
+
+footer{background:var(--nav);padding:1.8rem 4rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem}
+.fb{font-family:'Playfair Display',serif;color:var(--sand);font-size:.88rem;opacity:.8}
+.fa{font-family:'Cormorant Garamond',serif;font-style:italic;color:var(--ochre);font-size:.85rem}
+.fc{font-size:.65rem;color:var(--sand);opacity:.3}
+</style>
+</head>
+<body>
+
+<nav>
+  <button class="logo" onclick="goPage('home')">Ma <span>Bibliothèque</span></button>
+  <div class="search-wrap">
+    <span class="s-icon">🔍</span>
+    <input type="text" id="searchInput" placeholder="Rechercher titre, auteur, pays, thème…" oninput="onSearch()">
+  </div>
+  <div class="navlinks">
+    <button class="nbtn on" id="nb-home" onclick="goPage('home')">Accueil</button>
+    <button class="nbtn" id="nb-cat" onclick="goPage('catalogue')">Catalogue</button>
+    <button class="dark-btn" onclick="toggleDark()" id="darkBtn">🌙</button>
+  </div>
+</nav>
+
+<!-- PAGE ACCUEIL -->
+<div id="pg-home" class="page active">
+  <section class="hero">
+    <div class="hbg"></div>
+    <div class="hleft">
+      <div class="eyebrow">Littérature africaine</div>
+      <h1 class="htitle">Voyagez au cœur<br>des <em>mots</em></h1>
+      <p class="hquote">De l'Afrique aux horizons lointains, une sélection de chefs-d'œuvre portés par la magie des classiques et des plumes contemporaines.</p>
+      <div class="hstats">
+        <div><div class="snum">10</div><div class="slbl">Ouvrages</div></div>
+        <div><div class="snum">6</div><div class="slbl">Pays</div></div>
+        <div><div class="snum">4</div><div class="slbl">Genres</div></div>
+      </div>
+      <button class="cta" onclick="goPage('catalogue')">Découvrir le catalogue →</button>
+    </div>
+    <div class="hright" id="heroBooks"></div>
+  </section>
+
+  <section class="featured">
+    <div class="sec-head">
+      <div>
+        <div class="sec-title">Sélection du moment</div>
+        <div class="sec-sub">Quatre œuvres incontournables</div>
+      </div>
+      <button class="lnk" onclick="goPage('catalogue')">Voir tout le catalogue →</button>
+    </div>
+    <div class="fgrid" id="featGrid"></div>
+  </section>
+
+  <section class="manifesto">
+    <div>
+      <div class="mtag">Notre mission</div>
+      <div class="mbig">Valoriser le patrimoine culturel africain</div>
+    </div>
+    <div>
+      <p class="mtext">Cette bibliothèque est un espace de mémoire et de découverte. Chaque ouvrage porte en lui la voix d'un continent, la richesse de ses langues, la profondeur de ses histoires.</p>
+      <div class="mpills">
+        <span class="pill">Roman</span><span class="pill">Théâtre</span>
+        <span class="pill">Nouvelles</span><span class="pill">Jeunesse</span>
+        <span class="pill">Colonialisme</span><span class="pill">Féminisme</span>
+      </div>
+    </div>
+  </section>
+  <footer>
+    <div class="fb">Ma Bibliothèque Littéraire</div>
+    <div class="fa">Jeanne Etoundi Ntsama</div>
+    <div class="fc">© 2026 — Tous droits réservés</div>
+  </footer>
+</div>
+
+<!-- PAGE CATALOGUE -->
+<div id="pg-catalogue" class="page">
+  <div class="cat-hero">
+    <div class="ci">
+      <div class="ce">Bibliothèque africaine</div>
+      <h1 class="ct">Catalogue des livres</h1>
+      <p class="cs" id="catSub">10 ouvrages sélectionnés avec soin</p>
+    </div>
+  </div>
+  <div class="toolbar">
+    <span class="flbl">Genre :</span>
+    <button class="fbtn on" onclick="doFilter('tous',this)">Tous</button>
+    <button class="fbtn" onclick="doFilter('roman',this)">Romans</button>
+    <button class="fbtn" onclick="doFilter('jeunesse',this)">Jeunesse</button>
+    <button class="fbtn" onclick="doFilter('nouvelles',this)">Nouvelles</button>
+    <button class="fbtn" onclick="doFilter('théâtre',this)">Théâtre</button>
+    <span class="flbl" style="margin-left:1rem">Trier :</span>
+    <select class="sort-sel" id="sortSel" onchange="renderGrid()">
+      <option value="def">Par défaut</option>
+      <option value="title">Titre A→Z</option>
+      <option value="yasc">Année ↑</option>
+      <option value="ydesc">Année ↓</option>
+      <option value="author">Auteur A→Z</option>
+    </select>
+    <button class="vbtn on" id="vg" onclick="setView('g')">⊞</button>
+    <button class="vbtn" id="vl" onclick="setView('l')">☰</button>
+    <span class="rcount" id="rcount">10 résultats</span>
+  </div>
+  <div class="bgrid" id="bookGrid"></div>
+  <div class="norez" id="norez" style="display:none">Aucun livre trouvé.</div>
+  <footer>
+    <div class="fb">Ma Bibliothèque Littéraire</div>
+    <div class="fa">Jeanne Etoundi Ntsama</div>
+    <div class="fc">© 2026 — Tous droits réservés</div>
+  </footer>
+</div>
+
+<!-- PAGE FICHE -->
+<div id="pg-fiche" class="page">
+  <button class="fback" id="fbackBtn">← Retour au catalogue</button>
+  <div class="fmain">
+    <div class="fleft">
+      <div id="ficheImg"></div>
+      <div class="fmeta" id="ficheMeta"></div>
+      <div class="fact" id="ficheAct"></div>
+    </div>
+    <div class="fright" id="ficheRight"></div>
+  </div>
+</div>
+
+<script>
+var BASE = "https://jetoundi.alwaysdata.net/tp/wp-content/uploads/2026/01/";
+var favs = {};
+var activeFilter = 'tous';
+var viewMode = 'g';
+var curId = 0;
+
+var books = [
+  {id:0,title:"Allah n'est pas obligé",author:"Ahmadou Kourouma",pays:"Côte d'Ivoire",annee:2000,editeur:"Seuil",genre:"roman",emoji:"✊",
+   img:"allah_n_est_pas_oblige.jpg",
+   themes:["Guerre","Enfance","Violence","Politique"],
+   extrait:"« Allah n'est pas obligé d'être juste dans toutes ses choses ici-bas. »",
+   resume:"Birahima, enfant-soldat de douze ans, raconte avec une langue explosive son errance à travers les guerres civiles de Sierra Leone et du Libéria. Il jongle entre quatre dictionnaires pour décrire l'horreur avec une verve satirique. Prix Renaudot 2000.",
+   bio:{ini:"AK",nom:"Ahmadou Kourouma",info:"1927–2003 · Côte d'Ivoire",texte:"Figure majeure de la littérature africaine francophone, Kourouma révolutionne la langue française en y intégrant les structures syntaxiques et l'imaginaire malinké."},
+   recos:[1,9]},
+  {id:1,title:"Americanah",author:"Chimamanda Ngozi Adichie",pays:"Nigeria",annee:2013,editeur:"Knopf",genre:"roman",emoji:"🌍",
+   img:"AMERICANAH-1-658x1024.jpg",
+   themes:["Identité","Race","Migration","Amour"],
+   extrait:"« Elle avait découvert qu'être noir n'était pas une condition, c'était une histoire. »",
+   resume:"Ifemelu quitte le Nigeria pour les États-Unis où elle découvre qu'elle est soudain « noire ». À travers son blog et sa relation avec Obinze, Adichie tisse un roman brillant sur la race, l'exil et la féminité.",
+   bio:{ini:"CN",nom:"Chimamanda Ngozi Adichie",info:"1977– · Nigeria",texte:"L'une des voix les plus influentes de la littérature contemporaine mondiale. Son discours TED 'We Should All Be Feminists' a été diffusé à des millions d'exemplaires."},
+   recos:[7,8]},
+  {id:2,title:"Le pauvre Christ de Bomba",author:"Mongo Beti",pays:"Cameroun",annee:1956,editeur:"Robert Laffont",genre:"roman",emoji:"✝️",
+   img:"Le-Pauvre-Christ-de-Bomba-1.jpeg",
+   themes:["Colonialisme","Religion","Satire"],
+   extrait:"« Comment peut-on croire à la civilisation d'un peuple qui vient avec la bible dans une main et le fusil dans l'autre ? »",
+   resume:"Satire impitoyable du colonialisme et de l'hypocrisie évangélique. Le père Drumont parcourt la forêt camerounaise avec son boy Denis, convaincu de sa mission civilisatrice.",
+   bio:{ini:"MB",nom:"Mongo Beti",info:"1932–2001 · Cameroun",texte:"Grand pourfendeur du colonialisme dans les lettres africaines. Interdit de séjour au Cameroun pendant 22 ans, il mène une carrière de libraire militant avant de rentrer au pays."},
+   recos:[9,8]},
+  {id:3,title:"Les Bimanes",author:"Séverin Cécile Abega",pays:"Cameroun",annee:1982,editeur:"EDICEF",genre:"nouvelles",emoji:"📜",
+   img:"Les-Bimanes.jpg",
+   themes:["Société","Humour","Modernité"],
+   extrait:"« Dans ce pays, l'homme qui ne rit pas de lui-même finit par pleurer sur les autres. »",
+   resume:"Sept nouvelles acides qui scrutent la société camerounaise avec l'œil d'un anthropologue doublé d'un humoriste. Abega dissèque les rapports de domination et les illusions de la modernité.",
+   bio:{ini:"SA",nom:"Séverin Cécile Abega",info:"1948–2008 · Cameroun",texte:"Professeur d'anthropologie à l'Université catholique d'Afrique centrale, il joint à ses travaux scientifiques une œuvre littéraire singulière."},
+   recos:[6,5]},
+  {id:4,title:"Père inconnu",author:"Pabé Mongo",pays:"Cameroun",annee:2001,editeur:"Édice",genre:"jeunesse",emoji:"👨‍👧",
+   img:"Pere-inconu.jpg",
+   themes:["Famille","Identité","Adolescence"],
+   extrait:"« Un père absent laisse un vide que même les mots les plus grands ne peuvent combler. »",
+   resume:"Angèle, seize ans, n'a jamais connu son père. Sa quête identitaire la mène à traverser les silences de sa mère et ses propres peurs. Roman d'apprentissage d'une grande sensibilité.",
+   bio:{ini:"PM",nom:"Pabé Mongo",info:"1954– · Cameroun",texte:"Enseignant et écrivain camerounais, il se distingue dans la littérature jeunesse africaine par sa capacité à traiter des sujets graves avec une langue accessible."},
+   recos:[3,6]},
+  {id:5,title:"Temps de chien",author:"Patrice Nganang",pays:"Cameroun",annee:2001,editeur:"Le Serpent à Plumes",genre:"roman",emoji:"🐕",
+   img:"temps-de-chien.jpg",
+   themes:["Satire","Politique","Yaoundé"],
+   extrait:"« Dans ce pays, même les chiens savent que la vérité est dangereuse. »",
+   resume:"Mboudjak, chien errant d'un maquis de Yaoundé, observe avec lucidité les misères de la société camerounaise post-coloniale. Prix Marguerite-Yourcenar 2001.",
+   bio:{ini:"PN",nom:"Patrice Nganang",info:"1970– · Cameroun",texte:"Romancier et essayiste, il vit en exil aux États-Unis. Son œuvre embrasse l'histoire du Cameroun avec une polyphonie remarquable."},
+   recos:[2,8]},
+  {id:6,title:"Trois prétendants… un mari",author:"Guillaume Oyono-Mbia",pays:"Cameroun",annee:1964,editeur:"CLE",genre:"théâtre",emoji:"🎭",
+   img:"Trois-pretendants.jpeg",
+   themes:["Dot","Tradition","Mariage","Comédie"],
+   extrait:"« La dot n'est pas un prix pour une femme, c'est la reconnaissance de sa valeur par une famille. »",
+   resume:"Juliette, brillante étudiante, est convoitée par trois prétendants. Comédie savoureuse qui confronte coutumes ancestrales et modernité avec humour et acuité.",
+   bio:{ini:"GO",nom:"Guillaume Oyono-Mbia",info:"1939– · Cameroun",texte:"Premier grand dramaturge camerounais d'expression française, ses pièces figurent dans les programmes scolaires de nombreux pays francophones."},
+   recos:[3,1]},
+  {id:7,title:"Une si longue lettre",author:"Mariama Bâ",pays:"Sénégal",annee:1979,editeur:"NEA",genre:"roman",emoji:"✉️",
+   img:"l_une-si-longue-lettre-de-mariama-ba-2-354x300-1.jpg",
+   themes:["Féminisme","Polygamie","Amitié","Deuil"],
+   extrait:"« L'amitié a des grandeurs inconnues de l'amour. »",
+   resume:"Ramatoulaye écrit une longue lettre à son amie après la mort de son mari. Elle y raconte trahison, polygamie et résilience. Roman phare du féminisme africain. Prix Noma 1980.",
+   bio:{ini:"MB",nom:"Mariama Bâ",info:"1929–1981 · Sénégal",texte:"Institutrice et militante, son œuvre reste le texte fondateur du féminisme littéraire africain francophone. Elle remet la condition féminine au centre de la littérature."},
+   recos:[1,5]},
+  {id:8,title:"Une vie de boy",author:"Ferdinand Oyono",pays:"Cameroun",annee:1956,editeur:"Julliard",genre:"roman",emoji:"🪟",
+   img:"Une-vie-de-boy.jpeg",
+   themes:["Colonialisme","Journal intime","Ironie"],
+   extrait:"« Qu'est-ce que nous sommes pour les Blancs ? Je commence à le comprendre. »",
+   resume:"Toundi tient un journal secret depuis son enfance. Boy d'un missionnaire puis du commandant, il observe l'envers du décor colonial avec une naïveté qui se mue en conscience tragique.",
+   bio:{ini:"FO",nom:"Ferdinand Oyono",info:"1929–2010 · Cameroun",texte:"Il publie ses deux romans majeurs à vingt-sept ans avant de se consacrer à la diplomatie. Ses œuvres sont parmi les plus lues dans les lycées africains."},
+   recos:[2,5]},
+  {id:9,title:"Ville Cruelle",author:"Eza Boto (Mongo Beti)",pays:"Cameroun",annee:1954,editeur:"Présence Africaine",genre:"roman",emoji:"🏙️",
+   img:"Ville-cruelle.jpg",
+   themes:["Colonialisme","Exploitation","Ville"],
+   extrait:"« La ville coloniale est un mensonge bâti sur la sueur de ceux qu'elle écrase. »",
+   resume:"Premier roman de Mongo Beti, publié sous pseudonyme. Banda découvre à la ville la violence systémique du monde colonial : marchands corrompus, policiers brutaux, désillusion totale.",
+   bio:{ini:"MB",nom:"Mongo Beti",info:"1932–2001 · Cameroun",texte:"Il publie 'Ville Cruelle' à 22 ans sous le pseudonyme Eza Boto. L'œuvre inaugure un engagement littéraire qui ne se démentira jamais."},
+   recos:[2,8]}
+];
+
+function mkImg(b, cls) {
+  var wrap = document.createElement('div');
+  wrap.className = cls;
+  var img = document.createElement('img');
+  img.alt = b.title;
+  img.src = BASE + b.img;
+  img.onerror = function() { this.style.display='none'; wrap.textContent = b.emoji; };
+  wrap.appendChild(img);
+  return wrap;
+}
+
+function goPage(p) {
+  document.querySelectorAll('.page').forEach(function(x){x.classList.remove('active');});
+  document.getElementById('pg-'+p).classList.add('active');
+  document.querySelectorAll('.nbtn').forEach(function(x){x.classList.remove('on');});
+  var m = {home:'nb-home', catalogue:'nb-cat', fiche:'nb-cat'};
+  if(m[p]) document.getElementById(m[p]).classList.add('on');
+  if(p==='catalogue') renderGrid();
+  if(p==='home') { renderHero(); renderFeat(); }
+  window.scrollTo(0,0);
+}
+
+function toggleDark() {
+  var isDark = document.documentElement.getAttribute('data-theme')==='dark';
+  document.documentElement.setAttribute('data-theme', isDark ? 'light' : 'dark');
+  document.getElementById('darkBtn').textContent = isDark ? '🌙' : '☀️';
+}
+
+function renderHero() {
+  var w = document.getElementById('heroBooks');
+  if(w.children.length) return;
+  [7,1,9].forEach(function(idx){
+    var b = books[idx];
+    var div = document.createElement('div');
+    div.className = 'hbook';
+    (function(i){ div.onclick = function(){ showFiche(i); }; })(idx);
+    div.appendChild(mkImg(b,'hcov'));
+    var lbl = document.createElement('div');
+    lbl.className = 'hblbl'; lbl.textContent = b.title;
+    div.appendChild(lbl);
+    w.appendChild(div);
+  });
+}
+
+function renderFeat() {
+  var g = document.getElementById('featGrid');
+  if(g.children.length) return;
+  [0,1,7,9].forEach(function(idx){
+    var b = books[idx];
+    var card = document.createElement('div');
+    card.className = 'fcard';
+    (function(i){ card.onclick = function(){ showFiche(i); }; })(idx);
+    card.appendChild(mkImg(b,'cbox'));
+    var body = document.createElement('div'); body.className='fbody';
+    body.innerHTML='<div class="ftag">'+b.genre+'</div><div class="fttl">'+b.title+'</div><div class="faut">'+b.author+'</div><div class="fdesc">'+b.resume+'</div>';
+    card.appendChild(body);
+    g.appendChild(card);
+  });
+}
+
+function getList() {
+  var q = document.getElementById('searchInput').value.toLowerCase().trim();
+  var list = books.filter(function(b){
+    if(activeFilter!=='tous' && b.genre!==activeFilter) return false;
+    if(!q) return true;
+    return b.title.toLowerCase().indexOf(q)>=0 ||
+           b.author.toLowerCase().indexOf(q)>=0 ||
+           b.pays.toLowerCase().indexOf(q)>=0 ||
+           (b.themes||[]).some(function(t){return t.toLowerCase().indexOf(q)>=0;});
+  });
+  var s = document.getElementById('sortSel').value;
+  if(s==='title') list.sort(function(a,b){return a.title.localeCompare(b.title,'fr');});
+  else if(s==='yasc') list.sort(function(a,b){return a.annee-b.annee;});
+  else if(s==='ydesc') list.sort(function(a,b){return b.annee-a.annee;});
+  else if(s==='author') list.sort(function(a,b){return a.author.localeCompare(b.author,'fr');});
+  return list;
+}
+
+function onSearch() {
+  if(document.getElementById('pg-catalogue').classList.contains('active')) {
+    renderGrid();
+  } else if(document.getElementById('searchInput').value.trim().length>0) {
+    goPage('catalogue');
+  }
+}
+
+function renderGrid() {
+  var g = document.getElementById('bookGrid');
+  var list = getList();
+  document.getElementById('rcount').textContent = list.length+' résultat'+(list.length!==1?'s':'');
+  document.getElementById('norez').style.display = list.length===0?'block':'none';
+  g.className = 'bgrid'+(viewMode==='l'?' lv':'');
+  g.innerHTML = '';
+  list.forEach(function(b){
+    var cell = document.createElement('div');
+    cell.className = 'bcell';
+    (function(id){ cell.onclick = function(){ showFiche(id); }; })(b.id);
+    cell.appendChild(mkImg(b,'bccover'));
+    var tags = (b.themes||[]).slice(0,3).map(function(t){return '<span class="bctag">'+t+'</span>';}).join('');
+    var extra = viewMode==='l' ? '<div class="fdesc-l">'+b.resume+'</div>' : '';
+    var body = document.createElement('div'); body.className='bcbody';
+    body.innerHTML='<div class="bcgenre">'+b.genre+'</div><div class="bctitle">'+b.title+'</div><div class="bcaut">'+b.author+'</div><div class="bcyr">'+b.annee+' · '+b.pays+'</div><div class="bcthemes">'+tags+'</div>'+extra+'<div class="bccta">Découvrir →</div>';
+    cell.appendChild(body);
+    g.appendChild(cell);
+  });
+}
+
+function doFilter(f, btn) {
+  activeFilter = f;
+  document.querySelectorAll('.fbtn').forEach(function(x){x.classList.remove('on');});
+  btn.classList.add('on');
+  renderGrid();
+}
+
+function setView(v) {
+  viewMode = v;
+  document.getElementById('vg').classList.toggle('on', v==='g');
+  document.getElementById('vl').classList.toggle('on', v==='l');
+  renderGrid();
+}
+
+function showFiche(id) {
+  curId = id;
+  var b = books[id];
+  var wi = document.getElementById('ficheImg');
+  wi.innerHTML=''; wi.appendChild(mkImg(b,'fcov'));
+  document.getElementById('ficheMeta').innerHTML =
+    '<div class="frow"><span class="fkey">Auteur</span><span class="fval">'+b.author+'</span></div>'+
+    '<div class="frow"><span class="fkey">Pays</span><span class="fval">'+b.pays+'</span></div>'+
+    '<div class="frow"><span class="fkey">Année</span><span class="fval">'+b.annee+'</span></div>'+
+    '<div class="frow"><span class="fkey">Genre</span><span class="fval">'+b.genre+'</span></div>'+
+    '<div class="frow"><span class="fkey">Éditeur</span><span class="fval">'+b.editeur+'</span></div>';
+  renderAct(id);
+  renderRight(id);
+  goPage('fiche');
+}
+
+function renderAct(id) {
+  var act = document.getElementById('ficheAct');
+  var isFav = !!favs[id];
+  act.innerHTML = '';
+  var b1 = document.createElement('button'); b1.className='factbtn'+(isFav?' fav':'');
+  b1.id='favbtn'; b1.textContent = isFav?'♥ Favori':'♡ Ajouter';
+  b1.onclick = function(){ toggleFav(id); };
+  var b2 = document.createElement('button'); b2.className='factbtn';
+  b2.textContent='🖨 Imprimer'; b2.onclick=function(){window.print();};
+  act.appendChild(b1); act.appendChild(b2);
+}
+
+function toggleFav(id) {
+  favs[id] = !favs[id];
+  renderAct(id);
+}
+
+function renderRight(id) {
+  var b = books[id];
+  var themes = (b.themes||[]).map(function(t){return '<span class="fthtag">'+t+'</span>';}).join('');
+  var recos = (b.recos||[]).map(function(rid){
+    var r = books[rid];
+    return '<div class="recocard" onclick="showFiche('+rid+')"><div class="reccov"><img src="'+BASE+r.img+'" alt="'+r.title+'" onerror="this.style.display=\'none\'"></div><div><div class="rectitle">'+r.title+'</div><div class="recaut">'+r.author+'</div></div></div>';
+  }).join('');
+  var prevBtn = id>0 ? '<button class="fnbtn" onclick="showFiche('+(id-1)+')">← Précédent</button>' : '';
+  var nextBtn = id<books.length-1 ? '<button class="fnbtn" onclick="showFiche('+(id+1)+')">Suivant →</button>' : '';
+  document.getElementById('ficheRight').innerHTML =
+    '<div class="ftag2">'+b.genre.toUpperCase()+'</div>'+
+    '<h1 class="ftitle">'+b.title+'</h1>'+
+    '<div class="fauthor">'+b.author+'</div>'+
+    '<div class="rlbl">Résumé</div>'+
+    '<p class="fresume">'+b.resume+'</p>'+
+    (b.extrait?'<div class="fextrait"><blockquote>'+b.extrait+'</blockquote><cite>— '+b.title+', '+b.author+'</cite></div>':'')+
+    (themes?'<div class="rlbl">Thèmes</div><div class="fthemes">'+themes+'</div>':'')+
+    '<div class="rlbl">Biographie</div>'+
+    '<div class="biosec"><div class="biohead"><div class="bioav">'+b.bio.ini+'</div><div><div class="bioname">'+b.bio.nom+'</div><div class="bioinfo">'+b.bio.info+'</div></div></div><p class="biotext">'+b.bio.texte+'</p></div>'+
+    (recos?'<div class="recosec"><div class="rlbl">Dans le même esprit</div><div class="recogrid">'+recos+'</div></div>':'')+
+    '<div class="fnav">'+prevBtn+nextBtn+'</div>'+
+    '<div class="kbhint"><kbd>←</kbd> <kbd>→</kbd> naviguer · <kbd>Échap</kbd> retour catalogue</div>';
+}
+
+document.getElementById('fbackBtn').onclick = function(){ goPage('catalogue'); };
+
+document.addEventListener('keydown', function(e){
+  var onFiche = document.getElementById('pg-fiche').classList.contains('active');
+  if(onFiche){
+    if(e.key==='ArrowLeft' && curId>0) showFiche(curId-1);
+    if(e.key==='ArrowRight' && curId<books.length-1) showFiche(curId+1);
+    if(e.key==='Escape') goPage('catalogue');
+  }
+  if(e.key==='/' && !onFiche){ e.preventDefault(); document.getElementById('searchInput').focus(); }
+});
+
+renderHero();
+renderFeat();
+renderGrid();
+</script>
+</body>
+</html>
