@@ -213,7 +213,7 @@ nav{position:sticky;top:0;z-index:100;background:var(--dark);display:flex;justif
     <div>
       <div class="hero-stat"><div class="hero-stat-num">3</div><div class="hero-stat-label">Expériences professionnelles</div></div>
       <div class="hero-stat"><div class="hero-stat-num">3</div><div class="hero-stat-label">Diplômes & Masters</div></div>
-      <div class="hero-stat"><div class="hero-stat-num">6</div><div class="hero-stat-label">Projets intégrés</div></div>
+      <div class="hero-stat"><div class="hero-stat-num">7</div><div class="hero-stat-label">Projets intégrés</div></div>
     </div>
     <div class="hero-contact">
       <div>📍 Aulnoy-Lez-Valenciennes</div>
@@ -484,6 +484,78 @@ nav{position:sticky;top:0;z-index:100;background:var(--dark);display:flex;justif
             <span class="tg tg-p">Chi-carré</span>
             <span class="tg tg-p">Recherche quantitative</span>
             <span class="tg tg-p">Google Forms</span>
+          </div>
+        </div></div>
+      </div>
+
+      <div class="divider"></div>
+
+      <!-- P07 : BI REPORT GENERATOR -->
+      <div class="project-card" onclick="toggle(this)">
+        <div class="project-header">
+          <div class="project-header-left">
+            <span class="pnum">07</span>
+            <div>
+              <div class="ptitle">BI Report Generator</div>
+              <div class="psub">Génération automatique de rapports HTML depuis CSV · Python · pandas · matplotlib</div>
+            </div>
+          </div>
+          <div class="project-header-right">
+            <span class="badge b-data">Python · Data</span>
+            <span class="toggle-icon">+</span>
+          </div>
+        </div>
+        <div class="project-body"><div class="pb-inner">
+          <div class="pdesc d-green">Script Python qui transforme automatiquement n'importe quel fichier CSV en rapport BI HTML complet et autonome : KPIs calculés, 4 visualisations générées (bar chart, donut, courbe temporelle, top produits), classements Top/Bottom, analyse qualité des données. Zéro configuration manuelle — détection automatique des colonnes. Inspiré de l'expérience Data Analyst aux Petits Riens (Bruxelles, 2022–2023).</div>
+
+          <!-- Stats -->
+          <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--border);border:1px solid var(--border);margin:1rem 0;">
+            <div style="background:var(--cream);padding:1rem;text-align:center;"><div style="font-family:'DM Serif Display',serif;font-size:24px;color:var(--accent2);line-height:1;">4</div><div style="font-size:10px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin-top:4px;">Graphiques auto</div></div>
+            <div style="background:var(--cream);padding:1rem;text-align:center;"><div style="font-family:'DM Serif Display',serif;font-size:24px;color:var(--accent2);line-height:1;">1</div><div style="font-size:10px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin-top:4px;">HTML autonome</div></div>
+            <div style="background:var(--cream);padding:1rem;text-align:center;"><div style="font-family:'DM Serif Display',serif;font-size:24px;color:var(--accent2);line-height:1;">∞</div><div style="font-size:10px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin-top:4px;">CSV compatibles</div></div>
+            <div style="background:var(--cream);padding:1rem;text-align:center;"><div style="font-family:'DM Serif Display',serif;font-size:24px;color:var(--accent2);line-height:1;">0</div><div style="font-size:10px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin-top:4px;">Config manuelle</div></div>
+          </div>
+
+          <!-- Stack technique -->
+          <div style="margin:10px 0 6px;font-size:11px;text-transform:uppercase;letter-spacing:.1em;font-weight:500;color:var(--accent2);">Stack technique</div>
+          <div class="tech-stack">
+            <div class="ti"><div class="tdot" style="background:var(--accent2);"></div><div><div class="tn">pandas</div><div class="td">Chargement, nettoyage, agrégations automatiques</div></div></div>
+            <div class="ti"><div class="tdot" style="background:var(--accent);"></div><div><div class="tn">matplotlib</div><div class="td">4 graphiques embarqués en base64 dans le HTML</div></div></div>
+            <div class="ti"><div class="tdot" style="background:var(--purple);"></div><div><div class="tn">argparse</div><div class="td">Interface ligne de commande (CLI) flexible</div></div></div>
+            <div class="ti"><div class="tdot" style="background:var(--gold);"></div><div><div class="tn">jinja2</div><div class="td">Templating du rapport HTML final</div></div></div>
+          </div>
+
+          <!-- Ce que le rapport génère -->
+          <div style="margin:12px 0 6px;font-size:11px;text-transform:uppercase;letter-spacing:.1em;font-weight:500;color:var(--accent2);">Contenu du rapport généré</div>
+          <div class="flux-row">
+            <div class="flux-step"><div class="flux-num" style="color:var(--accent2);">KPI</div><div class="flux-name">CA · Qty · Lignes</div></div>
+            <div class="flux-step"><div class="flux-num" style="color:var(--accent2);">Viz</div><div class="flux-name">4 graphiques</div></div>
+            <div class="flux-step"><div class="flux-num" style="color:var(--accent2);">Top</div><div class="flux-name">Classements</div></div>
+            <div class="flux-step"><div class="flux-num" style="color:var(--accent2);">QA</div><div class="flux-name">Qualité données</div></div>
+            <div class="flux-step"><div class="flux-num" style="color:var(--accent2);">HTML</div><div class="flux-name">Export autonome</div></div>
+          </div>
+
+          <!-- Usage CLI -->
+          <div class="pm" style="margin-top:1rem;">
+            <div><div class="ml ml-g">Contexte</div><div class="mv">Ancré dans l'expérience Data Analyst aux Petits Riens, Bruxelles 2022–2023</div></div>
+            <div><div class="ml ml-g">Commande</div><div class="mv" style="font-family:'Courier New',monospace;font-size:12px;color:var(--muted);">python generate_report.py data.csv</div></div>
+          </div>
+
+          <!-- Liens -->
+          <div style="display:flex;gap:.75rem;flex-wrap:wrap;margin-top:1rem;">
+            <a href="https://github.com/jetoundi/bi-report-generator" target="_blank" style="display:inline-flex;align-items:center;gap:8px;padding:10px 20px;background:var(--dark);color:#FAF8F4;text-decoration:none;font-size:13px;font-weight:500;border-radius:2px;transition:background .2s;" onmouseover="this.style.background='var(--accent2)'" onmouseout="this.style.background='var(--dark)'">→ Code source GitHub</a>
+            <a href="bi-report-generator/output/rapport_ventes.html" target="_blank" style="display:inline-flex;align-items:center;gap:8px;padding:10px 20px;background:transparent;color:var(--dark);text-decoration:none;font-size:13px;font-weight:500;border-radius:2px;border:1px solid var(--border);transition:background .2s;" onmouseover="this.style.background='rgba(74,124,111,.08)'" onmouseout="this.style.background='transparent'">📊 Voir le rapport de démo</a>
+          </div>
+
+          <div class="ptags" style="margin-top:1rem;">
+            <span class="tg tg-g">Python</span>
+            <span class="tg tg-g">pandas</span>
+            <span class="tg tg-g">matplotlib</span>
+            <span class="tg tg-g">jinja2</span>
+            <span class="tg tg-g">Automatisation</span>
+            <span class="tg tg-g">Data Visualisation</span>
+            <span class="tg tg-g">Rapport BI</span>
+            <span class="tg tg-g">CLI</span>
           </div>
         </div></div>
       </div>
