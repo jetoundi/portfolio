@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Réseaux Sociaux & Amitié — Jeanne Etoundi</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500&family=DM+Mono&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+:root{
+  --bg:#0F0F14;--bg2:#16161F;--bg3:#1E1E2A;
+  --purple:#9B8FFF;--purple2:#6C5CE7;--purple-dim:rgba(155,143,255,.12);
+  --pink:#FF79C6;--cyan:#58E8D2;--yellow:#FFD166;
+  --text:#C8C5E0;--text2:#7B7896;--border:#2A2840;
+  --accent:#C4622D;
+}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);line-height:1.6;overflow-x:hidden;}
+
+nav{position:sticky;top:0;z-index:100;background:rgba(15,15,20,.95);backdrop-filter:blur(10px);padding:.75rem 2rem;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--border);}
+.nav-back{display:flex;align-items:center;gap:8px;color:var(--text2);text-decoration:none;font-size:13px;transition:color .2s;}
+.nav-back:hover{color:var(--purple);}
+.nav-pill{font-size:11px;background:var(--purple-dim);color:var(--purple);padding:3px 12px;border-radius:12px;border:1px solid rgba(155,143,255,.25);}
+
+/* HERO */
+.hero{min-height:100vh;display:flex;align-items:center;position:relative;overflow:hidden;padding:5rem 4rem;}
+.hero-bg{position:absolute;inset:0;background:radial-gradient(ellipse at 70% 50%, rgba(108,92,231,.12) 0%, transparent 60%), radial-gradient(ellipse at 20% 80%, rgba(255,121,198,.06) 0%, transparent 50%), var(--bg);}
+.hero-content{position:relative;z-index:2;max-width:600px;}
+.hero-tag{font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--purple);margin-bottom:1.5rem;font-weight:500;}
+.hero-title{font-family:'DM Serif Display',serif;font-size:clamp(40px,5vw,68px);line-height:1.1;margin-bottom:1rem;}
+.hero-title em{font-style:italic;color:var(--purple);}
+.hero-sub{font-size:16px;color:var(--text2);line-height:1.8;margin-bottom:2.5rem;max-width:520px;}
+.hero-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--border);border:1px solid var(--border);max-width:520px;}
+.hst{background:var(--bg2);padding:1rem;text-align:center;}
+.hst-n{font-family:'DM Serif Display',serif;font-size:28px;color:var(--purple);line-height:1;}
+.hst-l{font-size:10px;color:var(--text2);text-transform:uppercase;letter-spacing:.08em;margin-top:4px;}
+
+/* FLOATING CARDS */
+.hero-cards{position:absolute;right:4rem;top:50%;transform:translateY(-50%);display:flex;flex-direction:column;gap:12px;z-index:2;}
+.float-card{background:var(--bg2);border:1px solid var(--border);padding:1rem 1.25rem;border-radius:6px;min-width:200px;backdrop-filter:blur(10px);}
+.fc-label{font-size:10px;color:var(--text2);text-transform:uppercase;letter-spacing:.1em;margin-bottom:4px;}
+.fc-val{font-size:15px;font-weight:500;}
+.fc-bar{height:4px;background:var(--bg3);border-radius:2px;margin-top:8px;overflow:hidden;}
+.fc-fill{height:100%;border-radius:2px;}
+
+/* SECTIONS */
+.section{padding:4rem;border-top:1px solid var(--border);}
+.section-label{font-size:11px;letter-spacing:.15em;text-transform:uppercase;color:var(--purple);margin-bottom:.75rem;font-weight:500;display:flex;align-items:center;gap:8px;}
+.section-label::before{content:'';display:inline-block;width:20px;height:1px;background:var(--purple);}
+.section-title{font-family:'DM Serif Display',serif;font-size:32px;margin-bottom:1.5rem;line-height:1.2;}
+.section-text{font-size:15px;color:var(--text2);line-height:1.9;max-width:680px;}
+
+/* PROBLEMATIQUES */
+.pb-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:1px;background:var(--border);border:1px solid var(--border);margin:2rem 0;}
+.pb-item{background:var(--bg2);padding:1.75rem;}
+.pb-num{font-family:'DM Serif Display',serif;font-size:36px;font-style:italic;color:rgba(155,143,255,.25);margin-bottom:.75rem;line-height:1;}
+.pb-title{font-size:13px;font-weight:500;color:var(--purple);margin-bottom:.6rem;}
+.pb-text{font-size:13px;color:var(--text2);line-height:1.7;}
+
+/* VIZ DASHBOARD */
+.dashboard{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--border);border:1px solid var(--border);margin:2rem 0;}
+.dash-card{background:var(--bg2);padding:2rem;}
+.dash-title{font-size:12px;text-transform:uppercase;letter-spacing:.08em;color:var(--text2);font-weight:500;margin-bottom:1.25rem;}
+
+/* Bar chart */
+.bar-row{display:flex;align-items:center;gap:10px;margin-bottom:8px;}
+.br-label{font-size:12px;color:var(--text2);width:80px;text-align:right;flex-shrink:0;font-family:'DM Mono',monospace;}
+.br-track{flex:1;height:18px;background:var(--bg3);border-radius:2px;overflow:hidden;position:relative;}
+.br-fill{height:100%;border-radius:2px;transition:width 1s ease;}
+.br-val{position:absolute;right:6px;top:50%;transform:translateY(-50%);font-size:10px;font-family:'DM Mono',monospace;color:var(--bg);}
+.br-pct{font-size:11px;color:var(--text2);width:36px;font-family:'DM Mono',monospace;flex-shrink:0;}
+
+/* Donut */
+.donut-wrap{display:flex;align-items:center;gap:2rem;}
+.donut-svg{flex-shrink:0;}
+.donut-legend{display:flex;flex-direction:column;gap:8px;}
+.dl-item{display:flex;align-items:center;gap:8px;font-size:13px;}
+.dl-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0;}
+
+/* Gauge */
+.gauge-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;}
+.gauge-item{text-align:center;}
+.gauge-label{font-size:11px;color:var(--text2);margin-bottom:.5rem;}
+.gauge-num{font-family:'DM Serif Display',serif;font-size:32px;line-height:1;}
+.gauge-sub{font-size:10px;color:var(--text2);margin-top:2px;}
+.gauge-bar{height:6px;background:var(--bg3);border-radius:3px;margin-top:8px;overflow:hidden;}
+.gauge-fill{height:100%;border-radius:3px;}
+
+/* GEO */
+.geo-grid{display:flex;flex-direction:column;gap:6px;}
+.geo-row{display:flex;align-items:center;gap:8px;}
+.geo-label{font-size:12px;color:var(--text2);width:80px;text-align:right;font-family:'DM Mono',monospace;}
+.geo-track{flex:1;height:12px;background:var(--bg3);border-radius:2px;overflow:hidden;}
+.geo-fill{height:100%;background:var(--cyan);opacity:.7;border-radius:2px;transition:width 1s ease;}
+.geo-val{font-size:11px;color:var(--text2);width:30px;font-family:'DM Mono',monospace;}
+
+/* HYPOTHESES */
+.hyp-list{display:flex;flex-direction:column;gap:1px;background:var(--border);border:1px solid var(--border);margin:2rem 0;}
+.hyp{display:grid;grid-template-columns:80px 1fr;background:var(--bg2);}
+.hyp-tag{padding:1.5rem;display:flex;align-items:center;justify-content:center;border-right:1px solid var(--border);}
+.hyp-dot{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:500;}
+.hyp-body{padding:1.5rem;}
+.hyp-title{font-size:13px;font-weight:500;margin-bottom:.4rem;}
+.hyp-text{font-size:13px;color:var(--text2);line-height:1.7;}
+.hyp-result{font-size:12px;margin-top:.6rem;padding:4px 10px;border-radius:2px;display:inline-block;}
+
+/* METHODOLOGIE */
+.meth-grid{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--border);border:1px solid var(--border);margin:2rem 0;}
+.meth-item{background:var(--bg2);padding:1.5rem;}
+.meth-icon{font-size:22px;margin-bottom:.75rem;display:block;}
+.meth-title{font-size:13px;font-weight:500;margin-bottom:.4rem;}
+.meth-text{font-size:13px;color:var(--text2);line-height:1.7;}
+
+/* CORRELATION */
+.corr-box{background:var(--bg2);border:1px solid var(--border);padding:2rem;margin:2rem 0;}
+.corr-title{font-size:13px;font-weight:500;margin-bottom:1.25rem;}
+.corr-row{display:flex;align-items:center;gap:12px;margin-bottom:12px;}
+.corr-vars{font-size:12px;color:var(--text2);flex:1;font-family:'DM Mono',monospace;}
+.corr-r{font-size:13px;font-weight:500;width:60px;text-align:right;font-family:'DM Mono',monospace;}
+.corr-track{width:120px;height:8px;background:var(--bg3);border-radius:4px;overflow:hidden;}
+.corr-fill{height:100%;border-radius:4px;background:var(--purple);}
+.corr-sig{font-size:11px;color:var(--text2);width:50px;}
+
+/* CONCLUSION */
+.conclu-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:1px;background:var(--border);border:1px solid var(--border);margin:2rem 0;}
+.conclu{background:var(--bg2);padding:1.5rem;}
+.conclu-icon{font-size:20px;margin-bottom:.75rem;display:block;}
+.conclu-title{font-size:13px;font-weight:500;color:var(--purple);margin-bottom:.5rem;}
+.conclu-text{font-size:13px;color:var(--text2);line-height:1.6;}
+
+.tag{display:inline-block;font-size:11px;padding:3px 10px;border-radius:2px;margin:3px;}
+.t-purple{background:var(--purple-dim);color:var(--purple);border:1px solid rgba(155,143,255,.2);}
+.t-pink{background:rgba(255,121,198,.1);color:var(--pink);border:1px solid rgba(255,121,198,.2);}
+.t-cyan{background:rgba(88,232,210,.1);color:var(--cyan);border:1px solid rgba(88,232,210,.2);}
+.t-yellow{background:rgba(255,209,102,.1);color:var(--yellow);border:1px solid rgba(255,209,102,.2);}
+
+.back-btn{display:inline-flex;align-items:center;gap:8px;color:var(--purple);text-decoration:none;font-size:13px;padding:10px 20px;border:1px solid var(--border);transition:all .2s;margin-top:2rem;}
+.back-btn:hover{background:var(--purple-dim);}
+
+footer{padding:2rem 4rem;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;}
+.fn{font-family:'DM Serif Display',serif;font-size:18px;}
+.fc{font-size:12px;color:var(--text2);text-align:right;line-height:1.8;}
+
+@media(max-width:700px){
+  .hero{padding:3rem 1.5rem;flex-direction:column;}
+  .hero-cards{display:none;}
+  .section{padding:2.5rem 1.5rem;}
+  .pb-grid,.dashboard,.meth-grid,.conclu-grid{grid-template-columns:1fr;}
+  .hero-stats{grid-template-columns:repeat(2,1fr);}
+  footer{flex-direction:column;gap:1rem;padding:2rem 1.5rem;}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a class="nav-back" href="index.html">← Retour au portfolio</a>
+  <span class="nav-pill">Recherche statistique</span>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-content">
+    <div class="hero-tag">Étude statistique · JASP · Master HN · UPHF 2025</div>
+    <h1 class="hero-title">L'amitié sous<br>l'influence des<br><em>réseaux sociaux</em></h1>
+    <p class="hero-sub">Une analyse statistique quantitative sur l'impact des réseaux sociaux sur le sentiment de solitude et la qualité des relations amicales chez les jeunes.</p>
+    <div class="hero-stats">
+      <div class="hst"><div class="hst-n">100</div><div class="hst-l">Participants</div></div>
+      <div class="hst"><div class="hst-n">8</div><div class="hst-l">Variables</div></div>
+      <div class="hst"><div class="hst-n">3</div><div class="hst-l">Hypothèses</div></div>
+      <div class="hst"><div class="hst-n">8</div><div class="hst-l">Villes</div></div>
+    </div>
+  </div>
+  <div class="hero-cards">
+    <div class="float-card">
+      <div class="fc-label">Temps moyen / réseaux</div>
+      <div class="fc-val" style="color:var(--purple);">4,61 h/jour</div>
+      <div class="fc-bar"><div class="fc-fill" style="width:46%;background:var(--purple);"></div></div>
+    </div>
+    <div class="float-card">
+      <div class="fc-label">Sentiment de solitude</div>
+      <div class="fc-val" style="color:var(--pink);">5,72 / 10</div>
+      <div class="fc-bar"><div class="fc-fill" style="width:57%;background:var(--pink);"></div></div>
+    </div>
+    <div class="float-card">
+      <div class="fc-label">Dépendance perçue</div>
+      <div class="fc-val" style="color:var(--yellow);">5,75 / 10</div>
+      <div class="fc-bar"><div class="fc-fill" style="width:57%;background:var(--yellow);"></div></div>
+    </div>
+    <div class="float-card">
+      <div class="fc-label">Impact reconnu</div>
+      <div class="fc-val" style="color:var(--cyan);">84 %</div>
+      <div class="fc-bar"><div class="fc-fill" style="width:84%;background:var(--cyan);"></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- CONTEXTE -->
+<div class="section">
+  <div class="section-label">01 — Contexte</div>
+  <h2 class="section-title">Pourquoi cette étude ?</h2>
+  <p class="section-text">Nous vivons dans une ère où les réseaux sociaux se sont intégrés à notre quotidien. La génération post-COVID a démontré leur rôle essentiel dans le maintien des liens sociaux — mais aussi leurs effets potentiellement néfastes sur la qualité des amitiés. En tant qu'étudiants en Humanités Numériques, nous contribuons directement à cette hausse du temps d'écran. C'est cette formation qui nous pousse à réfléchir sur ces questions technologico-sociales.</p>
+
+  <div class="pb-grid">
+    <div class="pb-item">
+      <div class="pb-num">01</div>
+      <div class="pb-title">Solitude & réseaux</div>
+      <p class="pb-text">Les réseaux sociaux ont-ils un impact mesurable sur le sentiment de solitude chez les étudiants universitaires ?</p>
+    </div>
+    <div class="pb-item">
+      <div class="pb-num">02</div>
+      <div class="pb-title">Temps & qualité relationnelle</div>
+      <p class="pb-text">Existe-t-il une relation entre le temps passé sur les réseaux (récréatif vs professionnel) et la perception de la qualité des relations amicales ?</p>
+    </div>
+    <div class="pb-item">
+      <div class="pb-num">03</div>
+      <div class="pb-title">Dépendance & amitiés</div>
+      <p class="pb-text">Les individus conscients de leur dépendance aux réseaux présentent-ils un rapport différent à leurs amitiés ?</p>
+    </div>
+  </div>
+</div>
+
+<!-- VISUALISATIONS -->
+<div class="section">
+  <div class="section-label">02 — Visualisations</div>
+  <h2 class="section-title">Tableau de bord des résultats</h2>
+
+  <div class="dashboard">
+
+    <!-- Réseaux sociaux utilisés -->
+    <div class="dash-card">
+      <div class="dash-title">Réseaux sociaux utilisés</div>
+      <div id="bar-reseaux"></div>
+    </div>
+
+    <!-- Impact perçu -->
+    <div class="dash-card">
+      <div class="dash-title">Impact perçu sur les amitiés</div>
+      <div class="donut-wrap">
+        <svg class="donut-svg" width="120" height="120" viewBox="0 0 120 120">
+          <circle cx="60" cy="60" r="45" fill="none" stroke="#1E1E2A" stroke-width="18"/>
+          <!-- Oui: 59% = 333deg -->
+          <circle cx="60" cy="60" r="45" fill="none" stroke="#9B8FFF" stroke-width="18"
+            stroke-dasharray="282.6 565.2" stroke-dashoffset="141.3" transform="rotate(-90 60 60)" opacity=".85"/>
+          <!-- Parfois: 25% = 141deg -->
+          <circle cx="60" cy="60" r="45" fill="none" stroke="#58E8D2" stroke-width="18"
+            stroke-dasharray="70.7 565.2" stroke-dashoffset="-141.3" transform="rotate(-90 60 60)" opacity=".85"/>
+          <!-- Non: 16% = 90deg -->
+          <circle cx="60" cy="60" r="45" fill="none" stroke="#FF79C6" stroke-width="18"
+            stroke-dasharray="45.2 565.2" stroke-dashoffset="-212" transform="rotate(-90 60 60)" opacity=".85"/>
+          <text x="60" y="56" text-anchor="middle" fill="#C8C5E0" font-size="16" font-family="DM Serif Display">84%</text>
+          <text x="60" y="70" text-anchor="middle" fill="#7B7896" font-size="9" font-family="DM Sans">reconnaissent</text>
+        </svg>
+        <div class="donut-legend">
+          <div class="dl-item"><div class="dl-dot" style="background:#9B8FFF"></div><span>Oui — 59%</span></div>
+          <div class="dl-item"><div class="dl-dot" style="background:#58E8D2"></div><span>Parfois — 25%</span></div>
+          <div class="dl-item"><div class="dl-dot" style="background:#FF79C6"></div><span>Non — 16%</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Indicateurs clés -->
+    <div class="dash-card">
+      <div class="dash-title">Indicateurs statistiques clés</div>
+      <div class="gauge-grid">
+        <div class="gauge-item">
+          <div class="gauge-label">Temps sur réseaux</div>
+          <div class="gauge-num" style="color:var(--purple);">4,61</div>
+          <div class="gauge-sub">heures / jour · moy.</div>
+          <div class="gauge-bar"><div class="gauge-fill" style="width:46%;background:var(--purple);"></div></div>
+        </div>
+        <div class="gauge-item">
+          <div class="gauge-label">Temps travail/études</div>
+          <div class="gauge-num" style="color:var(--cyan);">5,77</div>
+          <div class="gauge-sub">heures / jour · moy.</div>
+          <div class="gauge-bar"><div class="gauge-fill" style="width:57%;background:var(--cyan);"></div></div>
+        </div>
+        <div class="gauge-item">
+          <div class="gauge-label">Solitude perçue</div>
+          <div class="gauge-num" style="color:var(--pink);">5,72</div>
+          <div class="gauge-sub">/ 10 · moy. · σ=2,21</div>
+          <div class="gauge-bar"><div class="gauge-fill" style="width:57%;background:var(--pink);"></div></div>
+        </div>
+        <div class="gauge-item">
+          <div class="gauge-label">Dépendance perçue</div>
+          <div class="gauge-num" style="color:var(--yellow);">5,75</div>
+          <div class="gauge-sub">/ 10 · moy. · σ=2,50</div>
+          <div class="gauge-bar"><div class="gauge-fill" style="width:57%;background:var(--yellow);"></div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Géographie -->
+    <div class="dash-card">
+      <div class="dash-title">Répartition géographique (8 villes)</div>
+      <div class="geo-grid" id="geo-chart"></div>
+    </div>
+
+  </div>
+
+  <!-- Tranche d'âge -->
+  <div class="dash-card" style="background:var(--bg2);border:1px solid var(--border);padding:2rem;margin-top:1px;">
+    <div class="dash-title">Distribution par tranche d'âge</div>
+    <div id="age-chart"></div>
+  </div>
+</div>
+
+<!-- HYPOTHESES -->
+<div class="section">
+  <div class="section-label">03 — Hypothèses</div>
+  <h2 class="section-title">Résultats des hypothèses</h2>
+  <div class="hyp-list">
+    <div class="hyp">
+      <div class="hyp-tag"><div class="hyp-dot" style="background:rgba(155,143,255,.2);color:var(--purple);">H1</div></div>
+      <div class="hyp-body">
+        <div class="hyp-title">Temps sur réseaux → Sentiment de solitude</div>
+        <p class="hyp-text">Le temps total passé sur les réseaux sociaux est positivement corrélé au sentiment de solitude déclaré — dû à la baisse de contact humain direct.</p>
+        <span class="hyp-result" style="background:rgba(155,143,255,.15);color:var(--purple);">✓ Confirmée — r ≈ 0,25 (corrélation positive modérée)</span>
+      </div>
+    </div>
+    <div class="hyp">
+      <div class="hyp-tag"><div class="hyp-dot" style="background:rgba(88,232,210,.15);color:var(--cyan);">H2</div></div>
+      <div class="hyp-body">
+        <div class="hyp-title">Usage récréatif → Perception négative des amitiés</div>
+        <p class="hyp-text">Un usage récréatif élevé est associé à une perception plus négative de l'impact des réseaux sur les relations amicales — baisse de contact humain avec des personnes proches.</p>
+        <span class="hyp-result" style="background:rgba(88,232,210,.1);color:var(--cyan);">✓ Tendance confirmée par les données descriptives</span>
+      </div>
+    </div>
+    <div class="hyp">
+      <div class="hyp-tag"><div class="hyp-dot" style="background:rgba(255,209,102,.12);color:var(--yellow);">H3</div></div>
+      <div class="hyp-body">
+        <div class="hyp-title">Dépendance perçue → Solitude & cycle d'addiction</div>
+        <p class="hyp-text">Le niveau de dépendance perçu est positivement corrélé au sentiment de solitude. L'utilisateur compense la solitude par les réseaux, renforçant l'addiction — un cycle infernal.</p>
+        <span class="hyp-result" style="background:rgba(255,209,102,.1);color:var(--yellow);">✓ Confirmée — Corrélation positive dépendance / solitude</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Corrélations -->
+  <div class="corr-box">
+    <div class="corr-title">Matrice de corrélations (Pearson — JASP)</div>
+    <div class="corr-row">
+      <div class="corr-vars">Temps réseaux ↔ Sentiment solitude</div>
+      <div class="corr-r" style="color:var(--purple);">r = 0.25</div>
+      <div class="corr-track"><div class="corr-fill" style="width:50%;"></div></div>
+      <div class="corr-sig" style="color:var(--purple);">positif</div>
+    </div>
+    <div class="corr-row">
+      <div class="corr-vars">Dépendance ↔ Sentiment solitude</div>
+      <div class="corr-r" style="color:var(--pink);">r ≈ 0.30</div>
+      <div class="corr-track"><div class="corr-fill" style="width:60%;background:var(--pink);"></div></div>
+      <div class="corr-sig" style="color:var(--pink);">modéré</div>
+    </div>
+    <div class="corr-row">
+      <div class="corr-vars">Temps travail ↔ Sentiment solitude</div>
+      <div class="corr-r" style="color:var(--cyan);">r ≈ 0.10</div>
+      <div class="corr-track"><div class="corr-fill" style="width:20%;background:var(--cyan);"></div></div>
+      <div class="corr-sig" style="color:var(--cyan);">faible</div>
+    </div>
+    <div class="corr-row">
+      <div class="corr-vars">Dépendance ↔ Impact perçu</div>
+      <div class="corr-r" style="color:var(--yellow);">χ² sig.</div>
+      <div class="corr-track"><div class="corr-fill" style="width:70%;background:var(--yellow);"></div></div>
+      <div class="corr-sig" style="color:var(--yellow);">p &lt; .05</div>
+    </div>
+  </div>
+</div>
+
+<!-- METHODOLOGIE -->
+<div class="section">
+  <div class="section-label">04 — Méthodologie</div>
+  <h2 class="section-title">Approche de recherche</h2>
+  <div class="meth-grid">
+    <div class="meth-item">
+      <span class="meth-icon">📋</span>
+      <div class="meth-title">Collecte via Google Forms</div>
+      <p class="meth-text">Formulaire anonyme distribué auprès d'étudiants universitaires dans 8 villes françaises. 100 répondants valides, ciblant les 16–25 ans — tranche d'âge formatrice pour les amitiés.</p>
+    </div>
+    <div class="meth-item">
+      <span class="meth-icon">🔢</span>
+      <div class="meth-title">Variables quantitatives & qualitatives</div>
+      <p class="meth-text">8 variables : âge, ville, temps réseaux, temps études, sentiment de solitude (1–10), réseaux utilisés, impact perçu, dépendance (1–10). Variables indépendantes vs réponses clairement définies.</p>
+    </div>
+    <div class="meth-item">
+      <span class="meth-icon">📊</span>
+      <div class="meth-title">Analyse JASP</div>
+      <p class="meth-text">Statistiques descriptives (moyennes, écarts-types, CV, percentiles), tables de fréquences, diagrammes de Pareto, frequency plots, Likert plots et matrice de corrélations Pearson.</p>
+    </div>
+    <div class="meth-item">
+      <span class="meth-icon">🧪</span>
+      <div class="meth-title">Tests statistiques</div>
+      <p class="meth-text">Corrélations de Pearson pour les variables quantitatives. Tests du chi-carré pour les variables qualitatives. Analyse des distributions et identification des patterns bimodaux.</p>
+    </div>
+  </div>
+
+  <div style="margin-top:1.5rem;">
+    <span class="tag t-purple">JASP</span>
+    <span class="tag t-purple">Statistiques descriptives</span>
+    <span class="tag t-pink">Corrélations Pearson</span>
+    <span class="tag t-pink">Chi-carré</span>
+    <span class="tag t-cyan">Diagrammes de Pareto</span>
+    <span class="tag t-cyan">Likert Plots</span>
+    <span class="tag t-yellow">Google Forms</span>
+    <span class="tag t-yellow">Recherche quantitative</span>
+  </div>
+</div>
+
+<!-- CONCLUSION -->
+<div class="section">
+  <div class="section-label">05 — Conclusion</div>
+  <h2 class="section-title">Enseignements principaux</h2>
+  <div class="conclu-grid">
+    <div class="conclu">
+      <span class="conclu-icon">📱</span>
+      <div class="conclu-title">Usage significatif</div>
+      <p class="conclu-text">4,61 h/jour en moyenne sur les réseaux à des fins récréatives — un usage substantiel, légèrement supérieur au temps de travail/études (5,77 h) mais très proche.</p>
+    </div>
+    <div class="conclu">
+      <span class="conclu-icon">🔗</span>
+      <div class="conclu-title">Lien réseaux → solitude</div>
+      <p class="conclu-text">Corrélation positive (r ≈ 0,25) entre temps passé sur les réseaux et sentiment de solitude. Instagram (37%) et TikTok (23%) dominent les usages des jeunes.</p>
+    </div>
+    <div class="conclu">
+      <span class="conclu-icon">💡</span>
+      <div class="conclu-title">Prise de conscience</div>
+      <p class="conclu-text">84% des répondants reconnaissent un impact des réseaux sur leurs amitiés (59% "Oui", 25% "Parfois"), témoignant d'une lucidité croissante sur ces enjeux.</p>
+    </div>
+  </div>
+
+  <div style="margin-top:2rem;padding:1.5rem;background:var(--bg2);border:1px solid var(--border);border-left:3px solid var(--purple);">
+    <p style="font-size:14px;color:var(--text2);line-height:1.8;font-style:italic;">« Les réseaux sociaux se révèlent à la fois outils de maintien du lien social et facteurs potentiels d'isolement — un rôle ambivalent qui souligne la nécessité de poursuivre des recherches empiriques approfondies pour guider une législation qui respecte la santé des utilisateurs. »</p>
+  </div>
+
+  <a href="index.html" class="back-btn">← Retour au portfolio</a>
+</div>
+
+<footer>
+  <div>
+    <div class="fn">L'amitié & les réseaux sociaux</div>
+    <div class="fc" style="text-align:left;margin-top:4px;font-size:12px;color:var(--text2);">Recherche statistique · Master HN · UPHF 2025</div>
+  </div>
+  <div class="fc">
+    <div>Jeanne Etoundi</div>
+    <div>jeanne.etoundi0@gmail.com</div>
+  </div>
+</footer>
+
+<script>
+// BAR — Réseaux sociaux
+const reseaux = [
+  {n:'Instagram', v:37, c:'#9B8FFF'},
+  {n:'TikTok',    v:23, c:'#FF79C6'},
+  {n:'Snapchat',  v:17, c:'#58E8D2'},
+  {n:'LinkedIn',  v:9,  c:'#FFD166'},
+  {n:'X',         v:8,  c:'#7B7896'},
+  {n:'Facebook',  v:6,  c:'#F78166'},
+];
+const br = document.getElementById('bar-reseaux');
+reseaux.forEach(r => {
+  br.innerHTML += `<div class="bar-row">
+    <span class="br-label">${r.n}</span>
+    <div class="br-track">
+      <div class="br-fill" style="width:0%;background:${r.c};opacity:.8" data-w="${r.v}">
+        <span class="br-val">${r.v}%</span>
+      </div>
+    </div>
+    <span class="br-pct">${r.v}%</span>
+  </div>`;
+});
+
+// GEO chart
+const geo = [
+  {n:'Nantes',v:19},{n:'Lille',v:15},{n:'Strasbourg',v:14},
+  {n:'Toulouse',v:14},{n:'Bordeaux',v:11},{n:'Marseille',v:10},
+  {n:'Paris',v:10},{n:'Lyon',v:7}
+];
+const gc = document.getElementById('geo-chart');
+geo.forEach(g => {
+  gc.innerHTML += `<div class="geo-row">
+    <span class="geo-label">${g.n}</span>
+    <div class="geo-track"><div class="geo-fill" style="width:0%" data-w="${g.v}%"></div></div>
+    <span class="geo-val">${g.v}%</span>
+  </div>`;
+});
+
+// AGE chart
+const ages = [
+  {n:'16–18',v:30,c:'#9B8FFF'},{n:'< 16',v:21,c:'#FF79C6'},
+  {n:'18–21',v:19,c:'#58E8D2'},{n:'21–25',v:14,c:'#FFD166'},
+  {n:'25–50',v:13,c:'#7B7896'},{n:'50–67',v:2,c:'#F78166'},
+  {n:'> 67', v:1, c:'#555'}
+];
+const ac = document.getElementById('age-chart');
+ages.forEach(a => {
+  ac.innerHTML += `<div class="bar-row">
+    <span class="br-label">${a.n}</span>
+    <div class="br-track">
+      <div class="br-fill" style="width:0%;background:${a.c};opacity:.8" data-w="${a.v}">
+        <span class="br-val">${a.v}%</span>
+      </div>
+    </div>
+    <span class="br-pct">${a.v}%</span>
+  </div>`;
+});
+
+// ANIMATE
+setTimeout(() => {
+  document.querySelectorAll('.br-fill').forEach(b => b.style.width = b.dataset.w + '%');
+  document.querySelectorAll('.geo-fill').forEach(b => b.style.width = b.dataset.w);
+}, 400);
+</script>
+</body>
+</html>
