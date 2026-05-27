@@ -47,8 +47,8 @@ nav{position:sticky;top:0;z-index:100;background:var(--dark);display:flex;justif
 .profile-text{font-size:16px;line-height:1.9;color:var(--muted);max-width:680px;border-left:3px solid var(--accent);padding-left:1.5rem;}
 
 /* SKILLS */
-.skills-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:1px;background:var(--border);border:1px solid var(--border);}
-.skill-block{background:var(--cream);padding:1.5rem;}
+.skills-grid{display:flex;flex-direction:column;border:1px solid var(--border);}
+.skill-block{background:var(--cream);padding:1.25rem 1.5rem;border-bottom:1px solid var(--border);}.skill-block:last-child{border-bottom:none;}
 .skill-block-title{font-size:11px;text-transform:uppercase;letter-spacing:.12em;color:var(--accent);font-weight:500;margin-bottom:.9rem;}
 .skill-tags{display:flex;flex-wrap:wrap;gap:6px;}
 .skill-tag{font-size:12px;background:rgba(196,98,45,.08);color:var(--dark);padding:4px 10px;border-radius:2px;border:1px solid rgba(196,98,45,.2);}
@@ -151,8 +151,8 @@ nav{position:sticky;top:0;z-index:100;background:var(--dark);display:flex;justif
 .link-box a:hover{text-decoration:underline;}
 
 /* EDU */
-.edu-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:1px;background:var(--border);border:1px solid var(--border);}
-.eb{background:var(--cream);padding:1.5rem;}
+.edu-grid{display:flex;flex-direction:column;}
+.eb{padding:1.25rem 0;border-bottom:1px solid var(--border);display:flex;flex-direction:column;gap:4px;}.eb:last-child{border-bottom:none;}
 .ey{font-size:11px;color:var(--accent);font-weight:500;letter-spacing:.1em;text-transform:uppercase;margin-bottom:8px;}
 .ed{font-family:'DM Serif Display',serif;font-size:16px;margin-bottom:6px;line-height:1.3;}
 .es{font-size:13px;color:var(--muted);line-height:1.5;}
@@ -175,7 +175,7 @@ nav{position:sticky;top:0;z-index:100;background:var(--dark);display:flex;justif
 @media(max-width:680px){
   .hero{grid-template-columns:1fr;}
   .section{padding:0 1.5rem;}
-  .skills-grid,.edu-grid{grid-template-columns:1fr;}
+  /* skills and edu already column */
   .two-col{grid-template-columns:1fr;}
   .grid-4,.grid-5{grid-template-columns:repeat(2,1fr);}
   .pm{grid-template-columns:1fr;}
@@ -193,6 +193,7 @@ nav{position:sticky;top:0;z-index:100;background:var(--dark);display:flex;justif
     <a href="#experiences">Expériences</a>
     <a href="#projets">Projets</a>
     <a href="#formation">Formation</a>
+    <a href="#certifications">Certifications</a>
     <a href="https://github.com/jetoundi/" target="_blank" style="color:rgba(250,248,244,.5);display:flex;align-items:center;gap:4px;font-size:12px;text-decoration:none;text-transform:uppercase;letter-spacing:.1em;transition:color .2s;" onmouseover="this.style.color='#C4622D'" onmouseout="this.style.color='rgba(250,248,244,.5)'">
       <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.477 2 12c0 4.42 2.865 8.17 6.839 9.49.5.092.682-.217.682-.482 0-.237-.008-.866-.013-1.7-2.782.604-3.369-1.34-3.369-1.34-.454-1.156-1.11-1.464-1.11-1.464-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0112 6.836c.85.004 1.705.114 2.504.336 1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.203 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.741 0 .267.18.578.688.48C19.138 20.167 22 16.418 22 12c0-5.523-4.477-10-10-10z"/></svg>
       GitHub
@@ -213,7 +214,7 @@ nav{position:sticky;top:0;z-index:100;background:var(--dark);display:flex;justif
     <div>
       <div class="hero-stat"><div class="hero-stat-num">3</div><div class="hero-stat-label">Expériences professionnelles</div></div>
       <div class="hero-stat"><div class="hero-stat-num">3</div><div class="hero-stat-label">Diplômes & Masters</div></div>
-      <div class="hero-stat"><div class="hero-stat-num">7</div><div class="hero-stat-label">Projets intégrés</div></div>
+      <div class="hero-stat"><div class="hero-stat-num">6</div><div class="hero-stat-label">Projets intégrés</div></div>
     </div>
     <div class="hero-contact">
       <div>📍 Aulnoy-Lez-Valenciennes</div>
@@ -354,7 +355,7 @@ nav{position:sticky;top:0;z-index:100;background:var(--dark);display:flex;justif
         </div>
         <div class="pm">
           <div><div class="ml ml-p">Contexte</div><div class="mv">TD Architecture & Technologies des Dispositifs Interactifs — Master HN, UPHF 2026</div></div>
-          </div>
+        </div>
         <a href="antre-des-sens.html" target="_blank" style="display:inline-flex;align-items:center;gap:8px;padding:10px 20px;background:var(--dark);color:#FAF8F4;text-decoration:none;font-size:13px;font-weight:500;border-radius:2px;margin-top:1rem;transition:background .2s;" onmouseover="this.style.background='#C4622D'" onmouseout="this.style.background='var(--dark)'">→ Voir L'Antre des Sens</a>
         <div class="ptags"><span class="tg tg-p">HTML5 / CSS</span><span class="tg tg-p">JavaScript ES6+</span><span class="tg tg-p">Web Audio API</span><span class="tg tg-p">SVG Filters</span><span class="tg tg-p">Synesthésie</span><span class="tg tg-p">UX/UI Design</span><span class="tg tg-p">Narration interactive</span></div>
       </div></div>
@@ -457,9 +458,9 @@ nav{position:sticky;top:0;z-index:100;background:var(--dark);display:flex;justif
         <div class="ptags"><span class="tg tg-t">Intelligence Artificielle</span><span class="tg tg-t">Pré-archivage</span><span class="tg tg-t">Médiation mémorielle</span><span class="tg tg-t">NLP</span><span class="tg tg-t">Humanités Numériques</span><span class="tg tg-t">Patrimoine culturel</span><span class="tg tg-t">UX Design</span><span class="tg tg-t">Mémoires africaines</span></div>
       </div></div>
 
-      <div class="divider"></div>
+    <div class="divider"></div>
 
-      <!-- P06 -->
+    <!-- P06 -->
       <div class="project-card" onclick="toggle(this)">
         <div class="project-header">
           <div class="project-header-left">
@@ -488,258 +489,6 @@ nav{position:sticky;top:0;z-index:100;background:var(--dark);display:flex;justif
         </div></div>
       </div>
 
-      <div class="divider"></div>
-
-      <!-- P07 : BI REPORT GENERATOR -->
-      <div class="project-card" onclick="toggle(this)">
-        <div class="project-header">
-          <div class="project-header-left">
-            <span class="pnum">07</span>
-            <div>
-              <div class="ptitle">BI Report Generator</div>
-              <div class="psub">Génération automatique de rapports HTML depuis CSV · Python · pandas · matplotlib</div>
-            </div>
-          </div>
-          <div class="project-header-right">
-            <span class="badge b-data">Python · Data</span>
-            <span class="toggle-icon">+</span>
-          </div>
-        </div>
-        <div class="project-body"><div class="pb-inner">
-          <div class="pdesc d-green">Script Python qui transforme automatiquement n'importe quel fichier CSV en rapport BI HTML complet et autonome : KPIs calculés, 4 visualisations générées (bar chart, donut, courbe temporelle, top produits), classements Top/Bottom, analyse qualité des données. Zéro configuration manuelle — détection automatique des colonnes. Inspiré de l'expérience Data Analyst aux Petits Riens (Bruxelles, 2022–2023).</div>
-
-          <!-- Stats -->
-          <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--border);border:1px solid var(--border);margin:1rem 0;">
-            <div style="background:var(--cream);padding:1rem;text-align:center;"><div style="font-family:'DM Serif Display',serif;font-size:24px;color:var(--accent2);line-height:1;">4</div><div style="font-size:10px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin-top:4px;">Graphiques auto</div></div>
-            <div style="background:var(--cream);padding:1rem;text-align:center;"><div style="font-family:'DM Serif Display',serif;font-size:24px;color:var(--accent2);line-height:1;">1</div><div style="font-size:10px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin-top:4px;">HTML autonome</div></div>
-            <div style="background:var(--cream);padding:1rem;text-align:center;"><div style="font-family:'DM Serif Display',serif;font-size:24px;color:var(--accent2);line-height:1;">∞</div><div style="font-size:10px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin-top:4px;">CSV compatibles</div></div>
-            <div style="background:var(--cream);padding:1rem;text-align:center;"><div style="font-family:'DM Serif Display',serif;font-size:24px;color:var(--accent2);line-height:1;">0</div><div style="font-size:10px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin-top:4px;">Config manuelle</div></div>
-          </div>
-
-          <!-- Stack technique -->
-          <div style="margin:10px 0 6px;font-size:11px;text-transform:uppercase;letter-spacing:.1em;font-weight:500;color:var(--accent2);">Stack technique</div>
-          <div class="tech-stack">
-            <div class="ti"><div class="tdot" style="background:var(--accent2);"></div><div><div class="tn">pandas</div><div class="td">Chargement, nettoyage, agrégations automatiques</div></div></div>
-            <div class="ti"><div class="tdot" style="background:var(--accent);"></div><div><div class="tn">matplotlib</div><div class="td">4 graphiques embarqués en base64 dans le HTML</div></div></div>
-            <div class="ti"><div class="tdot" style="background:var(--purple);"></div><div><div class="tn">argparse</div><div class="td">Interface ligne de commande (CLI) flexible</div></div></div>
-            <div class="ti"><div class="tdot" style="background:var(--gold);"></div><div><div class="tn">jinja2</div><div class="td">Templating du rapport HTML final</div></div></div>
-          </div>
-
-          <!-- Ce que le rapport génère -->
-          <div style="margin:12px 0 6px;font-size:11px;text-transform:uppercase;letter-spacing:.1em;font-weight:500;color:var(--accent2);">Contenu du rapport généré</div>
-          <div class="flux-row">
-            <div class="flux-step"><div class="flux-num" style="color:var(--accent2);">KPI</div><div class="flux-name">CA · Qty · Lignes</div></div>
-            <div class="flux-step"><div class="flux-num" style="color:var(--accent2);">Viz</div><div class="flux-name">4 graphiques</div></div>
-            <div class="flux-step"><div class="flux-num" style="color:var(--accent2);">Top</div><div class="flux-name">Classements</div></div>
-            <div class="flux-step"><div class="flux-num" style="color:var(--accent2);">QA</div><div class="flux-name">Qualité données</div></div>
-            <div class="flux-step"><div class="flux-num" style="color:var(--accent2);">HTML</div><div class="flux-name">Export autonome</div></div>
-          </div>
-
-          <!-- Usage CLI -->
-          <div class="pm" style="margin-top:1rem;">
-            <div><div class="ml ml-g">Contexte</div><div class="mv">Ancré dans l'expérience Data Analyst aux Petits Riens, Bruxelles 2022–2023</div></div>
-            <div><div class="ml ml-g">Commande</div><div class="mv" style="font-family:'Courier New',monospace;font-size:12px;color:var(--muted);">python generate_report.py data.csv</div></div>
-          </div>
-
-          <!-- Liens -->
-          <div style="display:flex;gap:.75rem;flex-wrap:wrap;margin-top:1rem;">
-            <a href="https://github.com/jetoundi/bi-report-generator" target="_blank" style="display:inline-flex;align-items:center;gap:8px;padding:10px 20px;background:var(--dark);color:#FAF8F4;text-decoration:none;font-size:13px;font-weight:500;border-radius:2px;transition:background .2s;" onmouseover="this.style.background='var(--accent2)'" onmouseout="this.style.background='var(--dark)'">→ Code source GitHub</a>
-            <a href="bi-report-generator/output/rapport_ventes.html" target="_blank" style="display:inline-flex;align-items:center;gap:8px;padding:10px 20px;background:transparent;color:var(--dark);text-decoration:none;font-size:13px;font-weight:500;border-radius:2px;border:1px solid var(--border);transition:background .2s;" onmouseover="this.style.background='rgba(74,124,111,.08)'" onmouseout="this.style.background='transparent'">📊 Voir le rapport de démo</a>
-          </div>
-
-          <div class="ptags" style="margin-top:1rem;">
-            <span class="tg tg-g">Python</span>
-            <span class="tg tg-g">pandas</span>
-            <span class="tg tg-g">matplotlib</span>
-            <span class="tg tg-g">jinja2</span>
-            <span class="tg tg-g">Automatisation</span>
-            <span class="tg tg-g">Data Visualisation</span>
-            <span class="tg tg-g">Rapport BI</span>
-            <span class="tg tg-g">CLI</span>
-          </div>
-        </div></div>
-      </div>
-
-      <div class="divider"></div>
-
-      <!-- P08 : DASHBOARD CINÉMA AFRICAIN -->
-      <div class="project-card" onclick="toggle(this)">
-        <div class="project-header">
-          <div class="project-header-left">
-            <span class="pnum">08</span>
-            <div>
-              <div class="ptitle">Dashboard Cinéma Africain</div>
-              <div class="psub">Visualisation interactive · 9 739 films · Chart.js · GitHub Pages</div>
-            </div>
-          </div>
-          <div class="project-header-right">
-            <span class="badge b-data">Data Visualisation</span>
-            <span class="toggle-icon">+</span>
-          </div>
-        </div>
-        <div class="project-body"><div class="pb-inner">
-          <div class="pdesc d-green">Dashboard interactif HTML/CSS/JS publié sur GitHub Pages, transformant l'analyse cinématographique initiale (Orange Data Mining) en un tableau de bord avec filtres dynamiques par genre et décennie. Quatre visualisations Chart.js : doughnut, bar chart, courbe temporelle et polar area. 100% statique — zéro dépendance backend.</div>
-
-          <div class="grid-4">
-            <div class="cell"><div class="cell-num" style="color:var(--accent2)">9 739</div><div class="cell-label">Films analysés</div></div>
-            <div class="cell"><div class="cell-num" style="color:var(--accent2)">19</div><div class="cell-label">Genres distincts</div></div>
-            <div class="cell"><div class="cell-num" style="color:var(--accent2)">4</div><div class="cell-label">Types de graphiques</div></div>
-            <div class="cell"><div class="cell-num" style="color:var(--accent2)">∞</div><div class="cell-label">Filtres combinables</div></div>
-          </div>
-
-          <div class="flux-row">
-            <div class="flux-step"><div class="flux-num" style="color:var(--accent2);">KPI</div><div class="flux-name">4 indicateurs</div></div>
-            <div class="flux-step"><div class="flux-num" style="color:var(--accent2);">Filtre</div><div class="flux-name">Genre & décennie</div></div>
-            <div class="flux-step"><div class="flux-num" style="color:var(--accent2);">Viz</div><div class="flux-name">4 graphiques live</div></div>
-            <div class="flux-step"><div class="flux-num" style="color:var(--accent2);">Top</div><div class="flux-name">Classement genres</div></div>
-            <div class="flux-step"><div class="flux-num" style="color:var(--accent2);">Pages</div><div class="flux-name">GitHub Pages</div></div>
-          </div>
-
-          <div class="pm">
-            <div><div class="ml ml-g">Repo GitHub</div><div class="mv">jetoundi/dashboard-cinema-africain</div></div>
-            <div><div class="ml ml-g">Technologies</div><div class="mv">HTML5 · JavaScript · Chart.js 4.4</div></div>
-            <div><div class="ml ml-g">Données source</div><div class="mv">Dataset 9 739 films — analyse Orange Data Mining</div></div>
-            <div><div class="ml ml-g">Déploiement</div><div class="mv">GitHub Pages — accès public, zéro config serveur</div></div>
-          </div>
-
-          <div style="display:flex;gap:.75rem;flex-wrap:wrap;margin-top:1rem;">
-            <a href="https://jetoundi.github.io/dashboard-cinema-africain" target="_blank" style="display:inline-flex;align-items:center;gap:8px;padding:10px 20px;background:var(--dark);color:#FAF8F4;text-decoration:none;font-size:13px;font-weight:500;border-radius:2px;transition:background .2s;" onmouseover="this.style.background='var(--accent2)'" onmouseout="this.style.background='var(--dark)'">→ Voir le dashboard en ligne</a>
-            <a href="https://github.com/jetoundi/dashboard-cinema-africain" target="_blank" style="display:inline-flex;align-items:center;gap:8px;padding:10px 20px;background:transparent;color:var(--dark);text-decoration:none;font-size:13px;font-weight:500;border-radius:2px;border:1px solid var(--border);transition:background .2s;" onmouseover="this.style.background='rgba(74,124,111,.08)'" onmouseout="this.style.background='transparent'">Code source GitHub</a>
-          </div>
-
-          <div class="ptags" style="margin-top:1rem;">
-            <span class="tg tg-g">JavaScript</span>
-            <span class="tg tg-g">Chart.js</span>
-            <span class="tg tg-g">HTML5 / CSS3</span>
-            <span class="tg tg-g">Data Visualisation</span>
-            <span class="tg tg-g">GitHub Pages</span>
-            <span class="tg tg-g">Dashboard interactif</span>
-            <span class="tg tg-g">Cinéma africain</span>
-          </div>
-        </div></div>
-      </div>
-
-      <div class="divider"></div>
-
-      <!-- P09 : ANALYSE PATRIMOINE UNESCO -->
-      <div class="project-card" onclick="toggle(this)">
-        <div class="project-header">
-          <div class="project-header-left">
-            <span class="pnum">09</span>
-            <div>
-              <div class="ptitle">Analyse Patrimoine UNESCO — Afrique</div>
-              <div class="psub">Exploration de données · Python · Pandas · Matplotlib · Folium</div>
-            </div>
-          </div>
-          <div class="project-header-right">
-            <span class="badge b-data">Python · Data</span>
-            <span class="toggle-icon">+</span>
-          </div>
-        </div>
-        <div class="project-body"><div class="pb-inner">
-          <div class="pdesc d-green">Analyse exploratoire (EDA) des sites du patrimoine mondial UNESCO en Afrique à partir des données ouvertes de l'UNESCO. Répartition géographique par région, évolution chronologique des inscriptions depuis 1978, classement par pays, cartographie interactive Folium. Notebook Jupyter documenté et publié sur GitHub.</div>
-
-          <div class="grid-4">
-            <div class="cell"><div class="cell-num" style="color:var(--accent2)">15</div><div class="cell-label">Pays analysés</div></div>
-            <div class="cell"><div class="cell-num" style="color:var(--accent2)">90+</div><div class="cell-label">Sites UNESCO</div></div>
-            <div class="cell"><div class="cell-num" style="color:var(--accent2)">5</div><div class="cell-label">Régions africaines</div></div>
-            <div class="cell"><div class="cell-num" style="color:var(--accent2)">1978</div><div class="cell-label">1ère inscription</div></div>
-          </div>
-
-          <div class="flux-row">
-            <div class="flux-step"><div class="flux-num" style="color:var(--accent2);">Stats</div><div class="flux-name">Globales</div></div>
-            <div class="flux-step"><div class="flux-num" style="color:var(--accent2);">Top</div><div class="flux-name">Pays classés</div></div>
-            <div class="flux-step"><div class="flux-num" style="color:var(--accent2);">Région</div><div class="flux-name">5 zones</div></div>
-            <div class="flux-step"><div class="flux-num" style="color:var(--accent2);">Chro</div><div class="flux-name">Chronologie</div></div>
-            <div class="flux-step"><div class="flux-num" style="color:var(--accent2);">Carte</div><div class="flux-name">Folium interactive</div></div>
-          </div>
-
-          <div style="background:#F0EDE7;border:1px solid var(--border);padding:1rem 1.25rem;margin:.75rem 0;font-size:13px;color:var(--muted);line-height:2;">
-            <div>🥇 <strong style="color:var(--dark);">Afrique du Sud</strong> — 10 sites inscrits, premier pays du continent</div>
-            <div>📅 <strong style="color:var(--dark);">1978–1979</strong> — Éthiopie et Sénégal, pionniers africains UNESCO</div>
-            <div>🏛️ <strong style="color:var(--dark);">72%</strong> des sites africains sont de type culturel</div>
-            <div>🌿 <strong style="color:var(--dark);">Cameroun</strong> — 2 sites seulement malgré une biodiversité exceptionnelle</div>
-          </div>
-
-          <div class="pm">
-            <div><div class="ml ml-g">Repo GitHub</div><div class="mv">jetoundi/notebook-unesco</div></div>
-            <div><div class="ml ml-g">Technologies</div><div class="mv">Python · Pandas · Matplotlib · Seaborn · Folium</div></div>
-            <div><div class="ml ml-g">Données</div><div class="mv">UNESCO World Heritage Centre — Open Data CC BY-SA</div></div>
-            <div><div class="ml ml-g">Lien thématique</div><div class="mv">Complémentaire de PYTHIE et de la Bibliothèque africaine</div></div>
-          </div>
-
-          <div style="display:flex;gap:.75rem;flex-wrap:wrap;margin-top:1rem;">
-            <a href="https://github.com/jetoundi/notebook-unesco" target="_blank" style="display:inline-flex;align-items:center;gap:8px;padding:10px 20px;background:var(--dark);color:#FAF8F4;text-decoration:none;font-size:13px;font-weight:500;border-radius:2px;transition:background .2s;" onmouseover="this.style.background='var(--accent2)'" onmouseout="this.style.background='var(--dark)'">→ Voir le repo GitHub</a>
-            <a href="https://nbviewer.org/github/jetoundi/notebook-unesco/blob/main/analyse_patrimoine_unesco.ipynb" target="_blank" style="display:inline-flex;align-items:center;gap:8px;padding:10px 20px;background:transparent;color:var(--dark);text-decoration:none;font-size:13px;font-weight:500;border-radius:2px;border:1px solid var(--border);transition:background .2s;" onmouseover="this.style.background='rgba(74,124,111,.08)'" onmouseout="this.style.background='transparent'">📓 Voir le notebook</a>
-          </div>
-
-          <div class="ptags" style="margin-top:1rem;">
-            <span class="tg tg-g">Python</span>
-            <span class="tg tg-g">Pandas</span>
-            <span class="tg tg-g">Matplotlib</span>
-            <span class="tg tg-g">Seaborn</span>
-            <span class="tg tg-g">Folium</span>
-            <span class="tg tg-g">Jupyter Notebook</span>
-            <span class="tg tg-g">Open Data UNESCO</span>
-            <span class="tg tg-g">Patrimoine culturel</span>
-          </div>
-        </div></div>
-      </div>
-
-      <div class="divider"></div>
-
-      <!-- P10 : README PROFIL GITHUB -->
-      <div class="project-card" onclick="toggle(this)">
-        <div class="project-header">
-          <div class="project-header-left">
-            <span class="pnum">10</span>
-            <div>
-              <div class="ptitle">README Profil GitHub</div>
-              <div class="psub">Page de profil professionnelle · Badges dynamiques · GitHub Stats</div>
-            </div>
-          </div>
-          <div class="project-header-right">
-            <span class="badge b-web">GitHub · Markdown</span>
-            <span class="toggle-icon">+</span>
-          </div>
-        </div>
-        <div class="project-body"><div class="pb-inner">
-          <div class="pdesc d-gold">README de profil GitHub complet et professionnel — première chose qu'un recruteur voit en visitant github.com/jetoundi. Bannière animée capsule-render, badges compétences (Power BI, Python, JavaScript, SQL…), tableau de projets avec liens directs, stats GitHub dynamiques via API, parcours académique et professionnel mis en valeur.</div>
-
-          <div class="grid-4">
-            <div class="cell"><div class="cell-num" style="color:var(--gold)">20+</div><div class="cell-label">Badges compétences</div></div>
-            <div class="cell"><div class="cell-num" style="color:var(--gold)">5</div><div class="cell-label">Projets mis en avant</div></div>
-            <div class="cell"><div class="cell-num" style="color:var(--gold)">2</div><div class="cell-label">Stats dynamiques</div></div>
-            <div class="cell"><div class="cell-num" style="color:var(--gold)">∞</div><div class="cell-label">Mise à jour auto</div></div>
-          </div>
-
-          <div class="flux-row">
-            <div class="flux-step"><div class="flux-num" style="color:var(--gold);">Bio</div><div class="flux-name">Présentation</div></div>
-            <div class="flux-step"><div class="flux-num" style="color:var(--gold);">Stack</div><div class="flux-name">20+ badges</div></div>
-            <div class="flux-step"><div class="flux-num" style="color:var(--gold);">Projets</div><div class="flux-name">Tableau liens</div></div>
-            <div class="flux-step"><div class="flux-num" style="color:var(--gold);">Stats</div><div class="flux-name">GitHub API</div></div>
-            <div class="flux-step"><div class="flux-num" style="color:var(--gold);">Parcours</div><div class="flux-name">Formation & XP</div></div>
-          </div>
-
-          <div class="pm">
-            <div><div class="ml ml-gold">Repo GitHub</div><div class="mv">jetoundi/jetoundi (repo spécial profil)</div></div>
-            <div><div class="ml ml-gold">Technologies</div><div class="mv">Markdown · Shields.io · capsule-render · GitHub Stats API</div></div>
-          </div>
-
-          <div style="display:flex;gap:.75rem;flex-wrap:wrap;margin-top:1rem;">
-            <a href="https://github.com/jetoundi" target="_blank" style="display:inline-flex;align-items:center;gap:8px;padding:10px 20px;background:var(--dark);color:#FAF8F4;text-decoration:none;font-size:13px;font-weight:500;border-radius:2px;transition:background .2s;" onmouseover="this.style.background='var(--accent)'" onmouseout="this.style.background='var(--dark)'">→ Voir le profil GitHub</a>
-          </div>
-
-          <div class="ptags" style="margin-top:1rem;">
-            <span class="tg tg-gold">Markdown</span>
-            <span class="tg tg-gold">GitHub Profile README</span>
-            <span class="tg tg-gold">Shields.io</span>
-            <span class="tg tg-gold">GitHub Stats API</span>
-            <span class="tg tg-gold">Personal Branding</span>
-          </div>
-        </div></div>
-      </div>
-
     </div>
 
   </div>
@@ -756,23 +505,23 @@ nav{position:sticky;top:0;z-index:100;background:var(--dark);display:flex;justif
 </div>
 
 <!-- CERTIFICATIONS & LANGUES -->
-<div class="section">
+<div class="section" id="certifications">
   <div class="section-header"><span class="section-num">06</span><h2 class="section-title">Certifications & Langues</h2><div class="section-line"></div></div>
 
   <div style="font-size:11px;text-transform:uppercase;letter-spacing:.12em;font-weight:500;color:var(--accent2);margin-bottom:.6rem;">🔢 Data &amp; Analyse</div>
   <div class="ci"><span class="dot"></span>Introduction à l'analyse de données · Microsoft Excel</div>
   <div class="ci"><span class="dot"></span>Google Data Studio — Tableaux de bord interactifs</div>
-  <div class="ci" style="margin-bottom:1.25rem;"><span class="dot"></span>Analyse d'entreprise et gestion des processus</div>
+  <div class="ci" style="margin-bottom:1.5rem;"><span class="dot"></span>Analyse d'entreprise et gestion des processus</div>
 
   <div style="font-size:11px;text-transform:uppercase;letter-spacing:.12em;font-weight:500;color:var(--gold);margin-bottom:.6rem;">🌐 Développement Web</div>
   <div class="ci"><span class="dot"></span>Propriétés et méthodes String TypeScript</div>
-  <div class="ci" style="margin-bottom:1.25rem;"><span class="dot"></span>Développe un site Internet gratuit avec WordPress</div>
+  <div class="ci" style="margin-bottom:1.5rem;"><span class="dot"></span>Développe un site Internet gratuit avec WordPress</div>
 
   <div style="font-size:11px;text-transform:uppercase;letter-spacing:.12em;font-weight:500;color:var(--purple);margin-bottom:.6rem;">📋 Gestion de Projet Agile</div>
   <div class="ci"><span class="dot"></span>Premiers pas avec Azure DevOps Boards</div>
-  <div class="ci" style="margin-bottom:1.25rem;"><span class="dot"></span>Comment créer un projet Jira SCRUM</div>
+  <div class="ci" style="margin-bottom:1.5rem;"><span class="dot"></span>Comment créer un projet Jira SCRUM</div>
 
-  <div style="font-size:11px;text-transform:uppercase;letter-spacing:.12em;font-weight:500;color:var(--accent);margin-top:.5rem;margin-bottom:.6rem;">🗣️ Langues</div>
+  <div style="font-size:11px;text-transform:uppercase;letter-spacing:.12em;font-weight:500;color:var(--accent);margin-bottom:.6rem;">🗣️ Langues</div>
   <div class="lgi"><span class="dot"></span><div><div>Français</div><div class="lang-lvl">Langue maternelle</div></div></div>
   <div class="lgi"><span class="dot"></span><div><div>Anglais</div><div class="lang-lvl">Niveau intermédiaire</div></div></div>
 
