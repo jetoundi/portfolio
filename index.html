@@ -214,7 +214,7 @@ nav{position:sticky;top:0;z-index:100;background:var(--dark);display:flex;justif
     <div>
       <div class="hero-stat"><div class="hero-stat-num">3</div><div class="hero-stat-label">Expériences professionnelles</div></div>
       <div class="hero-stat"><div class="hero-stat-num">3</div><div class="hero-stat-label">Diplômes & Masters</div></div>
-      <div class="hero-stat"><div class="hero-stat-num">6</div><div class="hero-stat-label">Projets intégrés</div></div>
+      <div class="hero-stat"><div class="hero-stat-num">10</div><div class="hero-stat-label">Projets intégrés</div></div>
     </div>
     <div class="hero-contact">
       <div>📍 Aulnoy-Lez-Valenciennes</div>
@@ -490,6 +490,145 @@ nav{position:sticky;top:0;z-index:100;background:var(--dark);display:flex;justif
       </div>
 
     </div>
+
+    <div class="divider"></div>
+
+    <!-- P07 -->
+    <div class="project-card" onclick="toggle(this)">
+      <div class="project-header">
+        <div class="project-header-left">
+          <span class="pnum">07</span>
+          <div><div class="ptitle">BI Report Generator</div><div class="psub">Génération automatique de rapports HTML depuis CSV · Python · pandas · matplotlib</div></div>
+        </div>
+        <div class="project-header-right"><span class="badge b-data">Python · Data</span><span class="toggle-icon">+</span></div>
+      </div>
+      <div class="project-body"><div class="pb-inner">
+        <div class="pdesc d-green">Script Python qui transforme automatiquement n'importe quel fichier CSV en rapport BI HTML complet et autonome : KPIs calculés, 4 visualisations générées (bar chart, donut, courbe temporelle, top produits), classements Top/Bottom, analyse qualité des données. Zéro configuration manuelle — détection automatique des colonnes. Inspiré de l'expérience Data Analyst aux Petits Riens (Bruxelles, 2022–2023).</div>
+        <div class="grid-4">
+          <div class="cell"><div class="cell-num" style="color:var(--accent2)">4</div><div class="cell-label">Graphiques auto</div></div>
+          <div class="cell"><div class="cell-num" style="color:var(--accent2)">1</div><div class="cell-label">HTML autonome</div></div>
+          <div class="cell"><div class="cell-num" style="color:var(--accent2)">∞</div><div class="cell-label">CSV compatibles</div></div>
+          <div class="cell"><div class="cell-num" style="color:var(--accent2)">0</div><div class="cell-label">Config manuelle</div></div>
+        </div>
+        <div class="flux-row">
+          <div class="flux-step"><div class="flux-num" style="color:var(--accent2);">KPI</div><div class="flux-name">CA · Qty · Lignes</div></div>
+          <div class="flux-step"><div class="flux-num" style="color:var(--accent2);">Viz</div><div class="flux-name">4 graphiques</div></div>
+          <div class="flux-step"><div class="flux-num" style="color:var(--accent2);">Top</div><div class="flux-name">Classements</div></div>
+          <div class="flux-step"><div class="flux-num" style="color:var(--accent2);">QA</div><div class="flux-name">Qualité données</div></div>
+          <div class="flux-step"><div class="flux-num" style="color:var(--accent2);">HTML</div><div class="flux-name">Export autonome</div></div>
+        </div>
+        <div class="pm">
+          <div><div class="ml ml-g">Contexte</div><div class="mv">Ancré dans l'expérience Data Analyst aux Petits Riens, Bruxelles 2022–2023</div></div>
+          <div><div class="ml ml-g">Commande</div><div class="mv" style="font-family:'Courier New',monospace;font-size:12px;">python generate_report.py data.csv</div></div>
+        </div>
+        <div style="display:flex;gap:.75rem;flex-wrap:wrap;margin-top:1rem;">
+          <a href="https://github.com/jetoundi/bi-report-generator" target="_blank" style="display:inline-flex;align-items:center;gap:8px;padding:10px 20px;background:var(--dark);color:#FAF8F4;text-decoration:none;font-size:13px;font-weight:500;border-radius:2px;transition:background .2s;" onmouseover="this.style.background='var(--accent2)'" onmouseout="this.style.background='var(--dark)'">→ Code source GitHub</a>
+          <a href="bi-report-generator/output/rapport_ventes.html" target="_blank" style="display:inline-flex;align-items:center;gap:8px;padding:10px 20px;background:transparent;color:var(--dark);text-decoration:none;font-size:13px;font-weight:500;border-radius:2px;border:1px solid var(--border);transition:background .2s;" onmouseover="this.style.background='rgba(74,124,111,.08)'" onmouseout="this.style.background='transparent'">📊 Voir le rapport de démo</a>
+        </div>
+        <div class="ptags"><span class="tg tg-g">Python</span><span class="tg tg-g">pandas</span><span class="tg tg-g">matplotlib</span><span class="tg tg-g">jinja2</span><span class="tg tg-g">Automatisation</span><span class="tg tg-g">Data Visualisation</span><span class="tg tg-g">Rapport BI</span><span class="tg tg-g">CLI</span></div>
+      </div></div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- P08 -->
+    <div class="project-card" onclick="toggle(this)">
+      <div class="project-header">
+        <div class="project-header-left">
+          <span class="pnum">08</span>
+          <div><div class="ptitle">Dashboard Cinéma Africain</div><div class="psub">Visualisation interactive · 9 739 films · Chart.js · GitHub Pages</div></div>
+        </div>
+        <div class="project-header-right"><span class="badge b-data">Data Visualisation</span><span class="toggle-icon">+</span></div>
+      </div>
+      <div class="project-body"><div class="pb-inner">
+        <div class="pdesc d-green">Dashboard interactif HTML/CSS/JS publié sur GitHub Pages, transformant l'analyse cinématographique initiale (Orange Data Mining) en un tableau de bord avec filtres dynamiques par genre et décennie. Quatre visualisations Chart.js : doughnut, bar chart, courbe temporelle et polar area. 100% statique — zéro dépendance backend.</div>
+        <div class="grid-4">
+          <div class="cell"><div class="cell-num" style="color:var(--accent2)">9 739</div><div class="cell-label">Films analysés</div></div>
+          <div class="cell"><div class="cell-num" style="color:var(--accent2)">19</div><div class="cell-label">Genres distincts</div></div>
+          <div class="cell"><div class="cell-num" style="color:var(--accent2)">4</div><div class="cell-label">Types de graphiques</div></div>
+          <div class="cell"><div class="cell-num" style="color:var(--accent2)">∞</div><div class="cell-label">Filtres combinables</div></div>
+        </div>
+        <div class="pm">
+          <div><div class="ml ml-g">Repo GitHub</div><div class="mv">jetoundi/dashboard-cinema-africain</div></div>
+          <div><div class="ml ml-g">Technologies</div><div class="mv">HTML5 · JavaScript · Chart.js 4.4</div></div>
+          <div><div class="ml ml-g">Données source</div><div class="mv">Dataset 9 739 films — analyse Orange Data Mining</div></div>
+          <div><div class="ml ml-g">Déploiement</div><div class="mv">GitHub Pages — activer dans Settings → Pages</div></div>
+        </div>
+        <div style="display:flex;gap:.75rem;flex-wrap:wrap;margin-top:1rem;">
+          <a href="https://github.com/jetoundi/dashboard-cinema-africain" target="_blank" style="display:inline-flex;align-items:center;gap:8px;padding:10px 20px;background:var(--dark);color:#FAF8F4;text-decoration:none;font-size:13px;font-weight:500;border-radius:2px;transition:background .2s;" onmouseover="this.style.background='var(--accent2)'" onmouseout="this.style.background='var(--dark)'">→ Code source GitHub</a>
+        </div>
+        <div class="ptags"><span class="tg tg-g">JavaScript</span><span class="tg tg-g">Chart.js</span><span class="tg tg-g">HTML5 / CSS3</span><span class="tg tg-g">Data Visualisation</span><span class="tg tg-g">GitHub Pages</span><span class="tg tg-g">Dashboard interactif</span><span class="tg tg-g">Cinéma africain</span></div>
+      </div></div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- P09 -->
+    <div class="project-card" onclick="toggle(this)">
+      <div class="project-header">
+        <div class="project-header-left">
+          <span class="pnum">09</span>
+          <div><div class="ptitle">Analyse Patrimoine UNESCO — Afrique</div><div class="psub">Exploration de données · Python · Pandas · Matplotlib · Folium</div></div>
+        </div>
+        <div class="project-header-right"><span class="badge b-data">Python · Data</span><span class="toggle-icon">+</span></div>
+      </div>
+      <div class="project-body"><div class="pb-inner">
+        <div class="pdesc d-green">Analyse exploratoire (EDA) des sites du patrimoine mondial UNESCO en Afrique à partir des données ouvertes de l'UNESCO. Répartition géographique par région, évolution chronologique des inscriptions depuis 1978, classement par pays, cartographie interactive Folium. Notebook Jupyter documenté et publié sur GitHub.</div>
+        <div class="grid-4">
+          <div class="cell"><div class="cell-num" style="color:var(--accent2)">15</div><div class="cell-label">Pays analysés</div></div>
+          <div class="cell"><div class="cell-num" style="color:var(--accent2)">90+</div><div class="cell-label">Sites UNESCO</div></div>
+          <div class="cell"><div class="cell-num" style="color:var(--accent2)">5</div><div class="cell-label">Régions africaines</div></div>
+          <div class="cell"><div class="cell-num" style="color:var(--accent2)">1978</div><div class="cell-label">1ère inscription</div></div>
+        </div>
+        <div style="background:#F0EDE7;border:1px solid var(--border);padding:1rem 1.25rem;margin:.75rem 0;font-size:13px;color:var(--muted);line-height:2;">
+          <div>🥇 <strong style="color:var(--dark);">Afrique du Sud</strong> — 10 sites inscrits, premier pays du continent</div>
+          <div>📅 <strong style="color:var(--dark);">1978–1979</strong> — Éthiopie et Sénégal, pionniers africains UNESCO</div>
+          <div>🏛️ <strong style="color:var(--dark);">72%</strong> des sites africains sont de type culturel</div>
+          <div>🌿 <strong style="color:var(--dark);">Cameroun</strong> — 2 sites seulement malgré une biodiversité exceptionnelle</div>
+        </div>
+        <div class="pm">
+          <div><div class="ml ml-g">Repo GitHub</div><div class="mv">jetoundi/notebook-unesco</div></div>
+          <div><div class="ml ml-g">Technologies</div><div class="mv">Python · Pandas · Matplotlib · Seaborn · Folium</div></div>
+          <div><div class="ml ml-g">Données</div><div class="mv">UNESCO World Heritage Centre — Open Data CC BY-SA</div></div>
+        </div>
+        <div style="display:flex;gap:.75rem;flex-wrap:wrap;margin-top:1rem;">
+          <a href="https://github.com/jetoundi/notebook-unesco" target="_blank" style="display:inline-flex;align-items:center;gap:8px;padding:10px 20px;background:var(--dark);color:#FAF8F4;text-decoration:none;font-size:13px;font-weight:500;border-radius:2px;transition:background .2s;" onmouseover="this.style.background='var(--accent2)'" onmouseout="this.style.background='var(--dark)'">→ Voir le repo GitHub</a>
+          <a href="https://github.com/jetoundi/notebook-unesco/blob/main/analyse_patrimoine_unesco.ipynb" target="_blank" style="display:inline-flex;align-items:center;gap:8px;padding:10px 20px;background:transparent;color:var(--dark);text-decoration:none;font-size:13px;font-weight:500;border-radius:2px;border:1px solid var(--border);transition:background .2s;" onmouseover="this.style.background='rgba(74,124,111,.08)'" onmouseout="this.style.background='transparent'">📓 Voir le notebook</a>
+        </div>
+        <div class="ptags"><span class="tg tg-g">Python</span><span class="tg tg-g">Pandas</span><span class="tg tg-g">Matplotlib</span><span class="tg tg-g">Seaborn</span><span class="tg tg-g">Folium</span><span class="tg tg-g">Jupyter Notebook</span><span class="tg tg-g">Open Data UNESCO</span><span class="tg tg-g">Patrimoine culturel</span></div>
+      </div></div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- P10 -->
+    <div class="project-card" onclick="toggle(this)">
+      <div class="project-header">
+        <div class="project-header-left">
+          <span class="pnum">10</span>
+          <div><div class="ptitle">README Profil GitHub</div><div class="psub">Page de profil professionnelle · Badges dynamiques · GitHub Stats</div></div>
+        </div>
+        <div class="project-header-right"><span class="badge b-web">GitHub · Markdown</span><span class="toggle-icon">+</span></div>
+      </div>
+      <div class="project-body"><div class="pb-inner">
+        <div class="pdesc d-gold">README de profil GitHub complet et professionnel — première chose qu'un recruteur voit en visitant github.com/jetoundi. Bannière animée capsule-render, badges compétences (Power BI, Python, JavaScript, SQL…), tableau de projets avec liens directs, stats GitHub dynamiques via API, parcours académique et professionnel mis en valeur.</div>
+        <div class="grid-4">
+          <div class="cell"><div class="cell-num" style="color:var(--gold)">20+</div><div class="cell-label">Badges compétences</div></div>
+          <div class="cell"><div class="cell-num" style="color:var(--gold)">5</div><div class="cell-label">Projets mis en avant</div></div>
+          <div class="cell"><div class="cell-num" style="color:var(--gold)">2</div><div class="cell-label">Stats dynamiques</div></div>
+          <div class="cell"><div class="cell-num" style="color:var(--gold)">∞</div><div class="cell-label">Mise à jour auto</div></div>
+        </div>
+        <div class="pm">
+          <div><div class="ml ml-gold">Repo GitHub</div><div class="mv">jetoundi/jetoundi (repo spécial profil)</div></div>
+          <div><div class="ml ml-gold">Technologies</div><div class="mv">Markdown · Shields.io · capsule-render · GitHub Stats API</div></div>
+        </div>
+        <div style="display:flex;gap:.75rem;flex-wrap:wrap;margin-top:1rem;">
+          <a href="https://github.com/jetoundi" target="_blank" style="display:inline-flex;align-items:center;gap:8px;padding:10px 20px;background:var(--dark);color:#FAF8F4;text-decoration:none;font-size:13px;font-weight:500;border-radius:2px;transition:background .2s;" onmouseover="this.style.background='var(--accent)'" onmouseout="this.style.background='var(--dark)'">→ Voir le profil GitHub</a>
+        </div>
+        <div class="ptags"><span class="tg tg-gold">Markdown</span><span class="tg tg-gold">GitHub Profile README</span><span class="tg tg-gold">Shields.io</span><span class="tg tg-gold">GitHub Stats API</span><span class="tg tg-gold">Personal Branding</span></div>
+      </div></div>
+    </div>
+
 
   </div>
 </div>
