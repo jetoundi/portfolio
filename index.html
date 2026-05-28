@@ -234,9 +234,36 @@ nav{position:sticky;top:0;z-index:100;background:var(--dark);display:flex;justif
 <div class="section" id="competences">
   <div class="section-header"><span class="section-num">02</span><h2 class="section-title">Compétences</h2><div class="section-line"></div></div>
   <div class="skills-grid">
-    <div class="skill-block"><div class="skill-block-title">Gestion de projet</div><div class="skill-tags"><span class="skill-tag">SCRUM</span><span class="skill-tag">BPMN</span><span class="skill-tag">UML</span><span class="skill-tag">WBS</span><span class="skill-tag">SWOT</span><span class="skill-tag">Gantt</span><span class="skill-tag">PERT</span></div></div>
-    <div class="skill-block"><div class="skill-block-title">Programmation & Web</div><div class="skill-tags"><span class="skill-tag">Python</span><span class="skill-tag">JavaScript</span><span class="skill-tag">HTML5</span><span class="skill-tag">CSS</span><span class="skill-tag">SQL</span><span class="skill-tag">PHP</span><span class="skill-tag">WordPress</span></div></div>
-    <div class="skill-block"><div class="skill-block-title">BI, Data & IA</div><div class="skill-tags"><span class="skill-tag">Power BI</span><span class="skill-tag">Tableau</span><span class="skill-tag">Google Data Studio</span><span class="skill-tag">Orange Data Mining</span><span class="skill-tag">Web Audio API</span><span class="skill-tag">IA Générative</span></div></div>
+    <div class="skill-block">
+      <div class="skill-block-title">Gestion de projet</div>
+      <div class="skill-tags">
+        <span class="skill-tag">SCRUM</span><span class="skill-tag">Agile / Kanban</span><span class="skill-tag">BPMN</span><span class="skill-tag">UML</span><span class="skill-tag">WBS</span><span class="skill-tag">SWOT</span><span class="skill-tag">Gantt</span><span class="skill-tag">PERT</span><span class="skill-tag">Jira</span><span class="skill-tag">Azure DevOps</span><span class="skill-tag">Coordination internationale</span>
+      </div>
+    </div>
+    <div class="skill-block">
+      <div class="skill-block-title">Programmation & Web</div>
+      <div class="skill-tags">
+        <span class="skill-tag">Python</span><span class="skill-tag">JavaScript</span><span class="skill-tag">HTML5</span><span class="skill-tag">CSS</span><span class="skill-tag">SQL</span><span class="skill-tag">PHP</span><span class="skill-tag">WordPress</span><span class="skill-tag">Chart.js</span><span class="skill-tag">pandas</span><span class="skill-tag">matplotlib</span><span class="skill-tag">Folium</span><span class="skill-tag">Seaborn</span><span class="skill-tag">jinja2</span><span class="skill-tag">Markdown</span>
+      </div>
+    </div>
+    <div class="skill-block">
+      <div class="skill-block-title">BI, Data & Analyse</div>
+      <div class="skill-tags">
+        <span class="skill-tag">Power BI</span><span class="skill-tag">Tableau</span><span class="skill-tag">Google Data Studio</span><span class="skill-tag">Orange Data Mining</span><span class="skill-tag">JASP</span><span class="skill-tag">Analyse statistique</span><span class="skill-tag">IA Générative</span><span class="skill-tag">NLP</span><span class="skill-tag">Jupyter Notebook</span><span class="skill-tag">Cartographie interactive</span>
+      </div>
+    </div>
+    <div class="skill-block">
+      <div class="skill-block-title">Médiation & Patrimoine</div>
+      <div class="skill-tags">
+        <span class="skill-tag">Scénographie</span><span class="skill-tag">Médiation culturelle</span><span class="skill-tag">Gestion de projet culturel</span><span class="skill-tag">Archivage</span><span class="skill-tag">Patrimoine numérique</span><span class="skill-tag">Réalité virtuelle</span><span class="skill-tag">Dispositifs interactifs</span>
+      </div>
+    </div>
+    <div class="skill-block">
+      <div class="skill-block-title">Recherche & Académique</div>
+      <div class="skill-tags">
+        <span class="skill-tag">Recherche quantitative</span><span class="skill-tag">Analyse exploratoire</span><span class="skill-tag">Rédaction scientifique</span><span class="skill-tag">Humanités Numériques</span><span class="skill-tag">Open Data</span>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -810,8 +837,7 @@ function toggle(card) {
   if (event.target.tagName === 'A') return;
   card.classList.toggle('open');
 }
-// Open first project by default
-document.querySelector('.project-card').classList.add('open');
+
 </script>
 </body>
 </html>
